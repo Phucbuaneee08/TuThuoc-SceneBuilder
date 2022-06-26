@@ -1,9 +1,11 @@
-package Prj2;
+package Medicine;
 
+import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,14 +19,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 public class Controller implements Initializable {
     @FXML
@@ -73,33 +74,45 @@ public class Controller implements Initializable {
     @FXML
     private TableView<Product> table;
     @FXML
-    private TableColumn<Product, Integer> id;
+    private TableColumn<Product, Integer> productID;
     @FXML
     private TableColumn<Product, String> name;
     @FXML
-    private TableColumn<Product, String> hsd;
+    private TableColumn<Thuoc, Date> expiredDate;
     @FXML
     private TableColumn<Product, String> effect;
     @FXML
     private TableColumn<Product, String> unit;
     @FXML
     private TableColumn<Product, Integer> quantity;
-    
-    ObservableList<Product> list = FXCollections.observableArrayList(
-        new Product(1,"Con đĩ ","Hưng","Đầu","BRR",7),
-        new Product(2,"Con đĩ ","Quang","Đầu","BRR",7),
-        new Product(3,"Con đĩ ","Hoa","Đầu","BRR",7),
-        new Product(4,"Con đĩ ","Vanh","Đầu","BRR",7)
-
+    private Date date = new Date();
+        ObservableList<Product> list = FXCollections.observableArrayList(
+            new Thuoc(1,"Con đĩ ",10,"Đầu","BRR",date,"none"),
+            new Thuoc(2,"Con đĩ ",7,"Đầu","BRR",date,"none"),
+            new Thuoc(3,"Con đĩ ",6,"Đầu","BRR",date,"none"),
+            new Thuoc(4,"Con đĩ ",5,"Đầu","BRR",date,"none"),
+            new DungCu(5,"Bong",5,"abc","Cai","none")
         );
+
+    public Controller() {
+    }
+
     @Override
-    public void initialize(URL url , ResourceBundle rb) {
-        id.setCellValueFactory(new PropertyValueFactory<Product,Integer>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<Product,String>("name"));
-        hsd.setCellValueFactory(new PropertyValueFactory<Product,String>("hsd"));
-        effect.setCellValueFactory(new PropertyValueFactory<Product,String>("effect"));
-        unit.setCellValueFactory(new PropertyValueFactory<Product,String>("unit"));
-        quantity.setCellValueFactory(new PropertyValueFactory<Product,Integer>("quantity"));
+    public void initialize(URL url , ResourceBundle rb)  {
+
+        productID.setCellValueFactory(new PropertyValueFactory<>("ProductID"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        expiredDate.setCellValueFactory(cellData ->{
+                if(cellData.getValue() instanceof Thuoc){
+                    return cellData.getValue().getExpiredDate();
+                } else {
+                    return null;
+                }
+            }
+        );
+//        effect.setCellValueFactory(new PropertyValueFactory<>("effect"));
+        unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         table.setItems(list);
     }
     //Click on button

@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleClose" prefHeight="550.0" prefWidth="835.0" style="-fx-background-color: #3d4149;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Prj2.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleClose" prefHeight="550.0" prefWidth="835.0" style="-fx-background-color: #3d4149;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Medicine.Controller">
    <children>
       <VBox prefHeight="550.0" prefWidth="203.0" style="-fx-background-color: #333333;">
          <children>
@@ -184,9 +184,9 @@
                <children>
                   <TableView fx:id="table" prefHeight="338.0" prefWidth="622.0" stylesheets="@Style.css" tableMenuButtonVisible="true" GridPane.rowIndex="1">
                     <columns>
-                      <TableColumn fx:id="id" prefWidth="28.0" text="ID" />
+                      <TableColumn fx:id="productID" prefWidth="28.0" text="ID" />
                       <TableColumn fx:id="name" prefWidth="152.79998779296875" text="Tên Thuốc " />
-                        <TableColumn fx:id="hsd" minWidth="0.0" prefWidth="96.0" text="Hạn sử dụng" />
+                        <TableColumn fx:id="expiredDate" minWidth="0.0" prefWidth="96.0" text="Hạn sử dụng" />
                         <TableColumn fx:id="effect" minWidth="0.0" prefWidth="68.79998779296875" text="Công dụng" />
                         <TableColumn fx:id="unit" text="Đơn vị " />
                         <TableColumn fx:id="quantity" prefWidth="111.20001220703125" text="Số lượng " />
