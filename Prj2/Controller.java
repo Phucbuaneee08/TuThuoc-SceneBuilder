@@ -1,14 +1,21 @@
 package Prj2;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -19,7 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class Controller {
+public class Controller implements Initializable {
     @FXML
     private GridPane gpCaiDat;
 
@@ -62,35 +69,68 @@ public class Controller {
     
     @FXML
     private ImageView btnClose;
+    //insert data on table view
+    @FXML
+    private TableView<Product> table;
+    @FXML
+    private TableColumn<Product, Integer> id;
+    @FXML
+    private TableColumn<Product, String> name;
+    @FXML
+    private TableColumn<Product, String> hsd;
+    @FXML
+    private TableColumn<Product, String> effect;
+    @FXML
+    private TableColumn<Product, String> unit;
+    @FXML
+    private TableColumn<Product, Integer> quantity;
     
+    ObservableList<Product> list = FXCollections.observableArrayList(
+        new Product(1,"Con đĩ ","Hưng","Đầu","BRR",7),
+        new Product(2,"Con đĩ ","Quang","Đầu","BRR",7),
+        new Product(3,"Con đĩ ","Hoa","Đầu","BRR",7),
+        new Product(4,"Con đĩ ","Vanh","Đầu","BRR",7)
+
+        );
+    @Override
+    public void initialize(URL url , ResourceBundle rb) {
+        id.setCellValueFactory(new PropertyValueFactory<Product,Integer>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<Product,String>("name"));
+        hsd.setCellValueFactory(new PropertyValueFactory<Product,String>("hsd"));
+        effect.setCellValueFactory(new PropertyValueFactory<Product,String>("effect"));
+        unit.setCellValueFactory(new PropertyValueFactory<Product,String>("unit"));
+        quantity.setCellValueFactory(new PropertyValueFactory<Product,Integer>("quantity"));
+        table.setItems(list);
+    }
+    //Click on button
     @FXML
     private void handleClicks(ActionEvent event){
         if(event.getSource() == btnTuThuoc){
             lblStatusMini.setText("/home/TuThuoc");
             lblStatus.setText("TỦ THUỐC CỦA BẠN");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(63,43,99),CornerRadii.EMPTY,Insets.EMPTY)));
+            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpTuThuoc.toFront();
         }
         if(event.getSource() == btnToaThuoc){
             lblStatusMini.setText("/home/ToaThuoc");
             lblStatus.setText("KHO LƯU TOA THUỐC");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(43,63,99),CornerRadii.EMPTY,Insets.EMPTY)));
+            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpToaThuoc.toFront();
         }
         if(event.getSource() == btnTienIch){
             lblStatusMini.setText("/home/TienIch");
             lblStatus.setText("TIN MỚI TRONG NGÀY");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(43,99,63),CornerRadii.EMPTY,Insets.EMPTY)));
+            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpTienIch.toFront();
         }
         if(event.getSource() == btnCaiDat){
             lblStatusMini.setText("/home/CaiDat");
             lblStatus.setText("SETTINGS");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(99,43,63),CornerRadii.EMPTY,Insets.EMPTY)));
+            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpCaiDat.toFront();
         }
-        
-
+    
+    //Close app
     }
     @FXML
     private void handleClose(javafx.scene.input.MouseEvent event){

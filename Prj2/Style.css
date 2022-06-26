@@ -12,6 +12,17 @@
     -fx-font-weight:bold;
     -fx-align:center;
 }
-.button:hover{
+.Button{
+    -fx-background-color:#e41c9e;
+    -fx-background-radius:0em;
+}
+.Button:pressed{
+    -fx-background-color: #db670f;
+}
+.Button:hover{
     -fx-background-color: #875cd0;
+}
+.Button:focused{
+    -fx-background-color: #1587ea;
+    -fx-border-color:#b4caca;
 }
