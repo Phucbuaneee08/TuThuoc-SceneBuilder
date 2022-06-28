@@ -184,9 +184,9 @@
                <children>
                   <TableView fx:id="table" prefHeight="338.0" prefWidth="622.0" stylesheets="@Style.css" tableMenuButtonVisible="true" GridPane.rowIndex="1">
                     <columns>
-                      <TableColumn fx:id="id" prefWidth="28.0" text="ID" />
+                      <TableColumn fx:id="productID" prefWidth="28.0" text="ID" />
                       <TableColumn fx:id="name" prefWidth="152.79998779296875" text="Tên" />
-                        <TableColumn fx:id="hsd" minWidth="0.0" prefWidth="96.0" text="Hạn sử dụng" />
+                        <TableColumn fx:id="expiredDate" minWidth="0.0" prefWidth="96.0" text="Hạn sử dụng" />
                         <TableColumn fx:id="effect" minWidth="0.0" prefWidth="68.79998779296875" text="Công dụng" />
                         <TableColumn fx:id="unit" text="Đơn vị " />
                         <TableColumn fx:id="quantity" prefWidth="111.20001220703125" text="Số lượng " />

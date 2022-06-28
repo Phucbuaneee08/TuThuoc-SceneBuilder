@@ -3,7 +3,7 @@ package Prj2;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.net.URL;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
@@ -79,36 +79,48 @@ public class Controller implements Initializable {
     @FXML
     private ImageView btnClose;
     //insert data on table view
+
     @FXML
     private TableView<Product> table;
     @FXML
-    private TableColumn<Product, Integer> id;
+    private TableColumn<Product, Integer> productID;
     @FXML
     private TableColumn<Product, String> name;
     @FXML
-    private TableColumn<Product, String> hsd;
+    private TableColumn<Thuoc, Date> expiredDate;
     @FXML
     private TableColumn<Product, String> effect;
     @FXML
     private TableColumn<Product, String> unit;
     @FXML
     private TableColumn<Product, Integer> quantity;
-    
-    ObservableList<Product> list = FXCollections.observableArrayList(
-        new Product(1,"Con đĩ ","Hưng","Đầu","BRR",7),
-        new Product(2,"Con đĩ ","Quang","Đầu","BRR",7),
-        new Product(3,"Con đĩ ","Hoa","Đầu","BRR",7),
-        new Product(4,"Con đĩ ","Vanh","Đầu","BRR",7)
-
+    private Date date = new Date();
+    public static int c = 11;
+        ObservableList<Product> list = FXCollections.observableArrayList(
+            new Thuoc(1,"Con đĩ ",10,"Đầu","BRR",date,"none"),
+            new Thuoc(2,"Con đĩ ",7,"Đầu","BRR",date,"none"),
+            new Thuoc(3,"Con đĩ ",6,"Đầu","BRR",date,"none"),
+            new Thuoc(4,"Con đĩ ",5,"Đầu","BRR",date,"none"),
+            new DungCu(5,"Bong",5,"abc","Cai","none"),
+            new DungCu(6,"Bong",5,"abc","Cai","none")
         );
+
     @Override
-    public void initialize(URL url , ResourceBundle rb) {
-        id.setCellValueFactory(new PropertyValueFactory<Product,Integer>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<Product,String>("name"));
-        hsd.setCellValueFactory(new PropertyValueFactory<Product,String>("hsd"));
-        effect.setCellValueFactory(new PropertyValueFactory<Product,String>("effect"));
-        unit.setCellValueFactory(new PropertyValueFactory<Product,String>("unit"));
-        quantity.setCellValueFactory(new PropertyValueFactory<Product,Integer>("quantity"));
+    public void initialize(URL url , ResourceBundle rb)  {
+
+        productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        expiredDate.setCellValueFactory(cellData ->{
+                if(cellData.getValue() instanceof Thuoc){
+                    return cellData.getValue().getExpiredDate();
+                } else {
+                    return null;
+                }
+            }
+        );
+//        effect.setCellValueFactory(new PropertyValueFactory<>("effect"));
+        unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         table.setItems(list);
     }
     //Click on button
@@ -158,16 +170,10 @@ public class Controller implements Initializable {
     private Button btnSave;
 
     @FXML
-    private Text taName;
-
-    @FXML
     private TextField tfEffect;
 
     @FXML
     private TextField tfHSD;
-
-    @FXML
-    private TextField tfID;
 
     @FXML
     private TextField tfName;
@@ -178,7 +184,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField tfUnit;
     @FXML
-    private void getAddView(MouseEvent event) throws Exception{
+    public void getAddView(MouseEvent event) throws Exception{
         
             Parent parent = FXMLLoader.load(getClass().getResource("/Prj2/AddMed.fxml"));
             Scene scene = new Scene(parent);
@@ -186,7 +192,13 @@ public class Controller implements Initializable {
             stage.setScene(scene);
             stage.initStyle(StageStyle.UTILITY);
             stage.show();
-        
+    }
+    public Date x = new Date();
+    public void actionSave(ActionEvent event) throws Exception{
+        Product Thuoc = new Thuoc(11,tfName.getText(),11,"ABC",tfUnit.getText(),x,tfEffect.getText());
+        list.add(Thuoc);
+        table.refresh();
+
     }
     
     

@@ -1,32 +1,30 @@
 package Prj2;
 
-public class Product {
-    int id,quantity;
-    String name, effect, unit;
-    String hsd;
+public abstract class Product {
+    private int productID;
+    private String name;
 
-    public Product(int id, String name, String hsd, String effect, String unit,int quantity) {
-        this.id = id;
+    public Product() {
+    }
+
+    public Product(int productID, String name, int quantity, String link, String unit) {
+        this.productID = productID;
         this.name = name;
-        this.hsd = hsd;
-        this.effect = effect;
-        this.unit = unit;
         this.quantity = quantity;
+        this.link = link;
+        this.unit = unit;
     }
 
-    public int getId() {
-        return id;
+    private int quantity;
+    private String link;
+    private String unit;
+
+    public int getProductID() {
+        return productID;
     }
 
-    public void setProductID(int id) {
-        this.id = id;
-    }
-    public String getHsd(){
-        return hsd;
-    }
-    
-    public void setHsd(String hsd) {
-        this.hsd = hsd;
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
     public String getName() {
@@ -45,6 +43,14 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public String getUnit() {
         return unit;
     }
@@ -52,11 +58,4 @@ public class Product {
     public void setUnit(String unit) {
         this.unit = unit;
     }
-    public String getEffect(){
-        return effect;
-    }
-    public void setEffect(String effect) {
-        this.effect = effect;
-    }
-
 }
