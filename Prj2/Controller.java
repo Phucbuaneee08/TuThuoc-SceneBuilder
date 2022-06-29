@@ -81,7 +81,7 @@ public class Controller implements Initializable {
     //insert data on table view
 
     @FXML
-    protected TableView<Product> table;
+    public TableView<Product> table;
     @FXML
     private TableColumn<Product, Integer> productID;
     @FXML
@@ -96,6 +96,7 @@ public class Controller implements Initializable {
     private TableColumn<Product, Integer> quantity;
     private Date date = new Date();
     public static int c = 11;
+    
      ObservableList<Product> list = FXCollections.observableArrayList(
             new Thuoc(1,"Con đĩ ",10,"Đầu","BRR",date,"none"),
             new Thuoc(2,"Con đĩ ",7,"Đầu","BRR",date,"none"),
@@ -164,12 +165,6 @@ public class Controller implements Initializable {
     }
     //Add Medicine data from button , Save data or clear data
     @FXML
-    private Button btnReset;
-
-    @FXML
-    private Button btnSave;
-
-    @FXML
     private TextField tfEffect;
 
     @FXML
@@ -185,30 +180,7 @@ public class Controller implements Initializable {
     private TextField tfUnit;
     @FXML
     public void getAddView(MouseEvent event) throws Exception{
-        
-            Parent parent = FXMLLoader.load(getClass().getResource("/Prj2/AddMed.fxml"));
-            Scene scene = new Scene(parent);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.initStyle(StageStyle.UTILITY);
-            stage.show();
+        AddMedController medController = new AddMedController(this);
+        medController.showStage();
     }
-    // public AddMedController medcontroller = new AddMedController(this);
-    // public void actionSave(MouseEvent event) throws Exception{
-    //     medcontroller.actionSave(event);
-    // }
-    // public Date x = new Date();
-    // public void actionSave(ActionEvent event) throws Exception{
-    //     Product Thuoc = new Thuoc(11,tfName.getText(),11,"ABC",tfUnit.getText(),x,tfEffect.getText());
-    //     list.add(Thuoc);
-    //     table.refresh();
-
-    // }
-    public AddMedController controller = new AddMedController();
-    public void refresh(){
-        this.table.refresh();
-    }
-    
-    
-
 }
