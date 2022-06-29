@@ -17,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -123,6 +124,9 @@ public class Controller implements Initializable {
         unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         table.setItems(list);
+
+        choiceBox.getItems().add("Thuốc");
+        choiceBox.getItems().add("Dụng Cụ");
     }
     //Click on button
     @FXML
@@ -130,25 +134,25 @@ public class Controller implements Initializable {
         if(event.getSource() == btnTuThuoc){
             lblStatusMini.setText("/home/TuThuoc");
             lblStatus.setText("TỦ THUỐC CỦA BẠN");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
+           
             gpTuThuoc.toFront();
         }
         if(event.getSource() == btnToaThuoc){
             lblStatusMini.setText("/home/ToaThuoc");
             lblStatus.setText("KHO LƯU TOA THUỐC");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
+            
             gpToaThuoc.toFront();
         }
         if(event.getSource() == btnTienIch){
             lblStatusMini.setText("/home/TienIch");
             lblStatus.setText("TIN MỚI TRONG NGÀY");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
+           
             gpTienIch.toFront();
         }
         if(event.getSource() == btnCaiDat){
             lblStatusMini.setText("/home/CaiDat");
             lblStatus.setText("SETTINGS");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
+            
             gpCaiDat.toFront();
         }
         if(event.getSource() == btnAddMed){
@@ -179,8 +183,20 @@ public class Controller implements Initializable {
     @FXML
     private TextField tfUnit;
     @FXML
+    private ChoiceBox<String> choiceBox;
+
+    @FXML
     public void getAddView(MouseEvent event) throws Exception{
-        AddMedController medController = new AddMedController(this);
-        medController.showStage();
+        String choice = choiceBox.getValue();
+        if(choice.compareTo("Thuốc")==0){
+            AddMedController medController = new AddMedController(this);
+            medController.showStage();
+        }
+        if(choice.compareTo("Dụng Cụ")==0){
+            AddDCController addDC = new AddDCController(this);
+            addDC.showStage();
+        }
+    //
     }
+    
 }

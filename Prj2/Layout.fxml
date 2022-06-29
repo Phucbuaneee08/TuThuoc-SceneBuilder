@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -13,31 +14,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleClose" prefHeight="550.0" prefWidth="835.0" style="-fx-background-color: #3d4149;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Prj2.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleClose" prefHeight="550.0" prefWidth="835.0" style="-fx-background-color: #08172c;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Prj2.Controller">
    <children>
-      <VBox prefHeight="550.0" prefWidth="203.0" style="-fx-background-color: #333333;">
+      <VBox prefHeight="550.0" prefWidth="203.0" style="-fx-background-color: #08172c;">
          <children>
-            <Pane prefHeight="172.0" prefWidth="203.0" style="-fx-border-width: 5; -fx-background-color: #252527;">
+            <Pane prefHeight="172.0" prefWidth="203.0" style="-fx-border-width: 5; -fx-background-color: #08162b;">
                <children>
-                  <ImageView fitHeight="205.0" fitWidth="214.0" layoutX="-10.0" layoutY="-26.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Source/SharedScreenshot12.jpg" />
-                     </image>
-                  </ImageView>
-                  <Label graphicTextGap="20.0" layoutX="14.0" layoutY="145.0" prefHeight="30.0" prefWidth="191.0" text="PHARMA HUST" textFill="#cfa164">
+                  <Label graphicTextGap="20.0" layoutX="19.0" layoutY="123.0" prefHeight="30.0" prefWidth="191.0" text="PHARMA HUST" textFill="#cfa164">
                      <font>
-                        <Font name="Gill Sans Ultra Bold" size="18.0" />
+                        <Font name="Gill Sans Ultra Bold" size="16.0" />
                      </font>
                   </Label>
+                  <ImageView fitHeight="119.0" fitWidth="140.0" layoutX="30.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Source/logo-chu.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
-            <Button fx:id="btnTuThuoc" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="203.0" style="-fx-background-color: #333333;" styleClass="Button" stylesheets="@Style.css" text="TỦ THUỐC" textFill="WHITE">
+            <Button fx:id="btnTuThuoc" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="203.0" style="-fx-background-color: #08172c;" styleClass="Button" stylesheets="@Style.css" text="TỦ THUỐC" textFill="WHITE">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
@@ -47,12 +50,12 @@
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="27.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" styleClass="search-box" translateX="-15.0">
                      <image>
-                        <Image url="@../../../../../../../Users/Laptop%20cua%20Phuc/Downloads/1257108.png" />
+                        <Image url="@Source/1257108.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnToaThuoc" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="38.0" prefWidth="218.0" style="-fx-background-color: #333333;" styleClass="Button" stylesheets="@Style.css" text="TOA THUỐC" textFill="WHITE">
+            <Button fx:id="btnToaThuoc" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="38.0" prefWidth="218.0" style="-fx-background-color: #08172c;" styleClass="Button" stylesheets="@Style.css" text="TOA THUỐC" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -65,12 +68,12 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-18.0">
                      <image>
-                        <Image url="@../../../../../../../Users/Laptop%20cua%20Phuc/Downloads/3595916.png" />
+                        <Image url="@Source/3595916.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnTienIch" alignment="BASELINE_LEFT" layoutX="-2.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="38.0" prefWidth="218.0" style="-fx-background-color: #333333;" styleClass="Button" stylesheets="@Style.css" text="TIỆN ÍCH " textFill="WHITE">
+            <Button fx:id="btnTienIch" alignment="BASELINE_LEFT" layoutX="-2.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="38.0" prefWidth="218.0" style="-fx-background-color: #08172c;" styleClass="Button" stylesheets="@Style.css" text="TIỆN ÍCH " textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -83,12 +86,12 @@
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" translateX="-17.0">
                      <image>
-                        <Image url="@../../../../../../../Users/Laptop%20cua%20Phuc/Downloads/5997060.gif" />
+                        <Image url="@Source/5997060.gif" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCaiDat" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="38.0" prefWidth="218.0" style="-fx-background-color: #333333;" styleClass="Button" stylesheets="@Style.css" text="CÀI ĐẶT " textFill="WHITE">
+            <Button fx:id="btnCaiDat" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleClicks" prefHeight="38.0" prefWidth="218.0" style="-fx-background-color: #08172c;" styleClass="Button" stylesheets="@Style.css" text="CÀI ĐẶT " textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -101,26 +104,85 @@
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" translateX="-15.0">
                      <image>
-                        <Image url="@../../../../../../../Users/Laptop%20cua%20Phuc/Downloads/1086581%20(1).gif" />
+                        <Image url="@Source/1086581%20(1).gif" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
+            <HBox prefHeight="38.0" prefWidth="170.0">
+               <VBox.margin>
+                  <Insets top="150.0" />
+               </VBox.margin>
+               <children>
+                  <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Source/1077042.gif" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Source/739257.gif" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Source/20837.gif" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Source/39714.gif" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Source/151773.gif" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+               <padding>
+                  <Insets left="29.0" top="9.0" />
+               </padding>
+            </HBox>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact us ">
+               <VBox.margin>
+                  <Insets left="65.0" />
+               </VBox.margin>
+            </Text>
          </children>
       </VBox>
-      <VBox fx:id="pnlStatus" layoutX="203.0" layoutY="49.0" prefHeight="106.0" prefWidth="630.0" style="-fx-background-color: #252527;">
+      <VBox fx:id="pnlStatus" layoutX="203.0" layoutY="49.0" prefHeight="106.0" prefWidth="630.0" style="-fx-background-color: #14233a;">
          <children>
-            <Label fx:id="lblStatusMini" text="Label" />
-            <Label fx:id="lblStatus" alignment="CENTER" graphicTextGap="20.0" prefHeight="70.0" prefWidth="626.0" text="TỦ THUỐC CỦA BẠN " textFill="#f2bb73">
-               <font>
-                  <Font name="Cambria Bold" size="35.0" />
-               </font>
-            </Label>
+            <Label fx:id="lblStatusMini" text="Label" textFill="#14233a" />
+            <Pane prefHeight="88.0" prefWidth="367.0">
+               <children>
+                  <Label fx:id="lblStatus" alignment="CENTER" graphicTextGap="20.0" layoutX="49.0" layoutY="9.0" prefHeight="70.0" prefWidth="532.0" style="-fx-border-color: #fdcb03; -fx-border-width: 4;" text="TỦ THUỐC CỦA BẠN " textFill="#f2bb73">
+                     <font>
+                        <Font name="Cambria Bold" size="35.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
       </VBox>
       <ImageView fx:id="btnClose" fitHeight="16.0" fitWidth="17.0" layoutX="799.0" layoutY="14.0" onMouseClicked="#handleClose" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Source/2976286.png" />
+            <Image url="@Source/2976286.gif" />
          </image>
       </ImageView>
       <StackPane layoutX="207.0" layoutY="177.0" prefHeight="374.0" prefWidth="626.0" style="-fx-background-color: #cdd9f4;">
@@ -202,21 +264,22 @@
                               <Image url="@Source/151773.png" />
                            </image>
                         </ImageView>
-                        <TextField fx:id="tfSearch" blendMode="MULTIPLY" layoutX="35.0" layoutY="5.0" prefHeight="34.0" prefWidth="214.0" promptText="Type to search" style="-fx-border-color: #333333; -fx-border-width: 1.1; -fx-background-color: #ffffff;" stylesheets="@Style.css" />
-                        <ComboBox cache="true" layoutX="259.0" layoutY="5.0" prefHeight="34.0" prefWidth="234.0" promptText="Options" style="-fx-border-color: #333333; -fx-border-width: 1;">
+                        <TextField fx:id="tfSearch" blendMode="MULTIPLY" layoutX="35.0" layoutY="5.0" prefHeight="34.0" prefWidth="214.0" promptText="Type to search" style="-fx-border-color: #08172c; -fx-border-width: 1.1; -fx-background-color: #ffffff;" stylesheets="@Style.css" />
+                        <ComboBox cache="true" layoutX="259.0" layoutY="5.0" prefHeight="34.0" prefWidth="191.0" promptText="Options" style="-fx-border-color: #08172c; -fx-border-width: 1;">
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
                            </cursor>
                         </ComboBox>
-                        <Button fx:id="btnAddmed" graphicTextGap="9.0" layoutX="499.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#getAddView" prefHeight="30.0" prefWidth="126.0" style="-fx-background-color: #333333; -fx-background-radius: 3; -fx-border-width: 2;" styleClass="Button" stylesheets="@Style.css" text="Add Medicine" textFill="#fffdfd">
+                        <Button fx:id="btnAddmed" graphicTextGap="9.0" layoutX="459.0" layoutY="6.0" minWidth="33.0" mnemonicParsing="false" onMouseClicked="#getAddView" prefHeight="32.0" prefWidth="67.0" style="-fx-background-color: #14233a; -fx-background-radius: 3; -fx-border-radius: 0em; -fx-border-width: 2;" styleClass="Button" stylesheets="@Style.css" text="Add" textFill="#fffdfd">
                            <graphic>
                               <ImageView fitHeight="19.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../../Users/Laptop%20cua%20Phuc/Downloads/3524384.gif" />
+                                    <Image url="@Source/3524384.gif" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
+                        <ChoiceBox fx:id="choiceBox" layoutX="528.0" layoutY="6.0" prefHeight="33.0" prefWidth="97.0" style="-fx-border-radius: 0em; -fx-border-width: 2;" styleClass="ChoiceBox" stylesheets="@Style.css" />
                      </children>
                   </Pane>
                </children>

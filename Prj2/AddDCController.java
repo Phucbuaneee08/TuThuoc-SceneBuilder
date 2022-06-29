@@ -20,16 +20,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
-public class AddMedController implements Initializable{
+public class AddDCController implements Initializable{
 
     private  Stage stage ;
     private Controller controller ;
-    public AddMedController(Controller controller){
+    public AddDCController(Controller controller){
         this.controller = controller;
         stage = new Stage();
         // TO
         try {
-            FXMLLoader parent =new FXMLLoader((getClass().getResource("AddMed.fxml")));
+            FXMLLoader parent =new FXMLLoader((getClass().getResource("AddDungCu.fxml")));
             parent.setController(this);
             stage.setScene(new Scene(parent.load())); 
             stage.initStyle(StageStyle.UTILITY);
@@ -55,11 +55,12 @@ public class AddMedController implements Initializable{
 
     @FXML
     private TextField tfQuantity;
-    @FXML
-    private ImageView btnClose;
 
     @FXML
     private TextField tfUnit;
+    @FXML
+    private ImageView btnClose;
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         btnSave.setOnAction(event ->actionSave());
@@ -68,11 +69,11 @@ public class AddMedController implements Initializable{
     public void showStage(){
         stage.show();
     }
-    public Date x = new Date();
     public void actionSave() {
-        Thuoc Thuoc = new Thuoc(11,tfName.getText(),11,"ABC",tfUnit.getText(),x,tfEffect.getText());
-        controller.list.add(Thuoc);
+        DungCu DungCu = new DungCu(11,tfName.getText(),11,"ABC",tfUnit.getText(),"ABC");
+        controller.list.add(DungCu);
     }
+
 
     @FXML
     private void handleClose(javafx.scene.input.MouseEvent event){
