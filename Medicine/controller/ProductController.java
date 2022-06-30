@@ -3,6 +3,7 @@ package Medicine.controller;
 import Medicine.DungCu;
 import Medicine.Product;
 import Medicine.Thuoc;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,7 +55,7 @@ public class ProductController {
         Thuoc thuoc = (Thuoc)findMedicineByID(productID);
         thuoc.setExpiredDate(date);
     }
-    public void editUses(int productID, String uses){
+    public void editUses(int productID, SimpleStringProperty uses){
         DungCu dungCu = (DungCu)findMedicineByID(productID);
         dungCu.setUse(uses);
     }

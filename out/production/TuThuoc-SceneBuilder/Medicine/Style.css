@@ -13,8 +13,9 @@
     -fx-align:center;
 }
 .Button{
-    -fx-background-color:#e41c9e;
+    -fx-background-color:#1ce4dd;
     -fx-background-radius:0em;
+    -fx-border-radius:4em;
 }
 .Button:pressed{
     -fx-background-color: #db670f;
@@ -25,4 +26,11 @@
 .Button:focused{
     -fx-background-color: #1587ea;
     -fx-border-color:#b4caca;
+}
+.icon{
+    -fx-background-color: #ffffff;
+}
+.root{
+    -fx-background-image:url('../Source/SharedScreenshot9.jpg');
+
 }

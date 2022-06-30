@@ -1,26 +1,21 @@
 package Medicine;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class DungCu extends Product{
-    private String use;
+    private SimpleStringProperty use;
 
     public DungCu(int productID, String name, int quantity, String link, String unit, String use) {
         super(productID, name, quantity, link, unit);
-        this.use = use;
+        this.use = new SimpleStringProperty(use);
     }
 
-    public String getUse() {
+    public SimpleStringProperty getUse() {
         return use;
     }
 
-    public void setUse(String use) {
+    public void setUse(SimpleStringProperty use) {
         this.use = use;
     }
-
-    @Override
-    public void showInfo(){
-        super.showInfo();
-        System.out.println("Uses: "+ this.use);
-    }
-//    public Date getExpiredDate()
 
 }

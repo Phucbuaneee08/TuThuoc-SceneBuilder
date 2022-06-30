@@ -2,10 +2,10 @@ package Medicine;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,13 +19,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 
 public class Controller implements Initializable {
     @FXML
@@ -41,7 +41,7 @@ public class Controller implements Initializable {
     private GridPane gpTuThuoc;
 
     @FXML
-    private Button btnAddMedicine;
+    private Button btnAddMed;
 
     @FXML
     private Button btnCaiDat;
@@ -71,8 +71,9 @@ public class Controller implements Initializable {
     @FXML
     private ImageView btnClose;
     //insert data on table view
+
     @FXML
-    private TableView<Product> table;
+    public TableView<Product> table;
     @FXML
     private TableColumn<Product, Integer> productID;
     @FXML
@@ -86,21 +87,21 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<Product, Integer> quantity;
     private Date date = new Date();
-        ObservableList<Product> list = FXCollections.observableArrayList(
-            new Thuoc(1,"Con đĩ ",10,"Đầu","BRR",date,"none"),
-            new Thuoc(2,"Con đĩ ",7,"Đầu","BRR",date,"none"),
-            new Thuoc(3,"Con đĩ ",6,"Đầu","BRR",date,"none"),
-            new Thuoc(4,"Con đĩ ",5,"Đầu","BRR",date,"none"),
-            new DungCu(5,"Bong",5,"abc","Cai","none")
-        );
-
-    public Controller() {
-    }
+    public static int c = 11;
+    
+    public ObservableList<Product> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url , ResourceBundle rb)  {
-
-        productID.setCellValueFactory(new PropertyValueFactory<>("ProductID"));
+        try {
+            ArrayList<Product> excelList = new ReadExcelFileDemo().getExcelFileDemo();
+            for(Product x: excelList){
+                list.add(x);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         expiredDate.setCellValueFactory(cellData ->{
                 if(cellData.getValue() instanceof Thuoc){
@@ -110,9 +111,17 @@ public class Controller implements Initializable {
                 }
             }
         );
-//        effect.setCellValueFactory(new PropertyValueFactory<>("effect"));
+        effect.setCellValueFactory(cellData ->{
+                if(cellData.getValue() instanceof Thuoc){
+                    return ((Thuoc) cellData.getValue()).getEffect();
+                } else {
+                    return ((DungCu) cellData.getValue()).getUse();
+                }
+            }
+        );
         unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
         table.setItems(list);
     }
     //Click on button
@@ -142,6 +151,9 @@ public class Controller implements Initializable {
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpCaiDat.toFront();
         }
+        if(event.getSource() == btnAddMed){
+            
+        }
     
     //Close app
     }
@@ -151,5 +163,24 @@ public class Controller implements Initializable {
             System.exit(0);
         }
     }
+    //Add Medicine data from button , Save data or clear data
+    @FXML
+    private TextField tfEffect;
 
+    @FXML
+    private TextField tfHSD;
+
+    @FXML
+    private TextField tfName;
+
+    @FXML
+    private TextField tfQuantity;
+
+    @FXML
+    private TextField tfUnit;
+    @FXML
+    public void getAddView(MouseEvent event) throws Exception{
+        AddMedController medController = new AddMedController(this);
+        medController.showStage();
+    }
 }
