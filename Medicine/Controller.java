@@ -2,10 +2,12 @@ package Medicine;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -79,7 +81,7 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<Product, String> name;
     @FXML
-    private TableColumn<Thuoc, Date> expiredDate;
+    private TableColumn<Thuoc, String> expiredDate;
     @FXML
     private TableColumn<Product, String> effect;
     @FXML
@@ -100,12 +102,14 @@ public class Controller implements Initializable {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         expiredDate.setCellValueFactory(cellData ->{
                 if(cellData.getValue() instanceof Thuoc){
-                    return cellData.getValue().getExpiredDate();
+                    return new SimpleStringProperty(DateFormat.getDateInstance().format(cellData.getValue().getExpiredDate()));
                 } else {
                     return null;
                 }
@@ -160,6 +164,14 @@ public class Controller implements Initializable {
     @FXML
     private void handleClose(javafx.scene.input.MouseEvent event){
         if(event.getSource()==btnClose){
+            try {
+                ReadExcelFileDemo excel = new ReadExcelFileDemo();
+//                ArrayList<Product> saveList = new ArrayList<>(list);
+                excel.setExcelList(new ArrayList<>(table.getItems()));
+                System.out.println(excel.getDiffNumRow());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             System.exit(0);
         }
     }
