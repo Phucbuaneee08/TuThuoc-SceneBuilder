@@ -57,8 +57,8 @@ public class ReadExcelFileDemo
         InputStream inputStream =  new FileInputStream(new File(excelPath));
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
+        int lastIndex = 1;
         for(Product x: saveList){
-            int lastIndex = firstSheet.getLastRowNum();
             firstSheet.createRow(lastIndex);
             Row addRow = firstSheet.getRow(lastIndex);
             Cell cell;
@@ -71,11 +71,14 @@ public class ReadExcelFileDemo
             cell =addRow.createCell(3);
             cell.setCellValue(x.getUnit());
             cell =addRow.createCell(4);
-            cell.setCellValue(((Thuoc) x).getEffect().getName());
+            cell.setCellValue(x.getUnit());
             cell =addRow.createCell(5);
-            cell.setCellValue(new Date());
+            cell.setCellValue(((Thuoc) x).getExpiredDate());
+            cell =addRow.createCell(6);
+            cell.setCellValue(((Thuoc) x).getEffect().getName());
             cell = addRow.createCell(7);
             cell.setCellValue(x.getLink());
+            lastIndex++;
         }
         FileOutputStream fileOut = new FileOutputStream(excelPath);
         workbook.write(fileOut);
@@ -88,6 +91,9 @@ public class ReadExcelFileDemo
         InputStream inputStream =  new FileInputStream(new File(excelPath));
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
-        return firstSheet.getLastRowNum();
+        int rs = firstSheet.getLastRowNum();
+        workbook.close();
+        inputStream.close();
+        return rs;
     }
 }
