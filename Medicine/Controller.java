@@ -84,47 +84,17 @@ public class Controller implements Initializable {
     private TableColumn<Product, String> unit;
     @FXML
     private TableColumn<Product, Integer> quantity;
-    private Date date = new Date();
-    public int rs = 0;
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    public TuThuoc main = new TuThuoc();
+//    public int rs = 0;
     
-    public ObservableList<Product> list = FXCollections.observableArrayList();
+//    public ObservableList<Product> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url , ResourceBundle rb)  {
-        try {
-            ArrayList<Product> excelList = new ReadExcelFileDemo().getExcelFileDemo();
-            for(Product x: excelList) {
-                list.add(x);
-                this.rs++;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        expiredDate.setCellValueFactory(cellData ->{
-                if(cellData.getValue() instanceof Thuoc){
-                    return new SimpleStringProperty(DateFormat.getDateInstance().format(cellData.getValue().getExpiredDate()));
-                } else {
-                    return null;
-                }
-            }
-        );
-        effect.setCellValueFactory(cellData ->{
-                if(cellData.getValue() instanceof Thuoc){
-                    return new SimpleStringProperty(((Thuoc) cellData.getValue()).getEffect());
-                } else {
-                    return new SimpleStringProperty(((DungCu) cellData.getValue()).getUse());
-                }
-            }
-        );
-        unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
-        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        table.setItems(list);
-
+        showTuThuoc();
         choiceBox.getItems().add("Thuốc");
         choiceBox.getItems().add("Dụng Cụ");
     }
@@ -175,22 +145,7 @@ public class Controller implements Initializable {
         }
     }
     //Add Medicine data from button , Save data or clear data
-    @FXML
-    private TextField tfEffect;
 
-    @FXML
-    private TextField tfHSD;
-
-    @FXML
-    private TextField tfName;
-
-    @FXML
-    private TextField tfQuantity;
-
-    @FXML
-    private TextField tfUnit;
-    @FXML
-    private ChoiceBox<String> choiceBox;
     @FXML
     public void getAddView(MouseEvent event) throws Exception{
         String choice = choiceBox.getValue();
@@ -202,6 +157,29 @@ public class Controller implements Initializable {
             AddDCController addDC = new AddDCController(this);
             addDC.showStage();
         }
-        //
+    }
+    public void showTuThuoc(){
+
+        productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        expiredDate.setCellValueFactory(cellData ->{
+                    if(cellData.getValue() instanceof Thuoc){
+                        return new SimpleStringProperty(DateFormat.getDateInstance().format(cellData.getValue().getExpiredDate()));
+                    } else {
+                        return null;
+                    }
+                }
+        );
+        effect.setCellValueFactory(cellData ->{
+                    if(cellData.getValue() instanceof Thuoc){
+                        return new SimpleStringProperty(((Thuoc) cellData.getValue()).getEffect());
+                    } else {
+                        return new SimpleStringProperty(((DungCu) cellData.getValue()).getUse());
+                    }
+                }
+        );
+        unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        table.setItems(main.getList());
     }
 }

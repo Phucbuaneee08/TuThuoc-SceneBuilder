@@ -68,9 +68,10 @@ public class AddMedController implements Initializable{
     }
     public Date x = new Date();
     public void actionSave() {
-        Thuoc Thuoc = new Thuoc(controller.rs+1,tfName.getText(),Integer.parseInt(tfQuantity.getText()),"ABC",tfUnit.getText(),x,tfEffect.getText());
-        controller.list.add(Thuoc);
-        controller.rs ++;
+        int rs = controller.main.getRs();
+        Thuoc thuoc = new Thuoc(rs+1,tfName.getText(),Integer.parseInt(tfQuantity.getText()),"ABC",tfUnit.getText(),x,tfEffect.getText());
+        controller.main.getList().add(thuoc);
+        controller.main.setRs(rs+1);
         stage.close();
     }
 }
