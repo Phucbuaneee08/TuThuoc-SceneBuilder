@@ -79,7 +79,7 @@ public class ReadExcelFileDemo
                 Row addRowThuoc = firstSheet.getRow(lastIndexThuoc);
                 Cell cell;
                 cell = addRowThuoc.createCell(0);
-                cell.setCellValue((double)lastIndexThuoc);
+                cell.setCellValue(x.getProductID());
                 cell =addRowThuoc.createCell(1);
                 cell.setCellValue(x.getName());
                 cell = addRowThuoc.createCell(2);
@@ -100,7 +100,7 @@ public class ReadExcelFileDemo
                 Row addRowDC = secondSheet.getRow(lastIndexDC);
                 Cell cell;
                 cell = addRowDC.createCell(0);
-                cell.setCellValue((double)lastIndexDC);
+                cell.setCellValue(x.getProductID());
                 cell =addRowDC.createCell(1);
                 cell.setCellValue(x.getName());
                 cell = addRowDC.createCell(2);

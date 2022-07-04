@@ -65,10 +65,10 @@ public class AddDCController implements Initializable{
         stage.show();
     }
     public void actionSave() {
-        int rs = controller.main.getRs();
+        int rs = controller.main.getRsDC();
         DungCu dungCu = new DungCu(rs+1,tfName.getText(),11,"ABC",tfUnit.getText(),"ABC");
         controller.main.getList().add(dungCu);
-        controller.main.setRs(rs+1);
+        controller.main.setRsDC(rs+1);
         stage.close();
     }
 }

@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -86,6 +88,7 @@ public class Controller implements Initializable {
     private TableColumn<Product, Integer> quantity;
     @FXML
     private ChoiceBox<String> choiceBox;
+
     public TuThuoc main = new TuThuoc();
 //    public int rs = 0;
     
@@ -180,6 +183,24 @@ public class Controller implements Initializable {
         );
         unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        table.setItems(main.getList());
+        FilteredList<Product> filteredData = new FilteredList<>(main.getList(),b->true);
+        this.tfSearch.textProperty().addListener(((observableValue, oldVal, newVal) ->{
+            filteredData.setPredicate(product -> {
+                if(newVal == null || newVal.isEmpty()){
+                    return true;
+                }
+
+                String lowerCase =newVal.toLowerCase();
+
+                if(product.getName().toLowerCase().indexOf(lowerCase) != -1){
+                    return true;
+                } else{
+                    return false;
+                }
+            });
+        } ));
+        SortedList<Product> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
+        table.setItems(sortedData);
     }
 }

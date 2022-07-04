@@ -12,14 +12,35 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class TuThuoc {
-    private int rs = 0;
+    private int rsThuoc = 0;
+    private int rsDC = 0;
+
+    public int getRsThuoc() {
+        return rsThuoc;
+    }
+
+    public void setRsThuoc(int rsThuoc) {
+        this.rsThuoc = rsThuoc;
+    }
+
+    public int getRsDC() {
+        return rsDC;
+    }
+
+    public void setRsDC(int rsDC) {
+        this.rsDC = rsDC;
+    }
 
     public TuThuoc() {
         try {
             ArrayList<Product> excelList = new ReadExcelFileDemo().getExcelFileDemo();
             for(Product t: excelList) {
                 list.add(t);
-                this.rs++;
+                if(t instanceof Thuoc){
+                    this.rsThuoc++;
+                } else if(t instanceof DungCu){
+                    this.rsDC++;
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -28,13 +49,7 @@ public class TuThuoc {
         }
     }
 
-    public int getRs() {
-        return rs;
-    }
 
-    public void setRs(int rs) {
-        this.rs = rs;
-    }
 
     public ObservableList<Product> getList() {
         return this.list;
