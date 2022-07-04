@@ -9,11 +9,11 @@ public class Thuoc extends Product{
     public Thuoc(int productID, String name, int quantity, String link, String unit, Date expiredDate, String effect) {
         super(productID, name, quantity, link, unit);
         this.expiredDate = expiredDate;
-        this.effect = new SimpleStringProperty(effect);
+        this.effect = effect;
     }
 
     private Date expiredDate;
-    private SimpleStringProperty effect;
+    private String effect;
 
     public void setExpiredDate(Date expiredDate) {
         this.expiredDate = expiredDate;
@@ -25,11 +25,11 @@ public class Thuoc extends Product{
 
 
 
-    public SimpleStringProperty getEffect() {
+    public String getEffect() {
         return effect;
     }
 
-    public void setEffect(SimpleStringProperty effect) {
+    public void setEffect(String effect) {
         this.effect = effect;
     }
 }

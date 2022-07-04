@@ -1,18 +1,13 @@
 package Medicine;
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
-
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ReadExcelFileDemo
 {
@@ -24,10 +19,13 @@ public class ReadExcelFileDemo
         InputStream inputStream =  new FileInputStream(new File(excelPath));
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
-        Iterator<Row> iterator = firstSheet.iterator();
-        Row firstRow = iterator.next();
-        while (iterator.hasNext()) {
-            Row nextRow = iterator.next();
+        Sheet secondSheet = workbook.getSheetAt(4);
+        Iterator<Row> iteratorThuoc = firstSheet.iterator();
+        Iterator<Row> iteratorDC = secondSheet.iterator();
+        iteratorThuoc.next();
+        iteratorDC.next();
+        while (iteratorThuoc.hasNext()) {
+            Row nextRow = iteratorThuoc.next();
             if(!isRowEmpty(nextRow)){
                 int productID =(int)nextRow.getCell(0).getNumericCellValue();
                 String name = nextRow.getCell(1).getStringCellValue();
@@ -37,6 +35,18 @@ public class ReadExcelFileDemo
                 Date expiredDate = nextRow.getCell(5).getDateCellValue() ;
                 String link = nextRow.getCell(7).getStringCellValue();
                 list.add(new Thuoc(productID,name,quantity,link,unit,expiredDate,effect));
+            }
+        }
+        while (iteratorDC.hasNext()) {
+            Row nextRow = iteratorDC.next();
+            if(!isRowEmpty(nextRow)){
+                int productID =(int)nextRow.getCell(0).getNumericCellValue();
+                String name = nextRow.getCell(1).getStringCellValue();
+                int quantity = (int)nextRow.getCell(2).getNumericCellValue();
+                String unit = nextRow.getCell(3).getStringCellValue();
+                String effect = nextRow.getCell(4).getStringCellValue();
+//                String link = nextRow.getCell(5).getStringCellValue();
+                list.add(new DungCu(productID,name,quantity,"none",unit,effect));
             }
         }
         workbook.close();
@@ -57,28 +67,51 @@ public class ReadExcelFileDemo
         InputStream inputStream =  new FileInputStream(new File(excelPath));
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
-        int lastIndex = 1;
+        Sheet secondSheet = workbook.getSheetAt(4);
+        CellStyle cellStyle = workbook.createCellStyle();
+        CreationHelper creationHelper = workbook.getCreationHelper();
+        cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd/mm/yyyy"));
+        int lastIndexThuoc = 1;
+        int lastIndexDC = 1;
         for(Product x: saveList){
-            firstSheet.createRow(lastIndex);
-            Row addRow = firstSheet.getRow(lastIndex);
-            Cell cell;
-            cell = addRow.createCell(0);
-            cell.setCellValue((double)lastIndex);
-            cell =addRow.createCell(1);
-            cell.setCellValue(x.getName());
-            cell = addRow.createCell(2);
-            cell.setCellValue(x.getQuantity());
-            cell =addRow.createCell(3);
-            cell.setCellValue(x.getUnit());
-            cell =addRow.createCell(4);
-            cell.setCellValue(x.getUnit());
-            cell =addRow.createCell(5);
-            cell.setCellValue(((Thuoc) x).getExpiredDate());
-            cell =addRow.createCell(6);
-            cell.setCellValue(((Thuoc) x).getEffect().getName());
-            cell = addRow.createCell(7);
-            cell.setCellValue(x.getLink());
-            lastIndex++;
+            if(x instanceof Thuoc){
+                firstSheet.createRow(lastIndexThuoc);
+                Row addRowThuoc = firstSheet.getRow(lastIndexThuoc);
+                Cell cell;
+                cell = addRowThuoc.createCell(0);
+                cell.setCellValue((double)lastIndexThuoc);
+                cell =addRowThuoc.createCell(1);
+                cell.setCellValue(x.getName());
+                cell = addRowThuoc.createCell(2);
+                cell.setCellValue(x.getQuantity());
+                cell =addRowThuoc.createCell(3);
+                cell.setCellValue(x.getUnit());
+                cell =addRowThuoc.createCell(4);
+                String effect = ((Thuoc) x).getEffect();
+                cell.setCellValue(effect);
+                cell =addRowThuoc.createCell(5);
+                cell.setCellValue(((Thuoc) x).getExpiredDate());
+                cell.setCellStyle(cellStyle);
+                cell = addRowThuoc.createCell(7);
+                cell.setCellValue(x.getLink());
+                lastIndexThuoc++;
+            } else if(x instanceof DungCu){
+                secondSheet.createRow(lastIndexDC);
+                Row addRowDC = secondSheet.getRow(lastIndexDC);
+                Cell cell;
+                cell = addRowDC.createCell(0);
+                cell.setCellValue((double)lastIndexDC);
+                cell =addRowDC.createCell(1);
+                cell.setCellValue(x.getName());
+                cell = addRowDC.createCell(2);
+                cell.setCellValue(x.getQuantity());
+                cell =addRowDC.createCell(3);
+                cell.setCellValue(x.getUnit());
+                cell =addRowDC.createCell(4);
+                String effect = ((DungCu) x).getUse();
+                cell.setCellValue(effect);
+                lastIndexDC++;
+            }
         }
         FileOutputStream fileOut = new FileOutputStream(excelPath);
         workbook.write(fileOut);

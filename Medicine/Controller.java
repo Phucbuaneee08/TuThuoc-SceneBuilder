@@ -14,11 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -89,7 +85,7 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<Product, Integer> quantity;
     private Date date = new Date();
-    public static int c = 11;
+    public int rs = 0;
     
     public ObservableList<Product> list = FXCollections.observableArrayList();
 
@@ -97,8 +93,9 @@ public class Controller implements Initializable {
     public void initialize(URL url , ResourceBundle rb)  {
         try {
             ArrayList<Product> excelList = new ReadExcelFileDemo().getExcelFileDemo();
-            for(Product x: excelList){
+            for(Product x: excelList) {
                 list.add(x);
+                this.rs++;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -117,9 +114,9 @@ public class Controller implements Initializable {
         );
         effect.setCellValueFactory(cellData ->{
                 if(cellData.getValue() instanceof Thuoc){
-                    return ((Thuoc) cellData.getValue()).getEffect();
+                    return new SimpleStringProperty(((Thuoc) cellData.getValue()).getEffect());
                 } else {
-                    return ((DungCu) cellData.getValue()).getUse();
+                    return new SimpleStringProperty(((DungCu) cellData.getValue()).getUse());
                 }
             }
         );
@@ -127,6 +124,9 @@ public class Controller implements Initializable {
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         table.setItems(list);
+
+        choiceBox.getItems().add("Thuốc");
+        choiceBox.getItems().add("Dụng Cụ");
     }
     //Click on button
     @FXML
@@ -166,9 +166,8 @@ public class Controller implements Initializable {
         if(event.getSource()==btnClose){
             try {
                 ReadExcelFileDemo excel = new ReadExcelFileDemo();
-//                ArrayList<Product> saveList = new ArrayList<>(list);
                 excel.setExcelList(new ArrayList<>(table.getItems()));
-                System.out.println(excel.getDiffNumRow());
+//                System.out.println(excel.getDiffNumRow());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -191,8 +190,18 @@ public class Controller implements Initializable {
     @FXML
     private TextField tfUnit;
     @FXML
+    private ChoiceBox<String> choiceBox;
+    @FXML
     public void getAddView(MouseEvent event) throws Exception{
-        AddMedController medController = new AddMedController(this);
-        medController.showStage();
+        String choice = choiceBox.getValue();
+        if(choice.compareTo("Thuốc")==0){
+            AddMedController medController = new AddMedController(this);
+            medController.showStage();
+        }
+        if(choice.compareTo("Dụng Cụ")==0){
+            AddDCController addDC = new AddDCController(this);
+            addDC.showStage();
+        }
+        //
     }
 }

@@ -23,6 +23,7 @@ public class AddMedController implements Initializable{
 
     private  Stage stage ;
     private Controller controller ;
+    private int rs;
     public AddMedController(Controller controller){
         this.controller = controller;
         stage = new Stage();
@@ -67,7 +68,9 @@ public class AddMedController implements Initializable{
     }
     public Date x = new Date();
     public void actionSave() {
-        Thuoc Thuoc = new Thuoc(11,tfName.getText(),Integer.parseInt(tfQuantity.getText()),"ABC",tfUnit.getText(),x,tfEffect.getText());
+        Thuoc Thuoc = new Thuoc(controller.rs+1,tfName.getText(),Integer.parseInt(tfQuantity.getText()),"ABC",tfUnit.getText(),x,tfEffect.getText());
         controller.list.add(Thuoc);
+        controller.rs ++;
+        stage.close();
     }
 }
