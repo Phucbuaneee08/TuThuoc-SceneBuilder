@@ -14,6 +14,8 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +36,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -54,7 +57,7 @@ public class Controller implements Initializable {
     private GridPane gpTienIch;
 
     @FXML
-    private GridPane gpToaThuoc;
+    private AnchorPane gpToaThuoc;
 
     @FXML
     private GridPane gpTuThuoc;
@@ -104,58 +107,32 @@ public class Controller implements Initializable {
     private TableColumn<Product, String> unit;
     @FXML
     private TableColumn<Product, Integer> quantity;
-    private Date date = new Date();
-    public static int c = 11;
+    // private Date date = new Date();
+    // public static int c = 11;
     
-    public ObservableList<Product> list = FXCollections.observableArrayList();
+    // public ObservableList<Product> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url , ResourceBundle rb)  {
-        //Get data from excel
-        try {
-            ArrayList<Product> excelList = new ReadExcelFileDemo().getExcelFileDemo();
-            for(Product x: excelList){
-                list.add(x);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        showTuThuoc();
 
         //
-        productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        expiredDate.setCellValueFactory(cellData ->{
-                if(cellData.getValue() instanceof Thuoc){
-                    return new SimpleStringProperty(DateFormat.getDateInstance().format(cellData.getValue().getExpiredDate()));
-                } else {
-                    return null;
-                }
-            }
-        );
-        effect.setCellValueFactory(cellData ->{
-                if(cellData.getValue() instanceof Thuoc){
-                    return new SimpleStringProperty(((Thuoc) cellData.getValue()).getEffect());
-                } else {
-                    return new SimpleStringProperty(((DungCu) cellData.getValue()).getUse());
-                }
-            }
-        );
-        unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
-        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        table.setItems(list);
-
+       
+        // Set and add value for choiceBox
         choiceBox.getItems().add("Thuốc");
         choiceBox.getItems().add("Dụng Cụ");
+        choiceBox.setValue("Thuốc");
         try {
             addButtonToTable();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
+        //Search bar for TableView
+        }
     //Click on button
     @FXML
-    private void handleClicks(ActionEvent event){
+    private void handleClicks(ActionEvent event) throws IOException {
         if(event.getSource() == btnTuThuoc){
             lblStatusMini.setText("/home/TuThuoc");
             lblStatus.setText("TỦ THUỐC CỦA BẠN");
@@ -165,7 +142,10 @@ public class Controller implements Initializable {
         if(event.getSource() == btnToaThuoc){
             lblStatusMini.setText("/home/ToaThuoc");
             lblStatus.setText("KHO LƯU TOA THUỐC");
-            
+
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("ToaThuoc.fxml"));
+            gpToaThuoc.getChildren().removeAll();
+            gpToaThuoc.getChildren().setAll(pane);
             gpToaThuoc.toFront();
         }
         if(event.getSource() == btnTienIch){
@@ -209,6 +189,7 @@ public class Controller implements Initializable {
     private TextField tfUnit;
     @FXML
     private ChoiceBox<String> choiceBox;
+    public TuThuoc main = new TuThuoc();
 
     @FXML
     public void getAddView(MouseEvent event) throws Exception{
@@ -240,6 +221,7 @@ public class Controller implements Initializable {
                     btn.getItems().add(m1);
                     btn.getItems().add(m2);
                     btn.getItems().add(m3);
+                    //set action for edit button
                     m1.setOnAction(event->{
                         Product product = table.getSelectionModel().getSelectedItem();
                         if(product instanceof Thuoc){
@@ -253,16 +235,24 @@ public class Controller implements Initializable {
                             addDCController.showStage();
                             }
                     });
+                    //set action for remove button
                     m2.setOnAction(event->{
-                       
-                            ObservableList<Product> allProduct,SingleProduct;
-                            allProduct = table.getItems();
-                            SingleProduct = table.getSelectionModel().getSelectedItems();
-                            SingleProduct.forEach(allProduct::remove);
-                            
-                       
+                            Product SingleProduct = table.getSelectionModel().getSelectedItem();
+                            main.getList().remove(SingleProduct);
                     });
-
+                    m3.setOnAction(event->{
+                        Product product = table.getSelectionModel().getSelectedItem();
+                        if(product instanceof Thuoc){
+                            ShowDetailController showDetailController = new ShowDetailController(Controller.this ,product) ;
+                            showDetailController.setTextField(product.getName());
+                            showDetailController.showStage();}
+                        // else if(product instanceof DungCu){
+                        //     AddDCController addDCController = new AddDCController(Controller.this , product);
+                        //     addDCController.setTextField1(product.getProductID(),product.getName(),product.getQuantity(),product.getLink(),product.getUnit(),((DungCu)product).getUse());
+                        //     addDCController.showStage();
+                        //     }
+                    });
+                    
                    
                     }
                     @Override
@@ -284,6 +274,60 @@ public class Controller implements Initializable {
         table.getColumns().add(colBtn);
 
     }
-    
+    public void showTuThuoc(){
+
+        productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        expiredDate.setCellValueFactory(cellData ->{
+                    if(cellData.getValue() instanceof Thuoc){
+                        return new SimpleStringProperty(DateFormat.getDateInstance().format(cellData.getValue().getExpiredDate()));
+                    } else {
+                        return null;
+                    }
+                }
+        );
+        effect.setCellValueFactory(cellData ->{
+                    if(cellData.getValue() instanceof Thuoc){
+                        return new SimpleStringProperty(((Thuoc) cellData.getValue()).getEffect());
+                    } else {
+                        return new SimpleStringProperty(((DungCu) cellData.getValue()).getUse());
+                    }
+                }
+        );
+        unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        FilteredList<Product> filteredData = new FilteredList<>(main.getList(),b->true);
+        this.tfSearch.textProperty().addListener(((observableValue, oldVal, newVal) ->{
+            filteredData.setPredicate(product -> {
+                if(newVal == null || newVal.isEmpty()){
+                    return true;
+                }
+
+                String lowerCase =newVal.toLowerCase();
+
+                if(product.getName().toLowerCase().indexOf(lowerCase) != -1){
+                    return true;
+                }else if(product instanceof Thuoc){
+                    if(((Thuoc) product).getEffect().toLowerCase().indexOf(lowerCase) != -1){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if(product instanceof DungCu){
+                    if(((DungCu) product).getUse().toLowerCase().indexOf(lowerCase) != -1){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                else{
+                    return false;
+                }
+            });
+        } ));
+        SortedList<Product> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
+        table.setItems(sortedData);
+    }
     
 }

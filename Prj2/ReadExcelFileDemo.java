@@ -19,29 +19,43 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ReadExcelFileDemo
 {
     private final String excelPath = "C:\\DevC++\\ViscodeCC++\\.vscode\\FirstJavaFxProject\\FirstJavaFxProject\\src\\Prj2\\Source\\QLTuThuoc.xlsx";
-    public  ArrayList<Product> getExcelFileDemo() throws IOException
+    public  ArrayList<Product> getExcelFileDemo() throws IOException,Exception
     {
         ArrayList<Product> list = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-       
         InputStream inputStream =  new FileInputStream(new File(excelPath));
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
-        Iterator<Row> iterator = firstSheet.iterator();
-        iterator.next();
-        while (iterator.hasNext()) {
-            Row nextRow = iterator.next();
+        Sheet secondSheet = workbook.getSheetAt(4);
+        Iterator<Row> iteratorThuoc = firstSheet.iterator();
+        Iterator<Row> iteratorDC = secondSheet.iterator();
+        iteratorThuoc.next();
+        iteratorDC.next();
+        while (iteratorThuoc.hasNext()) {
+            Row nextRow = iteratorThuoc.next();
             if(!isRowEmpty(nextRow)){
-            int productID =(int)nextRow.getCell(0).getNumericCellValue();
-            String name = nextRow.getCell(1).getStringCellValue();
-            int quantity = (int)nextRow.getCell(2).getNumericCellValue();
-            String unit = nextRow.getCell(3).getStringCellValue();
-            String effect = nextRow.getCell(4).getStringCellValue();
-            Date expiredDate = nextRow.getCell(5).getDateCellValue() ;
-            String link = nextRow.getCell(7).getStringCellValue();
-            list.add(new Thuoc(productID,name,quantity,link,unit,expiredDate,effect));}
+                int productID =(int)nextRow.getCell(0).getNumericCellValue();
+                String name = nextRow.getCell(1).getStringCellValue();
+                int quantity = (int)nextRow.getCell(2).getNumericCellValue();
+                String unit = nextRow.getCell(3).getStringCellValue();
+                String effect = nextRow.getCell(4).getStringCellValue();
+                Date expiredDate = nextRow.getCell(5).getDateCellValue() ;
+                String link = nextRow.getCell(7).getStringCellValue();
+                list.add(new Thuoc(productID,name,quantity,link,unit,expiredDate,effect));
+            }
         }
-
+        while (iteratorDC.hasNext()) {
+            Row nextRow = iteratorDC.next();
+            if(!isRowEmpty(nextRow)){
+                int productID =(int)nextRow.getCell(0).getNumericCellValue();
+                String name = nextRow.getCell(1).getStringCellValue();
+                int quantity = (int)nextRow.getCell(2).getNumericCellValue();
+                String unit = nextRow.getCell(3).getStringCellValue();
+                String effect = nextRow.getCell(4).getStringCellValue();
+//                String link = nextRow.getCell(5).getStringCellValue();
+                list.add(new DungCu(productID,name,quantity,"none",unit,effect));
+            }
+        }
         workbook.close();
         inputStream.close();
         return list;

@@ -51,7 +51,7 @@ public class AddMedController implements Initializable{
         try {
             FXMLLoader parent =new FXMLLoader((getClass().getResource("AddMed.fxml")));
             parent.setController(this);
-            stage.setScene(new Scene(parent.load())); 
+            stage.setScene(new Scene(parent.load()));
             stage.initStyle(StageStyle.UTILITY);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -93,9 +93,12 @@ public class AddMedController implements Initializable{
     public void actionSave() {    
     ZoneId defaultZoneId = ZoneId.systemDefault();
     LocalDate localDate = tfHSD.getValue();
+    int rs = controller.main.getRsThuoc();
     Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
-        Thuoc Thuoc = new Thuoc(11,tfName.getText(),1,"ABC",tfUnit.getText(),date,tfEffect.getText());
-        controller.list.add(Thuoc);
+        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),1,"ABC",tfUnit.getText(),date,tfEffect.getText());
+        controller.main.getList().add(Thuoc);
+        controller.main.setRsThuoc(rs+1);
+        stage.close();
     }
 
     public void actionSave(Product x){
@@ -107,9 +110,8 @@ public class AddMedController implements Initializable{
         x.setUnit(tfUnit.getText());
         ((Thuoc)x).setExpiredDate(date);
         ((Thuoc)x).setEffect(tfEffect.getText());
-
-        controller.list.set(x.getProductID()-1, x);
-        System.out.println(x.getName());
+        controller.main.getList().set(x.getProductID()-1, x);
+        stage.close();
     }
 
     @FXML

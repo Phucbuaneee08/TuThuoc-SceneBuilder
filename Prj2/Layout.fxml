@@ -187,22 +187,6 @@
       </ImageView>
       <StackPane layoutX="207.0" layoutY="177.0" prefHeight="374.0" prefWidth="626.0" style="-fx-background-color: #cdd9f4;">
          <children>
-            <GridPane fx:id="gpToaThuoc" prefHeight="366.0" prefWidth="618.0" style="-fx-border-width: 20; -fx-background-color: #ffffff;">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="154.60001220703126" minHeight="10.0" prefHeight="27.800018310546875" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="319.1999816894531" minHeight="10.0" prefHeight="319.1999816894531" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="20.0" prefHeight="26.0" prefWidth="674.0" text="TOA THUỐC " textFill="#2b3f63" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Cambria Bold" size="19.0" />
-                     </font>
-                  </Label>
-               </children>
-            </GridPane>
             <GridPane fx:id="gpTienIch" prefHeight="366.0" prefWidth="618.0" style="-fx-border-width: 20; -fx-background-color: #ffffff;">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -235,6 +219,7 @@
                   </Label>
                </children>
             </GridPane>
+            <AnchorPane fx:id="gpToaThuoc" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" />
             <GridPane fx:id="gpTuThuoc" prefHeight="374.0" prefWidth="615.0" style="-fx-border-width: 20; -fx-background-color: #ffffff;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

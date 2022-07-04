@@ -86,8 +86,10 @@ public class AddDCController implements Initializable{
         stage.show();
     }
     public void actionSave() {
-        DungCu DungCu = new DungCu(11,tfName.getText(),11,"ABC",tfUnit.getText(),"ABC");
-        controller.list.add(DungCu);
+        int rs = controller.main.getRsDC();
+        DungCu DungCu = new DungCu(rs,tfName.getText(),11,"ABC",tfUnit.getText(),"ABC");
+        controller.main.getList().add(DungCu);
+        controller.main.setRsDC(rs+1);
     }
     public void actionSave(Product x){
     
@@ -95,8 +97,8 @@ public class AddDCController implements Initializable{
         x.setQuantity(Integer.valueOf(tfQuantity.getText()));
         x.setUnit(tfUnit.getText());
         ((DungCu)x).setUse(tfEffect.getText());
-        controller.list.set(x.getProductID()-1, x);
-        System.out.println(x.getName());
+        controller.main.getList().set(x.getProductID()-1, x);
+        stage.close();
     }
 
     void setTextField1(int ProductID, String name,int quantity,String link,String unit,String use){
@@ -112,7 +114,7 @@ public class AddDCController implements Initializable{
     @FXML
     private void handleClose(javafx.scene.input.MouseEvent event){
         if(event.getSource()==btnClose){
-            stage.close();
+            
         }
     }
 }
