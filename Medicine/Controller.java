@@ -194,7 +194,20 @@ public class Controller implements Initializable {
 
                 if(product.getName().toLowerCase().indexOf(lowerCase) != -1){
                     return true;
-                } else{
+                }else if(product instanceof Thuoc){
+                    if(((Thuoc) product).getEffect().toLowerCase().indexOf(lowerCase) != -1){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if(product instanceof DungCu){
+                    if(((DungCu) product).getUse().toLowerCase().indexOf(lowerCase) != -1){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                else{
                     return false;
                 }
             });
