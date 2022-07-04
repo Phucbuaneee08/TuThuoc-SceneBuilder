@@ -1,6 +1,8 @@
 package Prj2;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Thuoc extends Product{
@@ -8,22 +10,22 @@ public class Thuoc extends Product{
 
     public Thuoc(int productID, String name, int quantity, String link, String unit, Date expiredDate, String effect) {
         super(productID, name, quantity, link, unit);
-        this.expiredDate = new SimpleObjectProperty<>(expiredDate);
+        this.expiredDate = expiredDate;
         this.effect = effect;
     }
 
-    private SimpleObjectProperty<Date> expiredDate;
+    private Date expiredDate;
     private String effect;
 
-    public SimpleObjectProperty<Date> getExpiredDate() {
+    public Date getExpiredDate() {
         return expiredDate;
     }
 
     public void setExpiredDate(Date expiredDate) {
-        this.expiredDate.set(expiredDate);
+        this.expiredDate=expiredDate;
     }
 
-    public String getEffect() {
+    public String getEffect()  {
         return effect;
     }
 

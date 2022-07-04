@@ -1,6 +1,10 @@
 package Prj2;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class DungCu extends Product{
+
+
     private String use;
 
     public DungCu(int productID, String name, int quantity, String link, String unit, String use) {

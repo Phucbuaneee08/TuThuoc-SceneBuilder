@@ -37,6 +37,22 @@ public class AddDCController implements Initializable{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+    }    
+    public AddDCController(Controller controller, Product x){
+        this.controller = controller;
+        stage = new Stage();
+        // TO
+        try {
+            FXMLLoader parent =new FXMLLoader((getClass().getResource("AddDungCu.fxml")));
+            parent.setController(this);
+            stage.setScene(new Scene(parent.load())); 
+            stage.initStyle(StageStyle.UTILITY);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        btnSave.setOnAction(event ->actionSave(x));
     }
     @FXML
     private Button btnReset;
@@ -73,7 +89,25 @@ public class AddDCController implements Initializable{
         DungCu DungCu = new DungCu(11,tfName.getText(),11,"ABC",tfUnit.getText(),"ABC");
         controller.list.add(DungCu);
     }
+    public void actionSave(Product x){
+    
+        x.setName(tfName.getText());
+        x.setQuantity(Integer.valueOf(tfQuantity.getText()));
+        x.setUnit(tfUnit.getText());
+        ((DungCu)x).setUse(tfEffect.getText());
+        controller.list.set(x.getProductID()-1, x);
+        System.out.println(x.getName());
+    }
 
+    void setTextField1(int ProductID, String name,int quantity,String link,String unit,String use){
+        
+        tfName.setText(name);
+        tfQuantity.setText(quantity+"");
+        tfUnit.setText(unit);
+        tfEffect.setText(use);
+       
+
+    }
 
     @FXML
     private void handleClose(javafx.scene.input.MouseEvent event){

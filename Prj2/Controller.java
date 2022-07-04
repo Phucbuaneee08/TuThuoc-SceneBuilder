@@ -3,10 +3,15 @@ package Prj2;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.net.URL;
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +23,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -35,6 +44,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 public class Controller implements Initializable {
     @FXML
@@ -75,7 +85,6 @@ public class Controller implements Initializable {
     
     @FXML
     private VBox pnlStatus;
-
     
     @FXML
     private ImageView btnClose;
@@ -88,7 +97,7 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<Product, String> name;
     @FXML
-    private TableColumn<Thuoc, Date> expiredDate;
+    private TableColumn<Thuoc, String> expiredDate;
     @FXML
     private TableColumn<Product, String> effect;
     @FXML
@@ -98,35 +107,51 @@ public class Controller implements Initializable {
     private Date date = new Date();
     public static int c = 11;
     
-     ObservableList<Product> list = FXCollections.observableArrayList(
-            new Thuoc(1,"Con đĩ ",10,"Đầu","BRR",date,"none"),
-            new Thuoc(2,"Con đĩ ",7,"Đầu","BRR",date,"none"),
-            new Thuoc(3,"Con đĩ ",6,"Đầu","BRR",date,"none"),
-            new Thuoc(4,"Con đĩ ",5,"Đầu","BRR",date,"none"),
-            new DungCu(5,"Bong",5,"abc","Cai","none"),
-            new DungCu(6,"Bong",5,"abc","Cai","none")
-        );
+    public ObservableList<Product> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url , ResourceBundle rb)  {
+        //Get data from excel
+        try {
+            ArrayList<Product> excelList = new ReadExcelFileDemo().getExcelFileDemo();
+            for(Product x: excelList){
+                list.add(x);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+        //
         productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         expiredDate.setCellValueFactory(cellData ->{
                 if(cellData.getValue() instanceof Thuoc){
-                    return cellData.getValue().getExpiredDate();
+                    return new SimpleStringProperty(DateFormat.getDateInstance().format(cellData.getValue().getExpiredDate()));
                 } else {
                     return null;
                 }
             }
         );
-//        effect.setCellValueFactory(new PropertyValueFactory<>("effect"));
+        effect.setCellValueFactory(cellData ->{
+                if(cellData.getValue() instanceof Thuoc){
+                    return new SimpleStringProperty(((Thuoc) cellData.getValue()).getEffect());
+                } else {
+                    return new SimpleStringProperty(((DungCu) cellData.getValue()).getUse());
+                }
+            }
+        );
         unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         table.setItems(list);
 
         choiceBox.getItems().add("Thuốc");
         choiceBox.getItems().add("Dụng Cụ");
+        try {
+            addButtonToTable();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     //Click on button
     @FXML
@@ -172,7 +197,7 @@ public class Controller implements Initializable {
     private TextField tfEffect;
 
     @FXML
-    private TextField tfHSD;
+    private DatePicker tfHSD;
 
     @FXML
     private TextField tfName;
@@ -196,7 +221,69 @@ public class Controller implements Initializable {
             AddDCController addDC = new AddDCController(this);
             addDC.showStage();
         }
-    //
     }
+    //Connect with excel
+    //add button cell 
+    private void addButtonToTable() throws IOException{
+        TableColumn<Product, Void> colBtn = new TableColumn("");
+        colBtn.setMaxWidth(1200);
+        Callback<TableColumn<Product, Void>, TableCell<Product, Void>> cellFactory = new Callback<TableColumn<Product, Void>, TableCell<Product, Void>>() {
+            @Override
+            public TableCell<Product, Void> call(final TableColumn<Product, Void> param) {
+                final TableCell<Product, Void> cell = new TableCell<Product, Void>() {
+
+                    private final MenuButton btn = new MenuButton("");
+                    {
+                    MenuItem m1 = new MenuItem("edit");
+                    MenuItem m2 = new MenuItem("delete");
+                    MenuItem m3 = new MenuItem("detail");
+                    btn.getItems().add(m1);
+                    btn.getItems().add(m2);
+                    btn.getItems().add(m3);
+                    m1.setOnAction(event->{
+                        Product product = table.getSelectionModel().getSelectedItem();
+                        if(product instanceof Thuoc){
+                            AddMedController addMedController = new AddMedController(Controller.this ,product) ;
+                            addMedController.setTextField(product.getProductID(), product.getName(), 
+                            product.getQuantity(), product.getLink(),product.getUnit(), ((Thuoc) product).getExpiredDate(),((Thuoc)product).getEffect());
+                            addMedController.showStage();}
+                        else if(product instanceof DungCu){
+                            AddDCController addDCController = new AddDCController(Controller.this , product);
+                            addDCController.setTextField1(product.getProductID(),product.getName(),product.getQuantity(),product.getLink(),product.getUnit(),((DungCu)product).getUse());
+                            addDCController.showStage();
+                            }
+                    });
+                    m2.setOnAction(event->{
+                       
+                            ObservableList<Product> allProduct,SingleProduct;
+                            allProduct = table.getItems();
+                            SingleProduct = table.getSelectionModel().getSelectedItems();
+                            SingleProduct.forEach(allProduct::remove);
+                            
+                       
+                    });
+
+                   
+                    }
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colBtn.setCellFactory(cellFactory);
+
+        table.getColumns().add(colBtn);
+
+    }
+    
     
 }
