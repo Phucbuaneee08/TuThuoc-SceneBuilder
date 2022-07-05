@@ -1,5 +1,10 @@
 package MedicineManagement.model;
 
+import MedicineManagement.Service.CrawlInfo;
+import javafx.scene.text.Text;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Thuoc extends Product {
@@ -28,5 +33,18 @@ public class Thuoc extends Product {
 
     public void setEffect(String effect) {
         this.effect = effect;
+    }
+
+    @Override
+    public ArrayList<Text> getInfo() {
+        ArrayList<Text> x = super.getInfo();
+        CrawlInfo info = null;
+        try {
+            info = new CrawlInfo(this.getName());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        x.addAll(info.listText);
+        return x;
     }
 }

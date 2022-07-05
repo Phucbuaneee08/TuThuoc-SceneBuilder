@@ -99,19 +99,10 @@ public class AddDCController implements Initializable{
     }
 
     void setTextField1(int ProductID, String name,int quantity,String link,String unit,String use){
-        
         tfName.setText(name);
         tfQuantity.setText(quantity+"");
         tfUnit.setText(unit);
         tfEffect.setText(use);
-       
-
     }
 
-    @FXML
-    private void handleClose(javafx.scene.input.MouseEvent event){
-        if(event.getSource()==btnClose){
-            
-        }
-    }
 }

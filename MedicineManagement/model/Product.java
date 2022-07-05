@@ -1,5 +1,9 @@
 package MedicineManagement.model;
 
+import javafx.scene.text.Text;
+
+import java.util.ArrayList;
+
 public abstract class Product {
     private int productID;
     private String name;
@@ -58,14 +62,11 @@ public abstract class Product {
     public void setUnit(String unit) {
         this.unit = unit;
     }
-    public String getInfo(){
-        String newLine = System.getProperty("line.separator");
-        return "Tên sản phẩm: ";
-    }
-    public boolean checkType(Product x){
-        if (x instanceof Thuoc){
-            return true;
-        }
-        return false;
+    public ArrayList<Text> getInfo(){
+        ArrayList<Text> listInfo = new ArrayList<>();
+        listInfo.add(0,new Text("Tên sản phẩm: " + this.name));
+        listInfo.add(1,new Text("Số lượng: " + this.quantity));
+        listInfo.add(2,new Text ("Đơn vị: " + this.unit));
+        return listInfo;
     }
 }

@@ -118,7 +118,7 @@ public class Controller implements Initializable {
             lblStatusMini.setText("/home/ToaThuoc");
             lblStatus.setText("KHO LƯU TOA THUỐC");
 
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("ToaThuoc.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/MedicineManagement/View/ToaThuoc.fxml"));
             gpToaThuoc.getChildren().removeAll();
             gpToaThuoc.getChildren().setAll(pane);
             gpToaThuoc.toFront();
@@ -263,7 +263,7 @@ public class Controller implements Initializable {
                             Product product = table.getSelectionModel().getSelectedItem();
                             if (product instanceof Thuoc) {
                                 ShowDetailController showDetailController = new ShowDetailController(Controller.this, product);
-                                showDetailController.setTextField(product.getName());
+                                showDetailController.setTextField(product.getInfo());
                                 showDetailController.showStage();
                             }
                             // else if(product instanceof DungCu){
