@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="399.0" style="-fx-background-color: #08162b;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField layoutX="92.0" layoutY="98.0" prefHeight="31.0" prefWidth="214.0" />
+      <DatePicker layoutX="92.0" layoutY="153.0" prefHeight="38.0" prefWidth="89.0" />
+      <DatePicker layoutX="223.0" layoutY="153.0" prefHeight="38.0" prefWidth="82.0" />
+      <Text fill="#f2bb73" layoutX="196.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to " wrappingWidth="18.384765625">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font></Text>
+      <Text fill="#f2bb73" layoutX="47.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NHẬP TOA THUỐC" wrappingWidth="327.20545959472656">
+         <font>
+            <Font name="Book Antiqua Bold" size="32.0" />
+         </font>
+      </Text>
+      <Button layoutX="169.0" layoutY="212.0" mnemonicParsing="false" style="-fx-background-color: #f2bb73;">
+         <graphic>
+            <FontAwesomeIcon glyphName="PLUS" />
+         </graphic>
+      </Button>
+      <Button layoutX="210.0" layoutY="212.0" mnemonicParsing="false" style="-fx-background-color: #45cc73;">
+         <graphic>
+            <FontAwesomeIcon glyphName="MINUS" />
+         </graphic>
+      </Button>
+      <ScrollPane layoutX="95.0" layoutY="244.0" prefHeight="177.0" prefWidth="214.0">
+         <content>
+            <HBox prefHeight="36.0" prefWidth="214.0">
+               <children>
+                  <ComboBox prefHeight="30.0" prefWidth="135.0" promptText="Chọn thuốc" />
+                  <TextField prefHeight="30.0" prefWidth="58.0" promptText="Số ngày">
+                     <HBox.margin>
+                        <Insets left="21.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+         </content>
+      </ScrollPane>
+      <Pane layoutX="-6.0" layoutY="70.0" prefHeight="6.0" prefWidth="407.0" style="-fx-background-color: #111111;">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Pane>
+      <Text fill="#f2bb73" layoutX="47.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

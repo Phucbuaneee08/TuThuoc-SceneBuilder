@@ -14,7 +14,7 @@ public class Main extends Application {
     private double yOffset = 0;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Layout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("View/Layout.fxml"));
         root.setOnMousePressed(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event){

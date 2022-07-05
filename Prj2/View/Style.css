@@ -1,0 +1,37 @@
+.search-box{
+    -fx-background-color:#ffffff ;
+    -ms-flex-align: center;
+}
+.table-view .column-header,
+.table-view .column-header-background .filter {
+    -fx-cell-size : 20;
+    -fx-background-color:  #14233a;
+}
+.table-view .column-header .label{
+    -fx-text-fill:white;
+    -fx-font-weight:bold;
+    -fx-align:center;
+}
+.Button{
+    -fx-background-color:#1ce4dd;
+    -fx-background-radius:0em;
+    -fx-border-radius:4em;
+}
+.Button:pressed{
+    -fx-background-color: #db670f;
+}
+.Button:hover{
+    -fx-background-color: #875cd0;
+}
+.Button:focused{
+    -fx-background-color: #1587ea;
+    -fx-border-color:#b4caca;
+}
+.icon{
+    -fx-background-color: #ffffff;
+}
+
+.ChoiceBox{
+    -fx-align-color: rgb(165, 231, 22);
+    -fx-text-fill: #ffffff;
+}

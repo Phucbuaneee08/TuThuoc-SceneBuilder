@@ -1,12 +1,13 @@
 package Prj2.controller;
 
-import Prj2.DungCu;
-import Prj2.Product;
-import Prj2.Thuoc;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import Prj2.model.DungCu;
+import Prj2.model.Product;
+import Prj2.model.Thuoc;
 
 public class ProductController {
     ArrayList<Product> list;
