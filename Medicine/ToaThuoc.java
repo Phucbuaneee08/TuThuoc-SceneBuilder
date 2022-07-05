@@ -1,12 +1,22 @@
 package Medicine;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ToaThuoc {
     private int presID;
+
+    public ToaThuoc(int presID, String name, Date startedDate, Date endDate, ArrayList<Product> listProduct) {
+        this.presID = presID;
+        this.name = name;
+        this.startedDate = startedDate;
+        this.endDate = endDate;
+        this.listProduct = listProduct;
+    }
+
     private String name;
-    private int quantity;
-    private String disease;
+    private Date startedDate;
+    private Date endDate;
     private ArrayList<Product> listProduct = new ArrayList<>();
 
     public int getPresID() {
@@ -25,20 +35,5 @@ public class ToaThuoc {
         this.name = name;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getDisease() {
-        return disease;
-    }
-
-    public void setDisease(String disease) {
-        this.disease = disease;
-    }
 
 }

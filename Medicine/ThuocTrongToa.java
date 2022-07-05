@@ -17,7 +17,4 @@ public class ThuocTrongToa extends Thuoc {
     }
 
     private String lieu;
-    public ThuocTrongToa(int productID, String name, int quantity, String link, String unit, Date expiredDate, String effect) {
-        super(productID, name, quantity, link, unit, expiredDate, effect);
-    }
 }
