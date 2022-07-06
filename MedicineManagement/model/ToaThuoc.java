@@ -6,6 +6,29 @@ import java.util.Date;
 public class ToaThuoc {
     private int presID;
 
+    public ToaThuoc() {
+    }
+
+    public Date getStartedDate() {
+        return startedDate;
+    }
+
+    public void setStartedDate(Date startedDate) {
+        this.startedDate = startedDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public ArrayList<Product> getListProduct() {
+        return this.listProduct;
+    }
+
     public ToaThuoc(int presID, String name, Date startedDate, Date endDate, ArrayList<Product> listProduct) {
         this.presID = presID;
         this.name = name;

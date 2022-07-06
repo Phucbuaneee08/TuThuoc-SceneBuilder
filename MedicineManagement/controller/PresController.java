@@ -40,23 +40,20 @@ public class PresController implements Initializable {
     public Date date = new Date();
     public ArrayList<Product> listThuoc = new ArrayList<>();
 
-    ArrayList<ToaThuoc> listToa = new ArrayList<>();
+    public ArrayList<ToaThuoc> listToa = new ArrayList<>();
     public void addThuoc(ThuocTrongToa x){
         listThuoc.add(x);
     }
 
-    public void addToa(){
-
+    public void addToa(ToaThuoc x){
+        listToa.add(x);
+        Text toaThuoc = new Text(x.getName());
+        vbToaThuoc.getChildren().add(toaThuoc);
     }
 
     public void showList() {
-        listToa.add(new ToaThuoc(1,"TEST",date,date,listThuoc));
-        listToa.add(new ToaThuoc(1,"TEST",date,date,listThuoc));
-        listToa.add(new ToaThuoc(1,"TEST",date,date,listThuoc));
-        listToa.add(new ToaThuoc(1,"TEST",date,date,listThuoc));
-        listToa.add(new ToaThuoc(1,"TEST",date,date,listThuoc));
         for(ToaThuoc x : listToa){
-            Text toaThuoc = new Text(x.getName());
+            Button toaThuoc = new Button(x.getName());
             vbToaThuoc.getChildren().add(toaThuoc);
         }
     }
@@ -65,12 +62,11 @@ public class PresController implements Initializable {
         ObservableList<Product> listThuocTrongTu = FXCollections.observableArrayList(controller.main.getList());
         return listThuocTrongTu;
     }
-
+    // lay list tu tu thuoc
     @FXML
     public void showAddToaThuoc(ActionEvent event){
         AddToaThuoc addToaThuoc = new AddToaThuoc(this);
         addToaThuoc.showStage();
-    }
-
+    } //show stage add toa
 
 }

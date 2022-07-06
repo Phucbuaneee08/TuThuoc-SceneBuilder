@@ -2,14 +2,14 @@ package MedicineManagement.model;
 
 import java.util.Date;
 
-public class ThuocTrongToa extends Thuoc {
-    public ThuocTrongToa(int productID, String name, int quantity, String unit, Date expiredDate, String effect, String lieu) {
-        super(productID, name, quantity, unit, expiredDate, effect);
-        this.lieu = lieu;
-    }
+public class ThuocTrongToa extends Product {
 
     public String getLieu() {
         return lieu;
+    }
+
+    public ThuocTrongToa(Product x, String lieu) {
+        this.lieu = lieu;
     }
 
     public void setLieu(String lieu) {
