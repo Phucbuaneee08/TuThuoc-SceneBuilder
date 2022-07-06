@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -80,11 +81,12 @@ public class AddDCController implements Initializable{
     }
 
     public void showStage(){
-        stage.show();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
     public void actionSave() {
         int rs = controller.main.getRsDC();
-        DungCu DungCu = new DungCu(rs,tfName.getText(),11,"ABC",tfUnit.getText(),"ABC");
+        DungCu DungCu = new DungCu(rs,tfName.getText(),11,tfUnit.getText(),"ABC");
         controller.main.getList().add(DungCu);
         controller.main.setRsDC(rs+1);
     }

@@ -11,16 +11,14 @@ public abstract class Product {
     public Product() {
     }
 
-    public Product(int productID, String name, int quantity, String link, String unit) {
+    public Product(int productID, String name, int quantity, String unit) {
         this.productID = productID;
         this.name = name;
         this.quantity = quantity;
-        this.link = link;
         this.unit = unit;
     }
 
     private int quantity;
-    private String link;
     private String unit;
 
     public int getProductID() {
@@ -47,13 +45,7 @@ public abstract class Product {
         this.quantity = quantity;
     }
 
-    public String getLink() {
-        return link;
-    }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
 
     public String getUnit() {
         return unit;

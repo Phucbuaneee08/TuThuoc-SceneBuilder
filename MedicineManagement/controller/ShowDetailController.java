@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -45,11 +46,12 @@ public class ShowDetailController implements Initializable{
         }
     }
     public void showStage(){
-        stage.show();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
     void setTextField(ArrayList<Text> x){
         for(Text i : x){
-            i.setWrappingWidth(tfDetail.getPrefWidth());
+            i.setWrappingWidth(tfDetail.getPrefWidth() - 30 );
             tfDetail.getChildren().add(i);
         }
     }

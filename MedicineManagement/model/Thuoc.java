@@ -10,14 +10,15 @@ import java.util.Date;
 public class Thuoc extends Product {
 
 
-    public Thuoc(int productID, String name, int quantity, String link, String unit, Date expiredDate, String effect) {
-        super(productID, name, quantity, link, unit);
+    public Thuoc(int productID, String name, int quantity, String unit, Date expiredDate, String effect) {
+        super(productID, name, quantity, unit);
         this.expiredDate = expiredDate;
         this.effect = effect;
     }
 
     private Date expiredDate;
     private String effect;
+    private String link;
 
     public Date getExpiredDate() {
         return expiredDate;
@@ -33,6 +34,10 @@ public class Thuoc extends Product {
 
     public void setEffect(String effect) {
         this.effect = effect;
+    }
+
+    public String getLink() {
+        return link;
     }
 
     @Override

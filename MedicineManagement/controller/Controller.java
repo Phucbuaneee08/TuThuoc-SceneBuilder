@@ -246,11 +246,11 @@ public class Controller implements Initializable {
                             if (product instanceof Thuoc) {
                                 AddMedController addMedController = new AddMedController(Controller.this, product);
                                 addMedController.setTextField(product.getProductID(), product.getName(),
-                                        product.getQuantity(), product.getLink(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
+                                        product.getQuantity(), ((Thuoc)product).getLink(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
                                 addMedController.showStage();
                             } else if (product instanceof DungCu) {
                                 AddDCController addDCController = new AddDCController(Controller.this, product);
-                                addDCController.setTextField1(product.getProductID(), product.getName(), product.getQuantity(), product.getLink(), product.getUnit(), ((DungCu) product).getUse());
+                                addDCController.setTextField1(product.getProductID(), product.getName(), product.getQuantity(), ((Thuoc)product).getLink(), product.getUnit(), ((DungCu) product).getUse());
                                 addDCController.showStage();
                             }
                         });

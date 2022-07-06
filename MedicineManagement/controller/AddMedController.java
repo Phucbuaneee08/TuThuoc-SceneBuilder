@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -34,8 +35,7 @@ public class AddMedController implements Initializable{
             try {
                 FXMLLoader parent =new FXMLLoader((getClass().getResource("/MedicineManagement/View/AddMed.fxml")));
                 parent.setController(this);
-                stage.setScene(new Scene(parent.load())); 
-                stage.initStyle(StageStyle.UTILITY);
+                stage.setScene(new Scene(parent.load()));
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -51,15 +51,13 @@ public class AddMedController implements Initializable{
             parent.setController(this);
             stage.setScene(new Scene(parent.load()));
             stage.initStyle(StageStyle.UTILITY);
+            stage.initModality(Modality.WINDOW_MODAL);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         btnSave.setOnAction(event ->actionSave(x));
     }
-    @FXML
-    private Button btnReset;
-
     @FXML
     private Button btnSave;
 
@@ -84,16 +82,17 @@ public class AddMedController implements Initializable{
     }
 
     public void showStage(){
-        stage.show();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 
         
     public void actionSave() {    
-    ZoneId defaultZoneId = ZoneId.systemDefault();
-    LocalDate localDate = tfHSD.getValue();
-    int rs = controller.main.getRsThuoc();
-    Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
-        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),1,"ABC",tfUnit.getText(),date,tfEffect.getText());
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        LocalDate localDate = tfHSD.getValue();
+        int rs = controller.main.getRsThuoc();
+        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),Integer.parseInt(tfQuantity.getText()),tfUnit.getText(),date,tfEffect.getText());
         controller.main.getList().add(Thuoc);
         controller.main.setRsThuoc(rs+1);
         stage.close();

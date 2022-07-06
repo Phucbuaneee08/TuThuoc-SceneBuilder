@@ -40,8 +40,7 @@ public class ReadExcelFileDemo
                 String unit = nextRow.getCell(3).getStringCellValue();
                 String effect = nextRow.getCell(4).getStringCellValue();
                 Date expiredDate = nextRow.getCell(5).getDateCellValue() ;
-                String link = nextRow.getCell(7).getStringCellValue();
-                list.add(new Thuoc(productID,name,quantity,link,unit,expiredDate,effect));
+                list.add(new Thuoc(productID,name,quantity,unit,expiredDate,effect));
             }
         }
         while (iteratorDC.hasNext()) {
@@ -52,8 +51,7 @@ public class ReadExcelFileDemo
                 int quantity = (int)nextRow.getCell(2).getNumericCellValue();
                 String unit = nextRow.getCell(3).getStringCellValue();
                 String effect = nextRow.getCell(4).getStringCellValue();
-//                String link = nextRow.getCell(5).getStringCellValue();
-                list.add(new DungCu(productID,name,quantity,"none",unit,effect));
+                list.add(new DungCu(productID,name,quantity,unit,effect));
             }
         }
         workbook.close();
@@ -99,7 +97,7 @@ public class ReadExcelFileDemo
                 cell.setCellValue(((Thuoc) x).getExpiredDate());
                 cell.setCellStyle(cellStyle);
                 cell = addRowThuoc.createCell(7);
-                cell.setCellValue(x.getLink());
+                cell.setCellValue(((Thuoc)x).getLink());
                 lastIndexThuoc++;
             } else if(x instanceof DungCu){
                 secondSheet.createRow(lastIndexDC);
