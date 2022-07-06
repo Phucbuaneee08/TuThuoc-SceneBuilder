@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -47,7 +46,7 @@ public class AddToaThuoc implements Initializable {
         this.presController = presController;
         stage = new Stage();
         try {
-            FXMLLoader parent =new FXMLLoader((getClass().getResource("/MedicineManagement/View/ToaThuocView.fxml")));
+            FXMLLoader parent =new FXMLLoader((getClass().getResource("/MedicineManagement/View/AddToaThuoc.fxml")));
             parent.setController(this);
             stage.setScene(new Scene(parent.load()));
         } catch (IOException e) {
