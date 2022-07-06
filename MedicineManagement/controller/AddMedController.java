@@ -28,19 +28,18 @@ public class AddMedController implements Initializable{
     private  Stage stage ;
     private Controller controller;
     public AddMedController(Controller controller){
-
-            this.controller = controller;
-            stage = new Stage();
-            // TO
-            try {
-                FXMLLoader parent =new FXMLLoader((getClass().getResource("/MedicineManagement/View/AddMed.fxml")));
-                parent.setController(this);
-                stage.setScene(new Scene(parent.load()));
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        this.controller = controller;
+        stage = new Stage();
+        // TO
+        try {
+            FXMLLoader parent =new FXMLLoader((getClass().getResource("/MedicineManagement/View/AddMed.fxml")));
+            parent.setController(this);
+            stage.setScene(new Scene(parent.load()));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+    }
 
     public AddMedController(Controller controller, Product x){
         this.controller = controller;
@@ -107,7 +106,9 @@ public class AddMedController implements Initializable{
         x.setUnit(tfUnit.getText());
         ((Thuoc)x).setExpiredDate(date);
         ((Thuoc)x).setEffect(tfEffect.getText());
-        controller.main.getList().set(x.getProductID()-1, x);
+        controller.table.refresh();
+//        int index = controller.main.getList().indexOf(x);
+//        controller.main.getList().set(index, x);
         stage.close();
     }
 

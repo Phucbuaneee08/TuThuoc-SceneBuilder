@@ -37,6 +37,8 @@ public class Controller implements Initializable {
     @FXML
     private AnchorPane gpToaThuoc;
 
+    @FXML AnchorPane toaThuocView;
+
     @FXML
     private GridPane gpTuThuoc;
 
@@ -89,6 +91,7 @@ public class Controller implements Initializable {
     @FXML
     private ChoiceBox<String> choiceBox;
 
+    private PresController presController ;
     public TuThuoc main = new TuThuoc();
 
 
@@ -98,11 +101,17 @@ public class Controller implements Initializable {
         choiceBox.getItems().add("Thuốc");
         choiceBox.getItems().add("Dụng Cụ");
         choiceBox.setValue("Thuốc");
+
         try {
             addButtonToTable();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+        try {
+            presController= new PresController(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     //Click on button
@@ -117,10 +126,6 @@ public class Controller implements Initializable {
         if(event.getSource() == btnToaThuoc){
             lblStatusMini.setText("/home/ToaThuoc");
             lblStatus.setText("KHO LƯU TOA THUỐC");
-
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/MedicineManagement/View/ToaThuoc.fxml"));
-            gpToaThuoc.getChildren().removeAll();
-            gpToaThuoc.getChildren().setAll(pane);
             gpToaThuoc.toFront();
         }
         if(event.getSource() == btnTienIch){
@@ -195,7 +200,6 @@ public class Controller implements Initializable {
                 if(newVal == null || newVal.isEmpty()){
                     return true;
                 }
-
                 String lowerCase =newVal.toLowerCase();
 
                 if(product.getName().toLowerCase().indexOf(lowerCase) != -1){
@@ -242,7 +246,7 @@ public class Controller implements Initializable {
                         btn.getItems().add(m3);
                         //set action for edit button
                         m1.setOnAction(event -> {
-                            Product product = table.getSelectionModel().getSelectedItem();
+                            Product product = getTableRow().getItem();
                             if (product instanceof Thuoc) {
                                 AddMedController addMedController = new AddMedController(Controller.this, product);
                                 addMedController.setTextField(product.getProductID(), product.getName(),
@@ -256,11 +260,11 @@ public class Controller implements Initializable {
                         });
                         //set action for remove button
                         m2.setOnAction(event -> {
-                            Product SingleProduct = table.getSelectionModel().getSelectedItem();
-                            main.getList().remove(SingleProduct);
+                            Product rmProduct = getTableRow().getItem();
+                            main.getList().remove(rmProduct);
                         });
                         m3.setOnAction(event -> {
-                            Product product = table.getSelectionModel().getSelectedItem();
+                            Product product = getTableRow().getItem();
                             if (product instanceof Thuoc) {
                                 ShowDetailController showDetailController = new ShowDetailController(Controller.this, product);
                                 showDetailController.setTextField(product.getInfo());
@@ -291,7 +295,9 @@ public class Controller implements Initializable {
         };
 
         colBtn.setCellFactory(cellFactory);
-
         table.getColumns().add(colBtn);
         }
+    public void setToaThuocView(AnchorPane x) {
+        this.toaThuocView.getChildren().setAll(x);
     }
+}

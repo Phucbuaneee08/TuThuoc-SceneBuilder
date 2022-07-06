@@ -35,7 +35,7 @@ public class ToaThuoc {
         this.name = name;
     }
 
+    public void showInfo(){
 
-
-
+    }
 }
