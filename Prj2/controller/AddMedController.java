@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -88,7 +89,8 @@ public class AddMedController implements Initializable{
     }
 
     public void showStage(){
-        stage.show();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 
         
@@ -112,7 +114,8 @@ public class AddMedController implements Initializable{
         x.setUnit(tfUnit.getText());
         ((Thuoc)x).setExpiredDate(date);
         ((Thuoc)x).setEffect(tfEffect.getText());
-        controller.main.getList().set(x.getProductID()-1, x);
+        controller.table.refresh();
+        // controller.main.getList().set(x.getProductID()-1, x);
         stage.close();
     }
 

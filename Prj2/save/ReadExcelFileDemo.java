@@ -56,8 +56,9 @@ public class ReadExcelFileDemo
                 int quantity = (int)nextRow.getCell(2).getNumericCellValue();
                 String unit = nextRow.getCell(3).getStringCellValue();
                 String effect = nextRow.getCell(4).getStringCellValue();
+              
 //                String link = nextRow.getCell(5).getStringCellValue();
-                list.add(new DungCu(productID,name,quantity,"none",unit,effect));
+                list.add(new DungCu(productID,name,quantity,unit,effect));
             }
         }
         workbook.close();

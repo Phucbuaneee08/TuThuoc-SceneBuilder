@@ -2,22 +2,18 @@ package Prj2.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import Prj2.model.DungCu;
 import Prj2.model.Product;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -25,13 +21,13 @@ import javafx.stage.StageStyle;
 public class AddDCController implements Initializable{
 
     private  Stage stage ;
-    private Controller controller ;
+    private Controller controller;
     public AddDCController(Controller controller){
         this.controller = controller;
         stage = new Stage();
         // TO
         try {
-            FXMLLoader parent =new FXMLLoader((getClass().getResource("/Prj2/View/AddDungCu.fxml")));
+            FXMLLoader parent =new FXMLLoader((getClass().getResource("/Prj2/View/AddDC.fxml")));
             parent.setController(this);
             stage.setScene(new Scene(parent.load())); 
             stage.initStyle(StageStyle.UTILITY);
@@ -46,7 +42,7 @@ public class AddDCController implements Initializable{
         stage = new Stage();
         // TO
         try {
-            FXMLLoader parent =new FXMLLoader((getClass().getResource("/Prj2/View/AddDungCu.fxml")));
+            FXMLLoader parent =new FXMLLoader((getClass().getResource("/Prj2/View/AddDC.fxml")));
             parent.setController(this);
             stage.setScene(new Scene(parent.load())); 
             stage.initStyle(StageStyle.UTILITY);
@@ -85,13 +81,15 @@ public class AddDCController implements Initializable{
     }
 
     public void showStage(){
-        stage.show();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
     public void actionSave() {
         int rs = controller.main.getRsDC();
-        DungCu DungCu = new DungCu(rs,tfName.getText(),11,"ABC",tfUnit.getText(),"ABC");
+        DungCu DungCu = new DungCu(rs,tfName.getText(),Integer.parseInt(tfQuantity.getText()),tfUnit.getText(),"ABC");
         controller.main.getList().add(DungCu);
         controller.main.setRsDC(rs+1);
+        stage.close();
     }
     public void actionSave(Product x){
     
@@ -99,24 +97,17 @@ public class AddDCController implements Initializable{
         x.setQuantity(Integer.valueOf(tfQuantity.getText()));
         x.setUnit(tfUnit.getText());
         ((DungCu)x).setUse(tfEffect.getText());
-        controller.main.getList().set(x.getProductID()-1, x);
+//        int index = controller.main.getList().indexOf(x);
+//        controller.main.getList().set(index, x);
+        controller.table.refresh();
         stage.close();
     }
 
     void setTextField1(int ProductID, String name,int quantity,String link,String unit,String use){
-        
         tfName.setText(name);
         tfQuantity.setText(quantity+"");
         tfUnit.setText(unit);
         tfEffect.setText(use);
-       
-
     }
 
-    @FXML
-    private void handleClose(javafx.scene.input.MouseEvent event){
-        if(event.getSource()==btnClose){
-            
-        }
-    }
 }

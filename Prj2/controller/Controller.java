@@ -61,6 +61,8 @@ public class Controller implements Initializable {
     @FXML
     private GridPane gpTienIch;
 
+    @FXML 
+    private AnchorPane toaThuocView;
     @FXML
     private AnchorPane gpToaThuoc;
 
@@ -120,9 +122,11 @@ public class Controller implements Initializable {
     private TableColumn<Product, String> unit;
     @FXML
     private TableColumn<Product, Integer> quantity;
+    
     // private Date date = new Date();
     // public static int c = 11;
-
+    private PresController presController ;
+   
     // public ObservableList<Product> list = FXCollections.observableArrayList();
 
     @Override
@@ -140,6 +144,11 @@ public class Controller implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        try {
+            presController= new PresController(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         //Search bar for TableView
         }
     //Click on button
@@ -153,18 +162,7 @@ public class Controller implements Initializable {
         if(event.getSource() == btnToaThuoc){
             lblStatusMini.setText("/home/ToaThuoc");
             lblStatus.setText("KHO LƯU TOA THUỐC");
-
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/Prj2/View/ToaThuoc.fxml"));
-            gpToaThuoc.getChildren().removeAll();
-            gpToaThuoc.getChildren().setAll(pane);
             gpToaThuoc.toFront();
-        }
-        if(event.getSource() == btnAddTT){
-            Parent parent = FXMLLoader.load(getClass().getResource("/Prj2/View/AddToaThuoc.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(parent)); 
-            stage.initStyle(StageStyle.UTILITY);
-            stage.show();
         }
         if(event.getSource() == btnTienIch){
             lblStatusMini.setText("/home/TienIch");
@@ -187,6 +185,13 @@ public class Controller implements Initializable {
     @FXML
     private void handleClose(javafx.scene.input.MouseEvent event){
         if(event.getSource()==btnClose){
+            try {
+                ReadExcelFileDemo excel = new ReadExcelFileDemo();
+                excel.setExcelList(new ArrayList<>(table.getItems()));
+//                System.out.println(excel.getDiffNumRow());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             System.exit(0);
         }
     }
@@ -245,7 +250,7 @@ public class Controller implements Initializable {
                     btn.getItems().add(m3);
                     //set action for edit button
                     m1.setOnAction(event->{
-                        Product product = table.getSelectionModel().getSelectedItem();
+                        Product product = getTableRow().getItem();
                         if(product instanceof Thuoc){
                             AddMedController addMedController = new AddMedController(Controller.this ,product) ;
                             addMedController.setTextField(product.getProductID(), product.getName(), 
@@ -259,14 +264,14 @@ public class Controller implements Initializable {
                     });
                     //set action for remove button
                     m2.setOnAction(event->{
-                            Product SingleProduct = table.getSelectionModel().getSelectedItem();
+                            Product SingleProduct = getTableRow().getItem();
                             main.getList().remove(SingleProduct);
                     });
                     m3.setOnAction(event->{
-                        Product product = table.getSelectionModel().getSelectedItem();
+                        Product product = getTableRow().getItem();
                         if(product instanceof Thuoc){
                             ShowDetailController showDetailController = new ShowDetailController(Controller.this ,product) ;
-                            showDetailController.setTextField(product.getName());
+                            showDetailController.setTextField(product.getInfo());
                             showDetailController.showStage();}
                         // else if(product instanceof DungCu){
                         //     AddDCController addDCController = new AddDCController(Controller.this , product);
@@ -292,8 +297,8 @@ public class Controller implements Initializable {
         };
 
         colBtn.setCellFactory(cellFactory);
-
         table.getColumns().add(colBtn);
+
 
     }
     public void showTuThuoc(){
@@ -357,6 +362,9 @@ public class Controller implements Initializable {
 
         //Option
         
+    }
+    public void setToaThuocView(AnchorPane x) {
+        this.toaThuocView.getChildren().setAll(x);
     }
     
 }

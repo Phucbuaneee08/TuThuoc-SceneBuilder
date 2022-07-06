@@ -1,64 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="399.0" style="-fx-background-color: #08162b;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="556.0" prefWidth="390.0" style="-fx-background-color: #08172c;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField layoutX="92.0" layoutY="98.0" prefHeight="31.0" prefWidth="214.0" />
-      <DatePicker layoutX="92.0" layoutY="153.0" prefHeight="38.0" prefWidth="89.0" />
-      <DatePicker layoutX="223.0" layoutY="153.0" prefHeight="38.0" prefWidth="82.0" />
-      <Text fill="#f2bb73" layoutX="196.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to " wrappingWidth="18.384765625">
-         <font>
-            <Font name="Cambria Bold" size="12.0" />
-         </font></Text>
-      <Text fill="#f2bb73" layoutX="47.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NHẬP TOA THUỐC" wrappingWidth="327.20545959472656">
-         <font>
-            <Font name="Book Antiqua Bold" size="32.0" />
-         </font>
-      </Text>
-      <Button layoutX="169.0" layoutY="212.0" mnemonicParsing="false" style="-fx-background-color: #f2bb73;">
-         <graphic>
-            <FontAwesomeIcon glyphName="PLUS" />
-         </graphic>
-      </Button>
-      <Button layoutX="210.0" layoutY="212.0" mnemonicParsing="false" style="-fx-background-color: #45cc73;">
-         <graphic>
-            <FontAwesomeIcon glyphName="MINUS" />
-         </graphic>
-      </Button>
-      <ScrollPane layoutX="95.0" layoutY="244.0" prefHeight="177.0" prefWidth="214.0">
+      <ScrollPane layoutX="52.0" layoutY="240.0" prefHeight="226.0" prefWidth="303.0">
          <content>
-            <HBox prefHeight="36.0" prefWidth="214.0">
+            <VBox fx:id="vbThemThuoc" prefHeight="228.0" prefWidth="290.0">
                <children>
-                  <ComboBox prefHeight="30.0" prefWidth="135.0" promptText="Chọn thuốc" />
-                  <TextField prefHeight="30.0" prefWidth="58.0" promptText="Số ngày">
-                     <HBox.margin>
-                        <Insets left="21.0" />
-                     </HBox.margin>
-                  </TextField>
+                  <HBox prefHeight="34.0" prefWidth="301.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <ChoiceBox prefHeight="28.0" prefWidth="152.0">
+                           <HBox.margin>
+                              <Insets top="3.0" />
+                           </HBox.margin>
+                        </ChoiceBox>
+                        <TextField prefHeight="28.0" prefWidth="78.0" promptText="Liều lượng">
+                           <HBox.margin>
+                              <Insets left="14.0" right="14.0" top="3.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="22.0">
+                           <HBox.margin>
+                              <Insets top="3.0" />
+                           </HBox.margin>
+                           <graphic>
+                              <ImageView fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </content>
       </ScrollPane>
-      <Pane layoutX="-6.0" layoutY="70.0" prefHeight="6.0" prefWidth="407.0" style="-fx-background-color: #111111;">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Pane>
-      <Text fill="#f2bb73" layoutX="47.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From">
+      <Text fill="#fdcb03" layoutX="30.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên Toa :" wrappingWidth="124.13671875">
          <font>
-            <Font name="Cambria Bold" size="12.0" />
+            <Font name="Cambria Bold" size="18.0" />
+         </font></Text>
+      <TextField fx:id="tfName" layoutX="167.0" layoutY="119.0" prefHeight="35.0" prefWidth="177.0" />
+      <Text fill="#fdcb03" layoutX="32.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liệu trình : ">
+         <font>
+            <Font name="Cambria Bold" size="18.0" />
+         </font></Text>
+      <DatePicker fx:id="tfDateStart" layoutX="167.0" layoutY="174.0" prefHeight="26.0" prefWidth="74.0" />
+      <DatePicker fx:id="tfDateEnd" layoutX="271.0" layoutY="174.0" prefHeight="26.0" prefWidth="72.0" />
+      <Button fx:id="btnThemThuoc" layoutX="117.0" layoutY="494.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="72.0" style="-fx-background-color: #00e041;" textFill="#00e041">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Source/3524384.gif" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnThemToa" layoutX="228.0" layoutY="494.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="72.0" style="-fx-background-color: #08172c; -fx-border-color: #ffffff;" text="Save" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Bold" size="18.0" />
+         </font></Button>
+      <Pane layoutX="30.0" layoutY="64.0" prefHeight="4.0" prefWidth="366.0" style="-fx-background-color: #111111;" />
+      <Pane layoutX="2.0" prefHeight="66.0" prefWidth="403.0" style="-fx-background-color: #08162b; -fx-border-color: #fdcb03; -fx-border-width: 4;">
+         <children>
+            <Text fill="#f2bb73" layoutX="57.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THÊM TOA THUỐC ">
+               <font>
+                  <Font name="Bell MT Bold" size="31.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Text fill="#fdcb03" layoutX="246.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to">
+         <font>
+            <Font name="Cambria Bold" size="18.0" />
          </font>
       </Text>
    </children>

@@ -1,6 +1,7 @@
 package Prj2;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +32,7 @@ public class Main extends Application {
         });
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setOnHidden(e -> Platform.exit());
         primaryStage.show();
     }
     public static void main(String[] args){launch(args);}

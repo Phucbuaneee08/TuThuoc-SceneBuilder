@@ -1,5 +1,6 @@
 package Prj2.model;
-
+import javafx.scene.text.Text;
+import java.util.ArrayList;
 public abstract class Product {
     private int productID;
     private String name;
@@ -11,7 +12,6 @@ public abstract class Product {
         this.productID = productID;
         this.name = name;
         this.quantity = quantity;
-        this.link = link;
         this.unit = unit;
     }
 
@@ -57,5 +57,12 @@ public abstract class Product {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+    public ArrayList<Text> getInfo(){
+        ArrayList<Text> listInfo = new ArrayList<>();
+        listInfo.add(0,new Text("Tên sản phẩm: " + this.name));
+        listInfo.add(1,new Text("Số lượng: " + this.quantity));
+        listInfo.add(2,new Text ("Đơn vị: " + this.unit));
+        return listInfo;
     }
 }
