@@ -67,6 +67,7 @@ public class ReadExcelFileDemo
         }
         return true;
     }
+
     public void setExcelList(ArrayList<Product> saveList) throws IOException{
         InputStream inputStream =  new FileInputStream(new File(excelPath));
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -75,12 +76,21 @@ public class ReadExcelFileDemo
         CellStyle cellStyle = workbook.createCellStyle();
         CreationHelper creationHelper = workbook.getCreationHelper();
         cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd/mm/yyyy"));
-        int lastIndexThuoc = 1;
-        int lastIndexDC = 1;
+        int indexThuoc = 1;
+        int indexDC = 1;
+        for (int index = firstSheet.getLastRowNum(); index > firstSheet.getFirstRowNum(); index--) {
+            if(firstSheet.getRow(index) != null){
+            firstSheet.removeRow( firstSheet.getRow(index));}
+        }
+        for (int index = secondSheet.getLastRowNum(); index > secondSheet.getFirstRowNum(); index--) {
+            if(secondSheet.getRow(index) != null){
+                secondSheet.removeRow( secondSheet.getRow(index));}
+        }
+        //rewrite
         for(Product x: saveList){
-            if(x instanceof Thuoc){
-                firstSheet.createRow(lastIndexThuoc);
-                Row addRowThuoc = firstSheet.getRow(lastIndexThuoc);
+            if(x instanceof Thuoc ){
+                firstSheet.createRow(indexThuoc);
+                Row addRowThuoc = firstSheet.getRow(indexThuoc);
                 Cell cell;
                 cell = addRowThuoc.createCell(0);
                 cell.setCellValue(x.getProductID());
@@ -98,10 +108,10 @@ public class ReadExcelFileDemo
                 cell.setCellStyle(cellStyle);
                 cell = addRowThuoc.createCell(7);
                 cell.setCellValue(((Thuoc)x).getLink());
-                lastIndexThuoc++;
+                indexThuoc++;
             } else if(x instanceof DungCu){
-                secondSheet.createRow(lastIndexDC);
-                Row addRowDC = secondSheet.getRow(lastIndexDC);
+                secondSheet.createRow(indexDC);
+                Row addRowDC = secondSheet.getRow(indexDC);
                 Cell cell;
                 cell = addRowDC.createCell(0);
                 cell.setCellValue(x.getProductID());
@@ -114,7 +124,7 @@ public class ReadExcelFileDemo
                 cell =addRowDC.createCell(4);
                 String effect = ((DungCu) x).getUse();
                 cell.setCellValue(effect);
-                lastIndexDC++;
+                indexDC++;
             }
         }
         FileOutputStream fileOut = new FileOutputStream(excelPath);
