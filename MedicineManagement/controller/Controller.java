@@ -28,71 +28,33 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    @FXML
-    private GridPane gpCaiDat;
-
-    @FXML
-    private GridPane gpTienIch;
-
-    @FXML
-    private AnchorPane gpToaThuoc;
-
+    @FXML private GridPane gpCaiDat;
+    @FXML private AnchorPane gpTienIch;
+    @FXML AnchorPane tienIchView;
+    @FXML private AnchorPane gpToaThuoc;
     @FXML AnchorPane toaThuocView;
-
-    @FXML
-    private GridPane gpTuThuoc;
-
-    @FXML
-    private Button btnAddMed;
-
-    @FXML
-    private Button btnCaiDat;
-
-    @FXML
-    private Button btnTienIch;
-
-    @FXML
-    private Button btnToaThuoc;
-
-    @FXML
-    private Button btnTuThuoc;
-
-    @FXML
-    private TextField tfSearch;
-    
-    @FXML
-    private Label lblStatus;
-
-    @FXML
-    private Label lblStatusMini;
-    
-    @FXML
-    private VBox pnlStatus;
-
+    @FXML private GridPane gpTuThuoc;
+    @FXML private Button btnCaiDat;
+    @FXML private Button btnTienIch;
+    @FXML private Button btnToaThuoc;
+    @FXML private Button btnTuThuoc;
+    @FXML private TextField tfSearch;
+    @FXML private Label lblStatus;
+    @FXML private Label lblStatusMini;
+    @FXML private VBox pnlStatus;
     @FXML private ComboBox filterBox;
-    
-    @FXML
-    private ImageView btnClose;
+    @FXML private ImageView btnClose;
     //insert data on table view
-
-    @FXML
-    public TableView<Product> table;
-    @FXML
-    private TableColumn<Product, Integer> productID;
-    @FXML
-    private TableColumn<Product, String> name;
-    @FXML
-    private TableColumn<Thuoc, String> expiredDate;
-    @FXML
-    private TableColumn<Product, String> effect;
-    @FXML
-    private TableColumn<Product, String> unit;
-    @FXML
-    private TableColumn<Product, Integer> quantity;
-    @FXML
-    private ChoiceBox<String> choiceBox;
-
+    @FXML public TableView<Product> table;
+    @FXML private TableColumn<Product, Integer> productID;
+    @FXML private TableColumn<Product, String> name;
+    @FXML private TableColumn<Thuoc, String> expiredDate;
+    @FXML private TableColumn<Product, String> effect;
+    @FXML private TableColumn<Product, String> unit;
+    @FXML private TableColumn<Product, Integer> quantity;
+    @FXML private ChoiceBox<String> choiceBox;
     private PresController presController ;
+    private TinTucController tinTucController;
     public TuThuoc main = new TuThuoc();
 
 
@@ -113,6 +75,7 @@ public class Controller implements Initializable {
         }
         try {
             presController= new PresController(this);
+            tinTucController = new TinTucController(this);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -134,7 +97,6 @@ public class Controller implements Initializable {
         if(event.getSource() == btnTienIch){
             lblStatusMini.setText("/home/TienIch");
             lblStatus.setText("TIN MỚI TRONG NGÀY");
-            pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpTienIch.toFront();
         }
         if(event.getSource() == btnCaiDat){
@@ -245,7 +207,6 @@ public class Controller implements Initializable {
         table.setItems(sortedData);
     }
 
-
     private void addButtonToTable() throws IOException {
         TableColumn<Product, Void> colBtn = new TableColumn("");
         colBtn.setMaxWidth(1200);
@@ -320,5 +281,8 @@ public class Controller implements Initializable {
     }
     public void setToaThuocView(AnchorPane x) {
         this.toaThuocView.getChildren().setAll(x);
+    }
+    public void setTienIchView(AnchorPane x) {
+        this.tienIchView.getChildren().setAll(x);
     }
 }
