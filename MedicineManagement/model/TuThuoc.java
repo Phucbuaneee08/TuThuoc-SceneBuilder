@@ -52,5 +52,25 @@ public class TuThuoc {
     public ObservableList<Product> getList() {
         return this.list;
     }
+    public ObservableList<Product> getListThuoc() {
+
+        for(Product x : this.list) {
+            if(x instanceof Thuoc){
+                this.listThuoc.add(x);
+            }
+        }
+        return this.listThuoc;
+    }
+    public ObservableList<Product> getListDC() {
+
+        for(Product x : this.list) {
+            if(x instanceof DungCu){
+                this.listDC.add(x);
+            }
+        }
+        return this.listDC;
+    }
     private ObservableList<Product> list = FXCollections.observableArrayList();
+    private ObservableList<Product> listThuoc = FXCollections.observableArrayList();
+    private ObservableList<Product> listDC = FXCollections.observableArrayList();
 }

@@ -69,6 +69,7 @@ public class Controller implements Initializable {
     @FXML
     private VBox pnlStatus;
 
+    @FXML private ComboBox filterBox;
     
     @FXML
     private ImageView btnClose;
@@ -101,7 +102,9 @@ public class Controller implements Initializable {
         choiceBox.getItems().add("Thuốc");
         choiceBox.getItems().add("Dụng Cụ");
         choiceBox.setValue("Thuốc");
-
+        filterBox.getItems().add("Thuốc");
+        filterBox.getItems().add("Dụng Cụ");
+        filterBox.getItems().add("Tất Cả");
         try {
             addButtonToTable();
         } catch (Exception e) {
@@ -140,17 +143,13 @@ public class Controller implements Initializable {
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpCaiDat.toFront();
         }
-        if(event.getSource() == btnAddMed){
-            
-        }
-    
-    //Close app
     }
     @FXML
     private void handleClose(javafx.scene.input.MouseEvent event){
         if(event.getSource()==btnClose){
             try {
                 ReadExcelFileDemo excel = new ReadExcelFileDemo();
+                System.out.println(table.getItems());
                 excel.setExcelList(new ArrayList<>(table.getItems()));
 //                System.out.println(excel.getDiffNumRow());
             } catch (IOException e) {
@@ -194,7 +193,26 @@ public class Controller implements Initializable {
         );
         unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        FilteredList<Product> filteredData = new FilteredList<>(main.getList(),b->true);
+        FilteredList<Product> filteredData;
+        filteredData = new FilteredList<>(main.getList(),b->true);
+        this.filterBox.valueProperty().addListener(((observableValue, oldVal, newVal) ->{
+            filteredData.setPredicate(product -> {
+                if(newVal == null || newVal == "Tất Cả"){
+                    return true;
+                }
+                else if(newVal == "Thuốc"){
+                    if(product instanceof Thuoc){
+                        return true;
+                    }
+                }
+                else if(newVal == "Dụng Cụ"){
+                    if(product instanceof  DungCu){
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }));
         this.tfSearch.textProperty().addListener(((observableValue, oldVal, newVal) ->{
             filteredData.setPredicate(product -> {
                 if(newVal == null || newVal.isEmpty()){
@@ -204,14 +222,14 @@ public class Controller implements Initializable {
 
                 if(product.getName().toLowerCase().indexOf(lowerCase) != -1){
                     return true;
-                }else if(product instanceof Thuoc){
-                    if(((Thuoc) product).getEffect().toLowerCase().indexOf(lowerCase) != -1){
+                }else if(product instanceof Thuoc && filterBox.getValue() == "Thuốc"){
+                    if(((Thuoc) product).getEffect().toLowerCase().indexOf(lowerCase) != -1 ){
                         return true;
                     } else {
                         return false;
                     }
-                } else if(product instanceof DungCu){
-                    if(((DungCu) product).getUse().toLowerCase().indexOf(lowerCase) != -1){
+                } else if(product instanceof DungCu &&  filterBox.getValue() == "Dụng Cụ"){
+                    if(((DungCu) product).getUse().toLowerCase().indexOf(lowerCase) != -1 ){
                         return true;
                     } else {
                         return false;
@@ -226,6 +244,7 @@ public class Controller implements Initializable {
         sortedData.comparatorProperty().bind(table.comparatorProperty());
         table.setItems(sortedData);
     }
+
 
     private void addButtonToTable() throws IOException {
         TableColumn<Product, Void> colBtn = new TableColumn("");
@@ -262,6 +281,8 @@ public class Controller implements Initializable {
                         m2.setOnAction(event -> {
                             Product rmProduct = getTableRow().getItem();
                             main.getList().remove(rmProduct);
+
+                            System.out.println(table.getItems());
                         });
                         m3.setOnAction(event -> {
                             Product product = getTableRow().getItem();
@@ -296,7 +317,7 @@ public class Controller implements Initializable {
 
         colBtn.setCellFactory(cellFactory);
         table.getColumns().add(colBtn);
-        }
+    }
     public void setToaThuocView(AnchorPane x) {
         this.toaThuocView.getChildren().setAll(x);
     }
