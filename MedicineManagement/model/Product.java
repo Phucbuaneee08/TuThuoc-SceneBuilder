@@ -1,5 +1,7 @@
 package MedicineManagement.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -11,14 +13,13 @@ public abstract class Product {
     public Product() {
     }
 
-    public Product(int productID, String name, int quantity, String unit) {
+    public Product(int productID, String name, String unit) {
         this.productID = productID;
         this.name = name;
-        this.quantity = quantity;
         this.unit = unit;
     }
 
-    private int quantity;
+
     private String unit;
 
     public int getProductID() {
@@ -37,16 +38,6 @@ public abstract class Product {
         this.name = name;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-
-
     public String getUnit() {
         return unit;
     }
@@ -57,8 +48,8 @@ public abstract class Product {
     public ArrayList<Text> getInfo(){
         ArrayList<Text> listInfo = new ArrayList<>();
         listInfo.add(0,new Text("Tên sản phẩm: " + this.name));
-        listInfo.add(1,new Text("Số lượng: " + this.quantity));
-        listInfo.add(2,new Text ("Đơn vị: " + this.unit));
+        listInfo.add(1,new Text ("Đơn vị: " + this.unit));
         return listInfo;
     }
+
 }

@@ -1,6 +1,7 @@
 package MedicineManagement.model;
 
 import MedicineManagement.Service.CrawlInfo;
+import javafx.collections.ObservableList;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -8,10 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Thuoc extends Product {
+    private int quantity;
 
-
-    public Thuoc(int productID, String name, int quantity, String unit, Date expiredDate, String effect) {
-        super(productID, name, quantity, unit);
+    public Thuoc(int productID, String name, String unit, int quantity ,Date expiredDate, String effect) {
+        super(productID, name , unit);
+        this.quantity = quantity;
         this.expiredDate = expiredDate;
         this.effect = effect;
     }
@@ -19,6 +21,14 @@ public class Thuoc extends Product {
     private Date expiredDate;
     private String effect;
     private String link;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public Date getExpiredDate() {
         return expiredDate;
@@ -49,7 +59,17 @@ public class Thuoc extends Product {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        x.add(new Text("Số Lượng: "+Integer.toString(this.quantity)));
         x.addAll(info.listText);
         return x;
+    }
+
+    public ObservableList<TinTuc> getNews() throws IOException {
+        CrawlInfo info = new CrawlInfo();
+        if(info.timThuoc(this.getName())){
+            return info.getTinThuoc(this.getName());
+        } else {
+            return null;
+        }
     }
 }

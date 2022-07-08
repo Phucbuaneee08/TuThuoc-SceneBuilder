@@ -4,10 +4,20 @@ public class DungCu extends Product {
 
 
     private String use;
+    private int quantity;
 
-    public DungCu(int productID, String name, int quantity, String unit, String use) {
-        super(productID, name, quantity, unit);
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public DungCu(int productID, String name, String unit, int quantity, String use) {
+        super(productID, name, unit);
         this.use = use;
+        this.quantity = quantity;
     }
 
     public String getUse() {

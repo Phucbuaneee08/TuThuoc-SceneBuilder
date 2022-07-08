@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import MedicineManagement.model.TinTuc;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
@@ -15,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import org.apache.poi.ss.formula.functions.T;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -70,19 +73,73 @@ public class CrawlInfo  {
     public ObservableList<TinTuc> crawlTinTuc(int page) throws IOException {
         ObservableList<TinTuc> listTinTuc = FXCollections.observableArrayList();
         String url = "https://vinmec.com/vi/tin-tuc/?page="+Integer.toString(page);
+        try{
+            Document doc = Jsoup.connect(url)
+                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36 OPR/88.0.4412.65")
+                    .get();
+            Elements urls = doc.select("div.post-list > ul >  li");
+            for(Element x: urls){
+                String url1 = x.select("a img").attr("v-lazy").replace("'","");
+                String name = x.select("h2 a").text();
+                x.select("h2 a").remove();
+                String des = x.select("div.post-content").text();
+                String link ="https://vinmec.com"+ x.select("li a").first().attr("href").replace("'","");
+                TinTuc tinTuc = new TinTuc(url1,name,des,link);
+                listTinTuc.add(tinTuc);
+            }
+        } catch (Exception e){
+            listTinTuc = null;
+            e.printStackTrace();
+        }
+        return listTinTuc;
+    }
+
+    public boolean timThuoc(String name) throws IOException{
+        ArrayList<String> listName = new ArrayList<>();
+        String url = "https://hellobacsi.com/thuoc/";
         Document doc = Jsoup.connect(url)
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36 OPR/88.0.4412.65")
                 .get();
-        Elements urls = doc.select("div.post-list > ul >  li");
-        for(Element x: urls){
-            String url1 = x.select("a img").attr("v-lazy").replace("'","");
-            String name = x.select("h2 a").text();
-            x.select("h2 a").remove();
-            String des = x.select("div.post-content").text();
-            TinTuc tinTuc = new TinTuc(url1,name,des);
-            listTinTuc.add(tinTuc);
+        Elements e = doc.select("a:contains("+name+")");
+        if(e.text() != ""){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public ObservableList<TinTuc> getTinThuoc (String s) throws IOException {
+        ObservableList<TinTuc> listTinTuc = FXCollections.observableArrayList();
+        String url= "https://wp.hellobacsi.com/wp-json/api/search?s="+s+"&page=1";
+        String data = Jsoup.connect(url)
+                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36 OPR/88.0.4412.65")
+                .ignoreContentType(true).execute().body();
+
+        JsonObject json = new JsonParser().parse(data).getAsJsonObject();
+        JsonArray jsonArray = json
+                .get("data").getAsJsonObject()
+                .get("posts").getAsJsonArray();
+        for(JsonElement x: jsonArray){
+            System.out.println(x.getAsJsonObject().get("image_thumbnail").getAsString().replaceAll("\"",""));
+            String url1 = x.getAsJsonObject().get("image_thumbnail").getAsString().replaceAll("\"","");
+            String name = x.getAsJsonObject().get("post_title").getAsString();
+            String des = x.getAsJsonObject().get("excerpt").getAsString();
+            String link = "https://hellobacsi.com" + x.getAsJsonObject().get("permalink").getAsString().replaceAll("\"","");
+            if(url1 == "false") {
+                url1 = "https://hellobacsi.com/images/default-image.jpg";
+            }
+            listTinTuc.add(new TinTuc(url1,name,des,link));
         }
         return listTinTuc;
+    }
+
+    public static void main(String args[]){
+        CrawlInfo c = new CrawlInfo();
+        try {
+            ObservableList<TinTuc> list = c.getTinThuoc("Paracetamol");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

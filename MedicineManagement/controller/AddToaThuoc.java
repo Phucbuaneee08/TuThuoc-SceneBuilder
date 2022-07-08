@@ -109,9 +109,11 @@ public class AddToaThuoc implements Initializable {
         Date dateStart = Date.from(localDateStart.atStartOfDay(defaultZoneId).toInstant());
         Date dateEnd = Date.from(localDateEnd.atStartOfDay(defaultZoneId).toInstant());
         for(Node x : vbThemThuoc.getChildren()) {
-            ThuocTrongToa t = new ThuocTrongToa(((ComboBox<Product>) ((HBox) x).getChildren().get(0)).getValue(),((TextField) ((HBox) x).getChildren().get(2)).getText());
+            Product product = ((ComboBox<Product>) ((HBox) x).getChildren().get(0)).getValue();
+            ThuocTrongToa t = new ThuocTrongToa(toaThuoc.getListProduct().size(),product.getName(), product.getUnit(), ((TextField) ((HBox) x).getChildren().get(2)).getText());
             toaThuoc.getListProduct().add(t);
         }
+        toaThuoc.setPresID(presController.lastIndexToa);
         toaThuoc.setEndDate(dateEnd);
         toaThuoc.setStartedDate(dateStart);
         toaThuoc.setName(name);

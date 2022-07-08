@@ -2,6 +2,7 @@ package MedicineManagement.model;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,18 +13,25 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class TinTucBox extends ListCell<TinTuc> {
     private ImageView imageView;
     private HBox hbox;
-    private Text name;
-    private Text des;
 
+    private Text des;
+    private Text name;
+    private Hyperlink link;
     public TinTucBox() {
         super();
-        this.name = new Text();
         this.des = new Text();
         this.imageView =new ImageView();
-        VBox vBox = new VBox(this.name, this.des);
+        this.name = new Text();
+        this.link = new Hyperlink();
+        VBox vBox = new VBox(this.link, this.des);
         hbox = new HBox(imageView,vBox);
     }
 
@@ -37,6 +45,16 @@ public class TinTucBox extends ListCell<TinTuc> {
             name.setText(item.getName());
             name.setWrappingWidth(350);
             name.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR,20));
+            link.setGraphic(name);
+            link.setOnAction(event -> {
+                try {
+                    Desktop.getDesktop().browse(new URI(item.getLink()));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            });
             des.setText(item.getDes());
             des.setWrappingWidth(350);
             hbox.setPadding(new Insets(5,5,5,5));

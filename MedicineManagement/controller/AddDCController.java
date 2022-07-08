@@ -86,7 +86,7 @@ public class AddDCController implements Initializable{
     }
     public void actionSave() {
         int rs = controller.main.getRsDC();
-        DungCu DungCu = new DungCu(rs,tfName.getText(),Integer.parseInt(tfQuantity.getText()),tfUnit.getText(),"ABC");
+        DungCu DungCu = new DungCu(rs,tfName.getText(),tfUnit.getText(),Integer.parseInt(tfQuantity.getText()),"ABC");
         controller.main.getList().add(DungCu);
         controller.main.setRsDC(rs+1);
         stage.close();
@@ -94,7 +94,7 @@ public class AddDCController implements Initializable{
     public void actionSave(Product x){
     
         x.setName(tfName.getText());
-        x.setQuantity(Integer.valueOf(tfQuantity.getText()));
+        ((DungCu)x).setQuantity(Integer.valueOf(tfQuantity.getText()));
         x.setUnit(tfUnit.getText());
         ((DungCu)x).setUse(tfEffect.getText());
 //        int index = controller.main.getList().indexOf(x);

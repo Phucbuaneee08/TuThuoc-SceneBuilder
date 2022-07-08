@@ -25,11 +25,11 @@ public class ToaThuoc {
         this.endDate = endDate;
     }
 
-    public ArrayList<Product> getListProduct() {
+    public ArrayList<ThuocTrongToa> getListProduct() {
         return this.listProduct;
     }
 
-    public ToaThuoc(int presID, String name, Date startedDate, Date endDate, ArrayList<Product> listProduct) {
+    public ToaThuoc(int presID, String name, Date startedDate, Date endDate, ArrayList<ThuocTrongToa> listProduct) {
         this.presID = presID;
         this.name = name;
         this.startedDate = startedDate;
@@ -40,7 +40,7 @@ public class ToaThuoc {
     private String name;
     private Date startedDate;
     private Date endDate;
-    private ArrayList<Product> listProduct = new ArrayList<>();
+    private ArrayList<ThuocTrongToa> listProduct = new ArrayList<>();
 
     public int getPresID() {
         return presID;

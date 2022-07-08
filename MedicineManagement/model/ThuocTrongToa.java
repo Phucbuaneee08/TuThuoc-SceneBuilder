@@ -8,7 +8,8 @@ public class ThuocTrongToa extends Product {
         return lieu;
     }
 
-    public ThuocTrongToa(Product x, String lieu) {
+    public ThuocTrongToa(int productID,String name,String unit, String lieu) {
+        super(productID,name,unit);
         this.lieu = lieu;
     }
 

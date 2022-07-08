@@ -35,7 +35,7 @@
                   </Label>
                   <ImageView fitHeight="119.0" fitWidth="140.0" layoutX="46.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Source/logo-chu.png" />
+                        <Image url="@../asset/logo-chu.png" />
                      </image>
                   </ImageView>
                </children>
@@ -50,7 +50,7 @@
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="27.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" styleClass="search-box" translateX="-15.0">
                      <image>
-                        <Image url="@../Source/1257108.png" />
+                        <Image url="@../asset/1257108.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -68,7 +68,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-18.0">
                      <image>
-                        <Image url="@../Source/3595916.png" />
+                        <Image url="@../asset/3595916.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -86,7 +86,7 @@
                <graphic>
                   <ImageView fitHeight="26.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" translateX="-17.0">
                      <image>
-                        <Image url="@../Source/5997060.gif" />
+                        <Image url="@../asset/5997060.gif" />
                      </image>
                   </ImageView>
                </graphic>
@@ -116,7 +116,7 @@
                <children>
                   <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Source/1077042.gif" />
+                        <Image url="@../asset/1077042.gif" />
                      </image>
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
@@ -124,7 +124,7 @@
                   </ImageView>
                   <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Source/739257.gif" />
+                        <Image url="@../asset/739257.gif" />
                      </image>
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
@@ -132,7 +132,7 @@
                   </ImageView>
                   <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Source/20837.gif" />
+                        <Image url="@../asset/20837.gif" />
                      </image>
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
@@ -140,7 +140,7 @@
                   </ImageView>
                   <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Source/39714.gif" />
+                        <Image url="@../asset/39714.gif" />
                      </image>
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
@@ -148,7 +148,7 @@
                   </ImageView>
                   <ImageView fitHeight="23.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Source/151773.gif" />
+                        <Image url="@../asset/151773.gif" />
                      </image>
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
@@ -182,7 +182,7 @@
       </VBox>
       <ImageView fx:id="btnClose" fitHeight="16.0" fitWidth="17.0" layoutX="799.0" layoutY="14.0" onMouseClicked="#handleClose" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Source/2976286.gif" />
+            <Image url="@../asset/2976286.gif" />
          </image>
       </ImageView>
       <StackPane layoutX="207.0" layoutY="177.0" prefHeight="374.0" prefWidth="626.0" style="-fx-background-color: #cdd9f4;">
@@ -209,16 +209,16 @@
             <AnchorPane fx:id="gpToaThuoc" prefHeight="400.0" prefWidth="622.0" style="-fx-background-color: #ffffff;">
                        <fx:include fx:id="toaThuocView" prefHeight="400.0" prefWidth="622.0" source="ToaThuoc.fxml" />
             </AnchorPane>
-            <GridPane fx:id="gpTuThuoc" style="-fx-border-width: 20; -fx-background-color: #ffffff;">
+            <GridPane fx:id="gpTuThuoc" prefHeight="701.0" prefWidth="677.0" style="-fx-border-width: 20; -fx-background-color: #ffffff;">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="154.60001220703126" minHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="617.0" minHeight="10.0" prefHeight="617.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="154.60001220703126" minHeight="0.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="672.0" minHeight="10.0" prefHeight="672.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TableView fx:id="table" stylesheets="@../Style.css" tableMenuButtonVisible="true" GridPane.rowIndex="1">
+                  <TableView fx:id="table" prefHeight="672.0" prefWidth="677.0" stylesheets="@../Style.css" tableMenuButtonVisible="true" GridPane.rowIndex="1">
                      <columns>
                         <TableColumn fx:id="productID" maxWidth="2500.0" prefWidth="28.0" text="ID" />
                         <TableColumn fx:id="name" prefWidth="152.79998779296875" text="Tên" />
@@ -235,7 +235,7 @@
                      <children>
                         <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="3.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Source/151773.png" />
+                              <Image url="@../asset/151773.png" />
                            </image>
                         </ImageView>
                         <TextField fx:id="tfSearch" blendMode="MULTIPLY" layoutX="35.0" layoutY="5.0" prefHeight="34.0" prefWidth="214.0" promptText="Type to search" style="-fx-border-color: #08172c; -fx-border-width: 1.1; -fx-background-color: #ffffff;" stylesheets="@../Style.css" />
@@ -248,7 +248,7 @@
                            <graphic>
                               <ImageView fitHeight="19.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Source/3524384.gif" />
+                                    <Image url="@../asset/3524384.gif" />
                                  </image>
                               </ImageView>
                            </graphic>

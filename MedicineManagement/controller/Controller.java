@@ -1,9 +1,6 @@
 package MedicineManagement.controller;
 
-import MedicineManagement.model.DungCu;
-import MedicineManagement.model.Product;
-import MedicineManagement.model.Thuoc;
-import MedicineManagement.model.TuThuoc;
+import MedicineManagement.model.*;
 import MedicineManagement.save.ReadExcelFileDemo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
@@ -20,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.io.IOException;
 import java.net.URL;
@@ -111,8 +109,8 @@ public class Controller implements Initializable {
         if(event.getSource()==btnClose){
             try {
                 ReadExcelFileDemo excel = new ReadExcelFileDemo();
-                System.out.println(table.getItems());
                 excel.setExcelList(new ArrayList<>(table.getItems()));
+                excel.setToaThuoc(new ArrayList<>(presController.listToa));
 //                System.out.println(excel.getDiffNumRow());
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -229,12 +227,11 @@ public class Controller implements Initializable {
                             Product product = getTableRow().getItem();
                             if (product instanceof Thuoc) {
                                 AddMedController addMedController = new AddMedController(Controller.this, product);
-                                addMedController.setTextField(product.getProductID(), product.getName(),
-                                        product.getQuantity(), ((Thuoc)product).getLink(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
+                                addMedController.setTextField(product.getProductID(), product.getName(), ((Thuoc)product).getQuantity(), ((Thuoc)product).getLink(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
                                 addMedController.showStage();
                             } else if (product instanceof DungCu) {
                                 AddDCController addDCController = new AddDCController(Controller.this, product);
-                                addDCController.setTextField1(product.getProductID(), product.getName(), product.getQuantity(), ((Thuoc)product).getLink(), product.getUnit(), ((DungCu) product).getUse());
+                                addDCController.setTextField1(product.getProductID(), product.getName(), ((DungCu)product).getQuantity(), ((Thuoc)product).getLink(), product.getUnit(), ((DungCu) product).getUse());
                                 addDCController.showStage();
                             }
                         });
@@ -249,7 +246,11 @@ public class Controller implements Initializable {
                             Product product = getTableRow().getItem();
                             if (product instanceof Thuoc) {
                                 ShowDetailController showDetailController = new ShowDetailController(Controller.this, product);
-                                showDetailController.setTextField(product.getInfo());
+                                try {
+                                    showDetailController.setTextField(product.getInfo());
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 showDetailController.showStage();
                             }
                             // else if(product instanceof DungCu){

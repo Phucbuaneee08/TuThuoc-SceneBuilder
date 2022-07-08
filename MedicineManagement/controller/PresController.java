@@ -3,6 +3,7 @@ package MedicineManagement.controller;
 import MedicineManagement.model.Product;
 import MedicineManagement.model.ThuocTrongToa;
 import MedicineManagement.model.ToaThuoc;
+import MedicineManagement.save.ReadExcelFileDemo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +22,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class PresController implements Initializable {
+    public int lastIndexToa = 0 ;
     public PresController(Controller controller) throws IOException {
+        this.listToa =  new ReadExcelFileDemo().getToaThuocFromExcel();
         FXMLLoader pane = new FXMLLoader(getClass().getResource("/MedicineManagement/View/ToaThuoc.fxml"));
         pane.setController(this);
         controller.setToaThuocView(pane.load());
@@ -38,16 +41,14 @@ public class PresController implements Initializable {
     @FXML private  Button btnToaThuoc;
     private Controller controller;
     public Date date = new Date();
-    public ArrayList<Product> listThuoc = new ArrayList<>();
+    private ArrayList<Product> listThuoc = new ArrayList<>();
 
     public ArrayList<ToaThuoc> listToa = new ArrayList<>();
-    public void addThuoc(ThuocTrongToa x){
-        listThuoc.add(x);
-    }
 
     public void addToa(ToaThuoc x){
+        lastIndexToa++;
         listToa.add(x);
-        Text toaThuoc = new Text(x.getName());
+        Button toaThuoc = new Button(x.getName());
         vbToaThuoc.getChildren().add(toaThuoc);
     }
 
@@ -55,11 +56,12 @@ public class PresController implements Initializable {
         for(ToaThuoc x : listToa){
             Button toaThuoc = new Button(x.getName());
             vbToaThuoc.getChildren().add(toaThuoc);
+            lastIndexToa++;
         }
     }
 
     public ObservableList<Product> getListThuocFromTuThuoc(){
-        ObservableList<Product> listThuocTrongTu = FXCollections.observableArrayList(controller.main.getList());
+        ObservableList<Product> listThuocTrongTu = FXCollections.observableArrayList(controller.main.getListThuoc());
         return listThuocTrongTu;
     }
     // lay list tu tu thuoc

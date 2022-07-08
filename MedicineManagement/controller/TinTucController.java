@@ -21,7 +21,6 @@ import java.io.IOException;
 
 public class TinTucController {
     private Controller controller ;
-    ObservableList<TinTuc> list = FXCollections.observableArrayList();
     @FXML private ListView<TinTuc> lvTinTuc ;
     @FXML private Button btnPre;
     private int page = 1;
@@ -41,8 +40,7 @@ public class TinTucController {
     }
     CrawlInfo data = new CrawlInfo();
     public void getDataView() throws  IOException {
-        list.addAll(data.crawlTinTuc(page));
-        lvTinTuc.getItems().addAll(list);
+        lvTinTuc.getItems().addAll(data.crawlTinTuc(page));
         lvTinTuc.setCellFactory(new Callback<ListView<TinTuc>, ListCell<TinTuc>>() {
             @Override
             public ListCell<TinTuc> call(ListView<TinTuc> listView) {

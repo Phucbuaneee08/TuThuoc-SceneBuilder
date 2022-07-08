@@ -91,7 +91,7 @@ public class AddMedController implements Initializable{
         LocalDate localDate = tfHSD.getValue();
         int rs = controller.main.getRsThuoc();
         Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
-        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),Integer.parseInt(tfQuantity.getText()),tfUnit.getText(),date,tfEffect.getText());
+        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),tfUnit.getText(),Integer.parseInt(tfQuantity.getText()),date,tfEffect.getText());
         controller.main.getList().add(Thuoc);
         controller.main.setRsThuoc(rs+1);
         stage.close();
@@ -102,7 +102,7 @@ public class AddMedController implements Initializable{
         LocalDate localDate = tfHSD.getValue();
         Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
         x.setName(tfName.getText());
-        x.setQuantity(Integer.valueOf(tfQuantity.getText()));
+        ((Thuoc)x).setQuantity(Integer.valueOf(tfQuantity.getText()));
         x.setUnit(tfUnit.getText());
         ((Thuoc)x).setExpiredDate(date);
         ((Thuoc)x).setEffect(tfEffect.getText());
