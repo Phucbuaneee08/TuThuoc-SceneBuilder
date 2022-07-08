@@ -30,7 +30,7 @@ public class Main extends Application {
                 primaryStage.setY(event.getScreenY()-yOffset);
             }
         });
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("");
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnHidden(e -> Platform.exit());
         primaryStage.show();

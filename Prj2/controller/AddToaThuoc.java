@@ -64,16 +64,12 @@ public class AddToaThuoc implements Initializable {
 
     @FXML
     void actionThemThuoc(ActionEvent event) {
-     
         this.soThuoc++;
-        int index = soThuoc;
-        Text text = new Text("Liều Thuốc");
         TextField textField = new TextField();
         textField.setPromptText("Liều lượng");
         textField.setPrefSize(78,28);
         ComboBox<Product> comboBox = new ComboBox<>();
         comboBox.setPrefSize(152, 28);
-
         Callback<ListView<Product>, ListCell<Product>> cellFactory = new Callback<ListView<Product>, ListCell<Product>>() {
             @Override
             public ListCell<Product> call(ListView<Product> l) {
@@ -118,7 +114,7 @@ public class AddToaThuoc implements Initializable {
         Date dateStart = Date.from(localDateStart.atStartOfDay(defaultZoneId).toInstant());
         Date dateEnd = Date.from(localDateEnd.atStartOfDay(defaultZoneId).toInstant());
         for(Node x : vbThemThuoc.getChildren()) {
-            ThuocTrongToa t = new ThuocTrongToa(((ComboBox<Product>) ((HBox) x).getChildren().get(0)).getValue(),((TextField) ((HBox) x).getChildren().get(2)).getText());
+            ThuocTrongToa t = new ThuocTrongToa(((ComboBox<Product>) ((HBox) x).getChildren().get(0)).getValue(),((TextField) ((HBox) x).getChildren().get(1)).getText());
             toaThuoc.getListProduct().add(t);
         }
         toaThuoc.setEndDate(dateEnd);

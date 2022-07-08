@@ -30,6 +30,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -55,14 +56,17 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class Controller implements Initializable {
+    @FXML 
+    private AnchorPane tienIchView;
+    @FXML private AnchorPane gpTienIch;
+
     @FXML
     private GridPane gpCaiDat;
 
-    @FXML
-    private GridPane gpTienIch;
 
     @FXML 
     private AnchorPane toaThuocView;
+    
     @FXML
     private AnchorPane gpToaThuoc;
 
@@ -95,6 +99,8 @@ public class Controller implements Initializable {
     
     @FXML
     private VBox pnlStatus;
+
+    @FXML private ComboBox<String> filterBox;
     
     @FXML
     private ImageView btnClose;
@@ -126,6 +132,7 @@ public class Controller implements Initializable {
     // private Date date = new Date();
     // public static int c = 11;
     private PresController presController ;
+    private TinTucController tinTucController;
    
     // public ObservableList<Product> list = FXCollections.observableArrayList();
 
@@ -138,6 +145,9 @@ public class Controller implements Initializable {
         choiceBox.getItems().add("Thuốc");
         choiceBox.getItems().add("Dụng Cụ");
         choiceBox.setValue("Thuốc");
+        filterBox.getItems().add("Thuốc");
+        filterBox.getItems().add("Dụng Cụ");
+        filterBox.getItems().add("Tất Cả");
         try {
             addButtonToTable();
         } catch (Exception e) {
@@ -145,6 +155,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
         try {
+            tinTucController = new TinTucController(this);
             presController= new PresController(this);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -187,6 +198,7 @@ public class Controller implements Initializable {
         if(event.getSource()==btnClose){
             try {
                 ReadExcelFileDemo excel = new ReadExcelFileDemo();
+                System.out.println(table.getItems());
                 excel.setExcelList(new ArrayList<>(table.getItems()));
 //                System.out.println(excel.getDiffNumRow());
             } catch (IOException e) {
@@ -234,7 +246,7 @@ public class Controller implements Initializable {
     //add button cell 
     private void addButtonToTable() throws IOException{
         TableColumn<Product, Void> colBtn = new TableColumn("");
-        colBtn.setMaxWidth(1200);
+        colBtn.setMaxWidth(800);
         Callback<TableColumn<Product, Void>, TableCell<Product, Void>> cellFactory = new Callback<TableColumn<Product, Void>, TableCell<Product, Void>>() {
             @Override
             public TableCell<Product, Void> call(final TableColumn<Product, Void> param) {
@@ -242,6 +254,7 @@ public class Controller implements Initializable {
 
                     private final MenuButton btn = new MenuButton("");
                     {
+                   
                     MenuItem m1 = new MenuItem("edit");
                     MenuItem m2 = new MenuItem("delete");
                     MenuItem m3 = new MenuItem("detail");
@@ -254,11 +267,11 @@ public class Controller implements Initializable {
                         if(product instanceof Thuoc){
                             AddMedController addMedController = new AddMedController(Controller.this ,product) ;
                             addMedController.setTextField(product.getProductID(), product.getName(), 
-                            product.getQuantity(), product.getLink(),product.getUnit(), ((Thuoc) product).getExpiredDate(),((Thuoc)product).getEffect());
+                            product.getQuantity(),((Thuoc) product).getLink(),product.getUnit(), ((Thuoc) product).getExpiredDate(),((Thuoc)product).getEffect());
                             addMedController.showStage();}
                         else if(product instanceof DungCu){
                             AddDCController addDCController = new AddDCController(Controller.this , product);
-                            addDCController.setTextField1(product.getProductID(),product.getName(),product.getQuantity(),product.getLink(),product.getUnit(),((DungCu)product).getUse());
+                            addDCController.setTextField1(product.getProductID(),product.getName(),product.getQuantity(),"ABC",product.getUnit(),((DungCu)product).getUse());
                             addDCController.showStage();
                             }
                     });
@@ -266,6 +279,7 @@ public class Controller implements Initializable {
                     m2.setOnAction(event->{
                             Product SingleProduct = getTableRow().getItem();
                             main.getList().remove(SingleProduct);
+                            System.out.println(table.getItems());
                     });
                     m3.setOnAction(event->{
                         Product product = getTableRow().getItem();
@@ -327,25 +341,43 @@ public class Controller implements Initializable {
 
 
         //Search bar 
-        FilteredList<Product> filteredData = new FilteredList<>(main.getList(),b->true);
+        FilteredList<Product> filteredData;
+        filteredData = new FilteredList<>(main.getList(),b->true);
+        this.filterBox.valueProperty().addListener(((observableValue, oldVal, newVal) ->{
+            filteredData.setPredicate(product -> {
+                if(newVal == null || newVal == "Tất Cả"){
+                    return true;
+                }
+                else if(newVal == "Thuốc"){
+                    if(product instanceof Thuoc){
+                        return true;
+                    }
+                }
+                else if(newVal == "Dụng Cụ"){
+                    if(product instanceof  DungCu){
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }));
         this.tfSearch.textProperty().addListener(((observableValue, oldVal, newVal) ->{
             filteredData.setPredicate(product -> {
                 if(newVal == null || newVal.isEmpty()){
                     return true;
                 }
-
                 String lowerCase =newVal.toLowerCase();
 
                 if(product.getName().toLowerCase().indexOf(lowerCase) != -1){
                     return true;
-                }else if(product instanceof Thuoc){
-                    if(((Thuoc) product).getEffect().toLowerCase().indexOf(lowerCase) != -1){
+                }else if(product instanceof Thuoc && filterBox.getValue() == "Thuốc"){
+                    if(((Thuoc) product).getEffect().toLowerCase().indexOf(lowerCase) != -1 ){
                         return true;
                     } else {
                         return false;
                     }
-                } else if(product instanceof DungCu){
-                    if(((DungCu) product).getUse().toLowerCase().indexOf(lowerCase) != -1){
+                } else if(product instanceof DungCu &&  filterBox.getValue() == "Dụng Cụ"){
+                    if(((DungCu) product).getUse().toLowerCase().indexOf(lowerCase) != -1 ){
                         return true;
                     } else {
                         return false;
@@ -365,6 +397,9 @@ public class Controller implements Initializable {
     }
     public void setToaThuocView(AnchorPane x) {
         this.toaThuocView.getChildren().setAll(x);
+    }
+    public void setTienIchView(AnchorPane x) {
+        this.tienIchView.getChildren().setAll(x);
     }
     
 }

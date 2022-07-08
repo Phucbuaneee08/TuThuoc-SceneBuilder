@@ -8,17 +8,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
-
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Prj2.model.DungCu;
 import Prj2.model.Product;
 import Prj2.model.Thuoc;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ReadExcelFileDemo
 {
@@ -44,8 +40,7 @@ public class ReadExcelFileDemo
                 String unit = nextRow.getCell(3).getStringCellValue();
                 String effect = nextRow.getCell(4).getStringCellValue();
                 Date expiredDate = nextRow.getCell(5).getDateCellValue() ;
-                String link = nextRow.getCell(7).getStringCellValue();
-                list.add(new Thuoc(productID,name,quantity,link,unit,expiredDate,effect));
+                list.add(new Thuoc(productID,name,quantity,unit,expiredDate,effect));
             }
         }
         while (iteratorDC.hasNext()) {
@@ -56,8 +51,6 @@ public class ReadExcelFileDemo
                 int quantity = (int)nextRow.getCell(2).getNumericCellValue();
                 String unit = nextRow.getCell(3).getStringCellValue();
                 String effect = nextRow.getCell(4).getStringCellValue();
-              
-//                String link = nextRow.getCell(5).getStringCellValue();
                 list.add(new DungCu(productID,name,quantity,unit,effect));
             }
         }
@@ -74,6 +67,7 @@ public class ReadExcelFileDemo
         }
         return true;
     }
+
     public void setExcelList(ArrayList<Product> saveList) throws IOException{
         InputStream inputStream =  new FileInputStream(new File(excelPath));
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -82,12 +76,21 @@ public class ReadExcelFileDemo
         CellStyle cellStyle = workbook.createCellStyle();
         CreationHelper creationHelper = workbook.getCreationHelper();
         cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd/mm/yyyy"));
-        int lastIndexThuoc = 1;
-        int lastIndexDC = 1;
+        int indexThuoc = 1;
+        int indexDC = 1;
+        for (int index = firstSheet.getLastRowNum(); index > firstSheet.getFirstRowNum(); index--) {
+            if(firstSheet.getRow(index) != null){
+            firstSheet.removeRow( firstSheet.getRow(index));}
+        }
+        for (int index = secondSheet.getLastRowNum(); index > secondSheet.getFirstRowNum(); index--) {
+            if(secondSheet.getRow(index) != null){
+                secondSheet.removeRow( secondSheet.getRow(index));}
+        }
+        //rewrite
         for(Product x: saveList){
-            if(x instanceof Thuoc){
-                firstSheet.createRow(lastIndexThuoc);
-                Row addRowThuoc = firstSheet.getRow(lastIndexThuoc);
+            if(x instanceof Thuoc ){
+                firstSheet.createRow(indexThuoc);
+                Row addRowThuoc = firstSheet.getRow(indexThuoc);
                 Cell cell;
                 cell = addRowThuoc.createCell(0);
                 cell.setCellValue(x.getProductID());
@@ -104,11 +107,11 @@ public class ReadExcelFileDemo
                 cell.setCellValue(((Thuoc) x).getExpiredDate());
                 cell.setCellStyle(cellStyle);
                 cell = addRowThuoc.createCell(7);
-                cell.setCellValue(x.getLink());
-                lastIndexThuoc++;
+                cell.setCellValue(((Thuoc)x).getLink());
+                indexThuoc++;
             } else if(x instanceof DungCu){
-                secondSheet.createRow(lastIndexDC);
-                Row addRowDC = secondSheet.getRow(lastIndexDC);
+                secondSheet.createRow(indexDC);
+                Row addRowDC = secondSheet.getRow(indexDC);
                 Cell cell;
                 cell = addRowDC.createCell(0);
                 cell.setCellValue(x.getProductID());
@@ -121,7 +124,7 @@ public class ReadExcelFileDemo
                 cell =addRowDC.createCell(4);
                 String effect = ((DungCu) x).getUse();
                 cell.setCellValue(effect);
-                lastIndexDC++;
+                indexDC++;
             }
         }
         FileOutputStream fileOut = new FileOutputStream(excelPath);
@@ -129,5 +132,15 @@ public class ReadExcelFileDemo
         fileOut.close();
         workbook.close();
         inputStream.close();
+    }
+    public int getDiffNumRow() throws IOException{
+        ArrayList<Product> list = new ArrayList<>();
+        InputStream inputStream =  new FileInputStream(new File(excelPath));
+        Workbook workbook = new XSSFWorkbook(inputStream);
+        Sheet firstSheet = workbook.getSheetAt(0);
+        int rs = firstSheet.getLastRowNum();
+        workbook.close();
+        inputStream.close();
+        return rs;
     }
 }

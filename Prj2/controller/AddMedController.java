@@ -10,18 +10,15 @@ import java.util.ResourceBundle;
 
 import Prj2.model.Product;
 import Prj2.model.Thuoc;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,22 +27,20 @@ import javafx.stage.StageStyle;
 public class AddMedController implements Initializable{
 
     private  Stage stage ;
-    private Controller controller ;
+    private Controller controller;
     public AddMedController(Controller controller){
-
-            this.controller = controller;
-            stage = new Stage();
-            // TO
-            try {
-                FXMLLoader parent =new FXMLLoader((getClass().getResource("/Prj2/View/AddMed.fxml")));
-                parent.setController(this);
-                stage.setScene(new Scene(parent.load())); 
-                stage.initStyle(StageStyle.UTILITY);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        this.controller = controller;
+        stage = new Stage();
+        // TO
+        try {
+            FXMLLoader parent =new FXMLLoader((getClass().getResource("/Prj2/View/AddMed.fxml")));
+            parent.setController(this);
+            stage.setScene(new Scene(parent.load()));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+    }
 
     public AddMedController(Controller controller, Product x){
         this.controller = controller;
@@ -56,15 +51,13 @@ public class AddMedController implements Initializable{
             parent.setController(this);
             stage.setScene(new Scene(parent.load()));
             stage.initStyle(StageStyle.UTILITY);
+            stage.initModality(Modality.WINDOW_MODAL);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         btnSave.setOnAction(event ->actionSave(x));
     }
-    @FXML
-    private Button btnReset;
-
     @FXML
     private Button btnSave;
 
@@ -95,14 +88,21 @@ public class AddMedController implements Initializable{
 
         
     public void actionSave() {    
-    ZoneId defaultZoneId = ZoneId.systemDefault();
-    LocalDate localDate = tfHSD.getValue();
-    int rs = controller.main.getRsThuoc();
-    Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
-        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),1,"ABC",tfUnit.getText(),date,tfEffect.getText());
+        if(tfName.getText().isEmpty() ||tfQuantity.getText().isEmpty()||tfUnit.getText().isEmpty()||tfHSD.getValue()==null||tfEffect.getText().isEmpty()){ 
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Hãy điền vào hết chỗ trống");
+            alert.showAndWait();
+        }
+        else{
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        LocalDate localDate = tfHSD.getValue();
+        int rs = controller.main.getRsThuoc();
+        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant()); 
+        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),Integer.parseInt(tfQuantity.getText()),tfUnit.getText(),date,tfEffect.getText());
         controller.main.getList().add(Thuoc);
         controller.main.setRsThuoc(rs+1);
-        stage.close();
+        stage.close();}
     }
 
     public void actionSave(Product x){
@@ -115,7 +115,8 @@ public class AddMedController implements Initializable{
         ((Thuoc)x).setExpiredDate(date);
         ((Thuoc)x).setEffect(tfEffect.getText());
         controller.table.refresh();
-        // controller.main.getList().set(x.getProductID()-1, x);
+//        int index = controller.main.getList().indexOf(x);
+//        controller.main.getList().set(index, x);
         stage.close();
     }
 

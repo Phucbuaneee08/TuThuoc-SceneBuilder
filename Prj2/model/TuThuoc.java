@@ -1,17 +1,13 @@
 package Prj2.model;
 
 import Prj2.save.ReadExcelFileDemo;
-import Prj2.controller.ProductController;
-import Prj2.save.ReadExcelFileDemo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class TuThuoc {
     private int rsThuoc = 0;
@@ -56,5 +52,25 @@ public class TuThuoc {
     public ObservableList<Product> getList() {
         return this.list;
     }
+    public ObservableList<Product> getListThuoc() {
+
+        for(Product x : this.list) {
+            if(x instanceof Thuoc){
+                this.listThuoc.add(x);
+            }
+        }
+        return this.listThuoc;
+    }
+    public ObservableList<Product> getListDC() {
+
+        for(Product x : this.list) {
+            if(x instanceof DungCu){
+                this.listDC.add(x);
+            }
+        }
+        return this.listDC;
+    }
     private ObservableList<Product> list = FXCollections.observableArrayList();
+    private ObservableList<Product> listThuoc = FXCollections.observableArrayList();
+    private ObservableList<Product> listDC = FXCollections.observableArrayList();
 }

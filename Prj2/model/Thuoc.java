@@ -1,26 +1,24 @@
 package Prj2.model;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+
+import Prj2.Service.CrawlInfo;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
-import Prj2.Service.CrawlInfo;
-
-public class Thuoc extends Product{
+public class Thuoc extends Product {
 
 
-    public Thuoc(int productID, String name, int quantity, String link, String unit, Date expiredDate, String effect) {
-        super(productID, name, quantity, link, unit);
+    public Thuoc(int productID, String name, int quantity, String unit, Date expiredDate, String effect) {
+        super(productID, name, quantity, unit);
         this.expiredDate = expiredDate;
         this.effect = effect;
     }
-    private String link;
+
     private Date expiredDate;
     private String effect;
+    private String link;
 
     public Date getExpiredDate() {
         return expiredDate;
@@ -37,9 +35,11 @@ public class Thuoc extends Product{
     public void setEffect(String effect) {
         this.effect = effect;
     }
-    public String getLink(){
+
+    public String getLink() {
         return link;
     }
+
     @Override
     public ArrayList<Text> getInfo() {
         ArrayList<Text> x = super.getInfo();

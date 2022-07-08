@@ -1,14 +1,12 @@
 package Prj2.model;
 
-import javafx.beans.property.SimpleStringProperty;
-
-public class DungCu extends Product{
+public class DungCu extends Product {
 
 
     private String use;
 
     public DungCu(int productID, String name, int quantity, String unit, String use) {
-        super(productID, name, quantity, unit, use);
+        super(productID, name, quantity, unit);
         this.use = use;
     }
 
