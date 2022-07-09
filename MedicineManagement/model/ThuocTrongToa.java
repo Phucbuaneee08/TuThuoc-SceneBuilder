@@ -1,7 +1,5 @@
 package MedicineManagement.model;
 
-import java.util.Date;
-
 public class ThuocTrongToa extends Product {
 
     public String getLieu() {

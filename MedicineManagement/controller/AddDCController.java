@@ -103,7 +103,7 @@ public class AddDCController implements Initializable{
         stage.close();
     }
 
-    void setTextField1(int ProductID, String name,int quantity,String link,String unit,String use){
+    void setTextField(int ProductID, String name,int quantity,String unit,String use){
         tfName.setText(name);
         tfQuantity.setText(quantity+"");
         tfUnit.setText(unit);

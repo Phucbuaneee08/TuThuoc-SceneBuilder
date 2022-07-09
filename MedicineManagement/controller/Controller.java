@@ -1,27 +1,28 @@
 package MedicineManagement.controller;
 
-import MedicineManagement.model.*;
+import MedicineManagement.model.DungCu;
+import MedicineManagement.model.Product;
+import MedicineManagement.model.Thuoc;
+import MedicineManagement.model.TuThuoc;
 import MedicineManagement.save.ReadExcelFileDemo;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -46,7 +47,7 @@ public class Controller implements Initializable {
     @FXML public TableView<Product> table;
     @FXML private TableColumn<Product, Integer> productID;
     @FXML private TableColumn<Product, String> name;
-    @FXML private TableColumn<Thuoc, String> expiredDate;
+    @FXML private TableColumn<Thuoc, LocalDate> expiredDate;
     @FXML private TableColumn<Product, String> effect;
     @FXML private TableColumn<Product, String> unit;
     @FXML private TableColumn<Product, Integer> quantity;
@@ -80,7 +81,7 @@ public class Controller implements Initializable {
     }
     //Click on button
     @FXML
-    private void handleClicks(ActionEvent event) throws IOException{
+    private void handleClicks(ActionEvent event) {
         if(event.getSource() == btnTuThuoc){
             lblStatusMini.setText("/home/TuThuoc");
             lblStatus.setText("TỦ THUỐC CỦA BẠN");
@@ -109,7 +110,7 @@ public class Controller implements Initializable {
         if(event.getSource()==btnClose){
             try {
                 ReadExcelFileDemo excel = new ReadExcelFileDemo();
-                excel.setExcelList(new ArrayList<>(table.getItems()));
+                excel.setExcelList(new ArrayList<>(this.main.getList()));
                 excel.setToaThuoc(new ArrayList<>(presController.listToa));
 //                System.out.println(excel.getDiffNumRow());
             } catch (IOException e) {
@@ -121,7 +122,7 @@ public class Controller implements Initializable {
     //Add Medicine data from button , Save data or clear data
 
     @FXML
-    public void getAddView(MouseEvent event) {
+    public void getAddView() {
         String choice = choiceBox.getValue();
         if(choice.compareTo("Thuốc")==0){
             AddMedController medController = new AddMedController(this);
@@ -137,7 +138,7 @@ public class Controller implements Initializable {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         expiredDate.setCellValueFactory(cellData ->{
                     if(cellData.getValue() instanceof Thuoc){
-                        return new SimpleStringProperty(DateFormat.getDateInstance().format(cellData.getValue().getExpiredDate()));
+                        return new SimpleObjectProperty<>(cellData.getValue().getExpiredDate());
                     } else {
                         return null;
                     }
@@ -161,14 +162,10 @@ public class Controller implements Initializable {
                     return true;
                 }
                 else if(newVal == "Thuốc"){
-                    if(product instanceof Thuoc){
-                        return true;
-                    }
+                    return product instanceof Thuoc;
                 }
                 else if(newVal == "Dụng Cụ"){
-                    if(product instanceof  DungCu){
-                        return true;
-                    }
+                    return product instanceof DungCu;
                 }
                 return false;
             });
@@ -180,20 +177,12 @@ public class Controller implements Initializable {
                 }
                 String lowerCase =newVal.toLowerCase();
 
-                if(product.getName().toLowerCase().indexOf(lowerCase) != -1){
+                if(product.getName().toLowerCase().contains(lowerCase)){
                     return true;
                 }else if(product instanceof Thuoc && filterBox.getValue() == "Thuốc"){
-                    if(((Thuoc) product).getEffect().toLowerCase().indexOf(lowerCase) != -1 ){
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return ((Thuoc) product).getEffect().toLowerCase().contains(lowerCase);
                 } else if(product instanceof DungCu &&  filterBox.getValue() == "Dụng Cụ"){
-                    if(((DungCu) product).getUse().toLowerCase().indexOf(lowerCase) != -1 ){
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return ((DungCu) product).getUse().toLowerCase().contains(lowerCase);
                 }
                 else{
                     return false;
@@ -205,13 +194,13 @@ public class Controller implements Initializable {
         table.setItems(sortedData);
     }
 
-    private void addButtonToTable() throws IOException {
-        TableColumn<Product, Void> colBtn = new TableColumn("");
+    private void addButtonToTable() {
+        TableColumn<Product, Void> colBtn = new TableColumn<>("");
         colBtn.setMaxWidth(1200);
-        Callback<TableColumn<Product, Void>, TableCell<Product, Void>> cellFactory = new Callback<TableColumn<Product, Void>, TableCell<Product, Void>>() {
+        Callback<TableColumn<Product, Void>, TableCell<Product, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Product, Void> call(final TableColumn<Product, Void> param) {
-                final TableCell<Product, Void> cell = new TableCell<Product, Void>() {
+                final TableCell<Product, Void> cell = new TableCell<>() {
 
                     private final MenuButton btn = new MenuButton("");
 
@@ -227,11 +216,11 @@ public class Controller implements Initializable {
                             Product product = getTableRow().getItem();
                             if (product instanceof Thuoc) {
                                 AddMedController addMedController = new AddMedController(Controller.this, product);
-                                addMedController.setTextField(product.getProductID(), product.getName(), ((Thuoc)product).getQuantity(), ((Thuoc)product).getLink(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
+                                addMedController.setTextField(product.getProductID(), product.getName(), ((Thuoc) product).getQuantity(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
                                 addMedController.showStage();
                             } else if (product instanceof DungCu) {
                                 AddDCController addDCController = new AddDCController(Controller.this, product);
-                                addDCController.setTextField1(product.getProductID(), product.getName(), ((DungCu)product).getQuantity(), ((Thuoc)product).getLink(), product.getUnit(), ((DungCu) product).getUse());
+                                addDCController.setTextField(product.getProductID(), product.getName(), ((DungCu) product).getQuantity(), product.getUnit(), ((DungCu) product).getUse());
                                 addDCController.showStage();
                             }
                         });
@@ -244,23 +233,14 @@ public class Controller implements Initializable {
                         });
                         m3.setOnAction(event -> {
                             Product product = getTableRow().getItem();
-                            if (product instanceof Thuoc) {
-                                ShowDetailController showDetailController = new ShowDetailController(Controller.this, product);
-                                try {
-                                    showDetailController.setTextField(product.getInfo());
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                showDetailController.showStage();
+                            ShowDetailController showDetailController = new ShowDetailController(Controller.this, product);
+                            try {
+                                showDetailController.setTextField(product.getInfo());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
                             }
-                            // else if(product instanceof DungCu){
-                            //     AddDCController addDCController = new AddDCController(Controller.this , product);
-                            //     addDCController.setTextField1(product.getProductID(),product.getName(),product.getQuantity(),product.getLink(),product.getUnit(),((DungCu)product).getUse());
-                            //     addDCController.showStage();
-                            //     }
+                            showDetailController.showStage();
                         });
-
-
                     }
 
                     @Override

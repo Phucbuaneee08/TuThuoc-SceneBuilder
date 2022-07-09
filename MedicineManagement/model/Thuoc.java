@@ -5,23 +5,22 @@ import javafx.collections.ObservableList;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Thuoc extends Product {
     private int quantity;
 
-    public Thuoc(int productID, String name, String unit, int quantity ,Date expiredDate, String effect) {
+    public Thuoc(int productID, String name, String unit, int quantity ,LocalDate expiredDate, String effect) {
         super(productID, name , unit);
         this.quantity = quantity;
         this.expiredDate = expiredDate;
         this.effect = effect;
     }
 
-    private Date expiredDate;
+    private LocalDate expiredDate;
     private String effect;
-    private String link;
-
     public int getQuantity() {
         return quantity;
     }
@@ -30,11 +29,11 @@ public class Thuoc extends Product {
         this.quantity = quantity;
     }
 
-    public Date getExpiredDate() {
+    public LocalDate getExpiredDate() {
         return expiredDate;
     }
 
-    public void setExpiredDate(Date expiredDate) {
+    public void setExpiredDate(LocalDate expiredDate) {
         this.expiredDate=expiredDate;
     }
 
@@ -45,21 +44,17 @@ public class Thuoc extends Product {
     public void setEffect(String effect) {
         this.effect = effect;
     }
-
-    public String getLink() {
-        return link;
-    }
-
     @Override
     public ArrayList<Text> getInfo() {
         ArrayList<Text> x = super.getInfo();
-        CrawlInfo info = null;
+        CrawlInfo info;
         try {
             info = new CrawlInfo(this.getName());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        x.add(new Text("Số Lượng: "+Integer.toString(this.quantity)));
+        x.add(new Text("Số Lượng: "+ this.quantity));
+        x.add(new Text ("Hạn sử dụng: "+ this.getExpiredDate()));
         x.addAll(info.listText);
         return x;
     }

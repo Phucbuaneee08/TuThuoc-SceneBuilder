@@ -1,7 +1,6 @@
 package MedicineManagement.model;
 
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
@@ -49,9 +48,7 @@ public class TinTucBox extends ListCell<TinTuc> {
             link.setOnAction(event -> {
                 try {
                     Desktop.getDesktop().browse(new URI(item.getLink()));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (URISyntaxException e) {
+                } catch (IOException | URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
             });

@@ -4,8 +4,6 @@ import MedicineManagement.save.ReadExcelFileDemo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -40,8 +38,6 @@ public class TuThuoc {
                     this.rsDC++;
                 }
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

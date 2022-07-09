@@ -1,5 +1,11 @@
 package MedicineManagement.model;
 
+import MedicineManagement.Service.CrawlInfo;
+import javafx.scene.text.Text;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class DungCu extends Product {
 
 
@@ -27,5 +33,17 @@ public class DungCu extends Product {
     public void setUse(String use) {
         this.use = use;
     }
-
+    @Override
+    public ArrayList<Text> getInfo() {
+        ArrayList<Text> x = super.getInfo();
+        CrawlInfo info;
+        try {
+            info = new CrawlInfo(this.getName());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        x.add(new Text("Số Lượng: "+ this.quantity));
+        x.addAll(info.listText);
+        return x;
+    }
 }

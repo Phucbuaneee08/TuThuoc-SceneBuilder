@@ -90,8 +90,7 @@ public class AddMedController implements Initializable{
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDate = tfHSD.getValue();
         int rs = controller.main.getRsThuoc();
-        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
-        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),tfUnit.getText(),Integer.parseInt(tfQuantity.getText()),date,tfEffect.getText());
+        Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),tfUnit.getText(),Integer.parseInt(tfQuantity.getText()),localDate,tfEffect.getText());
         controller.main.getList().add(Thuoc);
         controller.main.setRsThuoc(rs+1);
         stage.close();
@@ -100,11 +99,10 @@ public class AddMedController implements Initializable{
     public void actionSave(Product x){
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDate = tfHSD.getValue();
-        Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
         x.setName(tfName.getText());
         ((Thuoc)x).setQuantity(Integer.valueOf(tfQuantity.getText()));
         x.setUnit(tfUnit.getText());
-        ((Thuoc)x).setExpiredDate(date);
+        ((Thuoc)x).setExpiredDate(localDate);
         ((Thuoc)x).setEffect(tfEffect.getText());
         controller.table.refresh();
 //        int index = controller.main.getList().indexOf(x);
@@ -119,13 +117,12 @@ public class AddMedController implements Initializable{
         }
     }
 
-    void setTextField(int ProductID, String name,int quantity,String link,String unit,Date expireDate,String effect){
+    void setTextField(int ProductID, String name,int quantity,String unit,LocalDate expireDate,String effect){
         
         tfName.setText(name);
         tfQuantity.setText(quantity+"");
         tfUnit.setText(unit);
-        LocalDate localDate = Instant.ofEpochMilli(expireDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-        tfHSD.setValue(localDate);
+        tfHSD.setValue(expireDate);
         tfEffect.setText(effect);
 
     }

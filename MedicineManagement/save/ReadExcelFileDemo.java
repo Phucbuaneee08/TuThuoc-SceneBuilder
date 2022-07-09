@@ -1,28 +1,25 @@
 package MedicineManagement.save;
+
+import MedicineManagement.model.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import MedicineManagement.model.*;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xwpf.usermodel.BreakType;
-
 public class ReadExcelFileDemo
 {
     private final String excelPath = "MedicineManagement/save/QLTuThuoc.xlsx";
-    public  ArrayList<Product> getExcelFileDemo() throws IOException,Exception
+    public  ArrayList<Product> getExcelFileDemo() throws Exception
     {
         ArrayList<Product> list = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-        InputStream inputStream =  new FileInputStream(new File(excelPath));
+        new SimpleDateFormat("dd-MM-yyyy");
+        InputStream inputStream =  new FileInputStream(excelPath);
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
         Sheet secondSheet = workbook.getSheetAt(4);
@@ -38,7 +35,9 @@ public class ReadExcelFileDemo
                 int quantity = (int)nextRow.getCell(2).getNumericCellValue();
                 String unit = nextRow.getCell(3).getStringCellValue();
                 String effect = nextRow.getCell(4).getStringCellValue();
-                Date expiredDate = nextRow.getCell(5).getDateCellValue() ;
+                LocalDate expiredDate = nextRow.getCell(5).getDateCellValue().toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
                 list.add(new Thuoc(productID,name,unit,quantity,expiredDate,effect));
             }
         }
@@ -68,7 +67,7 @@ public class ReadExcelFileDemo
     }
 
     public void setExcelList(ArrayList<Product> saveList) throws IOException{
-        InputStream inputStream =  new FileInputStream(new File(excelPath));
+        InputStream inputStream =  new FileInputStream(excelPath);
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
         Sheet secondSheet = workbook.getSheetAt(4);
@@ -103,10 +102,11 @@ public class ReadExcelFileDemo
                 String effect = ((Thuoc) x).getEffect();
                 cell.setCellValue(effect);
                 cell =addRowThuoc.createCell(5);
-                cell.setCellValue(((Thuoc) x).getExpiredDate());
+
+                cell.setCellValue(Date.from(((Thuoc) x).getExpiredDate().atStartOfDay()
+                        .atZone(ZoneId.systemDefault())
+                        .toInstant()));
                 cell.setCellStyle(cellStyle);
-                cell = addRowThuoc.createCell(7);
-                cell.setCellValue(((Thuoc)x).getLink());
                 indexThuoc++;
             } else if(x instanceof DungCu){
                 secondSheet.createRow(indexDC);
@@ -134,8 +134,8 @@ public class ReadExcelFileDemo
     }
     public ArrayList<ToaThuoc> getToaThuocFromExcel() throws IOException {
         ArrayList<ToaThuoc> list = new ArrayList<>();
-        new SimpleDateFormat("dd-mm-yyyy");
-        InputStream inputStream =  new FileInputStream(new File(excelPath));
+        new SimpleDateFormat("dd-MM-yyyy");
+        InputStream inputStream =  new FileInputStream(excelPath);
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet toaThuocSheet = workbook.getSheetAt(1);
         Sheet thuocSheet = workbook.getSheetAt(3);
@@ -168,7 +168,7 @@ public class ReadExcelFileDemo
         return list;
     }
     public void setToaThuoc(ArrayList<ToaThuoc> saveList) throws IOException{
-        InputStream inputStream =  new FileInputStream(new File(excelPath));
+        InputStream inputStream =  new FileInputStream(excelPath);
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(1);
         Sheet secondSheet = workbook.getSheetAt(3);
@@ -218,7 +218,6 @@ public class ReadExcelFileDemo
             }
             indexToa++;
         }
-
         FileOutputStream fileOut = new FileOutputStream(excelPath);
         workbook.write(fileOut);
         fileOut.close();
