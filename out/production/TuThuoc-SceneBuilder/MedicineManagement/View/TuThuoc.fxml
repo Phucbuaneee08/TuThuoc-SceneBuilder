@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="gpTuThuocA" prefHeight="728.0" prefWidth="687.0" style="-fx-border-width: 20; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="154.60001220703126" minHeight="0.0" prefHeight="47.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="681.0" minHeight="10.0" prefHeight="681.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <TableView fx:id="table" prefHeight="698.0" prefWidth="687.0" stylesheets="@../Style.css" tableMenuButtonVisible="true" GridPane.rowIndex="1">
+            <columns>
+                <TableColumn fx:id="productID" maxWidth="2500.0" prefWidth="28.0" text="ID" />
+                <TableColumn fx:id="name" prefWidth="152.79998779296875" text="Tên" />
+                <TableColumn fx:id="expiredDate" minWidth="0.0" prefWidth="96.0" text="Hạn sử dụng" />
+                <TableColumn fx:id="effect" minWidth="0.0" prefWidth="68.79998779296875" text="Công dụng" />
+                <TableColumn fx:id="unit" maxWidth="2500.0" text="Đơn vị " />
+                <TableColumn fx:id="quantity" maxWidth="2500.0" prefWidth="111.20001220703125" text="Số lượng " />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+        <Pane prefHeight="69.0" prefWidth="705.0">
+            <children>
+                <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="3.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../asset/151773.png" />
+                    </image>
+                </ImageView>
+                <TextField fx:id="tfSearch" blendMode="MULTIPLY" layoutX="35.0" layoutY="5.0" prefHeight="34.0" prefWidth="214.0" promptText="Type to search" style="-fx-border-color: #08172c; -fx-border-width: 1.1; -fx-background-color: #ffffff;" stylesheets="@../Style.css" />
+                <ComboBox fx:id="filterBox" cache="true" layoutX="259.0" layoutY="5.0" prefHeight="34.0" prefWidth="191.0" promptText="Tất Cả" style="-fx-border-color: #08172c; -fx-border-width: 1;">
+                    <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                    </cursor>
+                </ComboBox>
+                <Button fx:id="btnAddmed" graphicTextGap="9.0" layoutX="459.0" layoutY="6.0" minWidth="33.0" mnemonicParsing="false"  prefHeight="32.0" prefWidth="93.0" style="-fx-background-color: #14233a; -fx-background-radius: 3; -fx-border-radius: 0em; -fx-border-width: 2;" styleClass="Button" stylesheets="@../Style.css" text="Add" textFill="#fffdfd">
+                    <graphic>
+                        <ImageView fitHeight="19.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../asset/3524384.gif" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <ChoiceBox fx:id="choiceBox" layoutX="554.0" layoutY="6.0" prefHeight="33.0" prefWidth="71.0" style="-fx-border-radius: 0em; -fx-border-width: 2; -fx-background-color: #fdcb03;" styleClass="ChoiceBox" stylesheets="@../Style.css" />
+            </children>
+        </Pane>
+    </children>
+</GridPane>
