@@ -1,17 +1,13 @@
 package MedicineManagement.model;
 
 public class TinTuc {
-    private String url;
+    private final String url;
     private String name;
-    private String des;
-    private String link;
+    private final String des;
+    private final String link;
 
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getName() {
@@ -28,14 +24,6 @@ public class TinTuc {
 
     public String getLink() {
         return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public void setDes(String des) {
-        this.des = des;
     }
 
     public TinTuc(String url, String name, String des,String link) {

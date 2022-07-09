@@ -15,13 +15,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ShowDetailController extends ShowableAbstractClass{
+public class ShowDetail extends ShowableAbstractClass{
     private final Stage stage ;
     private final Product product;
     @FXML
     private VBox tfDetail;
     @FXML private ListView<TinTuc> listTinTuc = new ListView<>() ;
-    public ShowDetailController(Product x){
+    public ShowDetail(Product x){
         stage = new Stage();
         this.product = x;
         this.loadStage();

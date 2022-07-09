@@ -5,7 +5,7 @@ public class ThuocTrongToa extends Product {
         super(productID,name,unit);
         this.lieu = lieu;
     }
-    private String lieu;
+    private final String lieu;
     public String getLieu() {
         return lieu;
     }

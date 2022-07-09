@@ -12,34 +12,30 @@ import javafx.stage.Stage;
 
 public class AddMedController extends AddAbstractClass implements EditAble {
     private final Stage stage ;
-    private final Controller controller;
+    private final TuThuocController controller;
     @FXML
     private Button btnSave;
-
     @FXML
     private TextField tfEffect;
     @FXML
     private DatePicker tfHSD;
-
     @FXML
     private TextField tfName;
-
     @FXML
     private TextField tfQuantity;
     @FXML
     private TextField tfUnit;
-    public AddMedController(Controller controller){
+    public AddMedController(TuThuocController controller){
         this.controller = controller;
         stage = new Stage();
-        loadStage("MedicineManagement/View/AddMed.fxml",stage);
+        loadStage();
         btnSave.setOnAction(event ->actionAdd());
     }
-
-    public AddMedController(Controller controller, Product x){
+    public AddMedController(TuThuocController controller, Product x){
         this.controller = controller;
         stage = new Stage();
         // TO
-        loadStage("MedicineManagement/View/AddMed.fxml",stage);
+        loadStage();
         btnSave.setOnAction(event ->actionEdit(x));
     }
     @Override
@@ -48,7 +44,7 @@ public class AddMedController extends AddAbstractClass implements EditAble {
     }
     @Override
     public void loadStage() {
-        super.loadStage("MedicineManagement/View/AddMed.fxml",stage);
+        super.loadStage("/MedicineManagement/View/AddMed.fxml",stage);
     }
     @Override
     public void actionAdd() {

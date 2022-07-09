@@ -42,9 +42,6 @@ public class TuThuoc {
             throw new RuntimeException(e);
         }
     }
-
-
-
     public ObservableList<Product> getList() {
         return this.list;
     }
@@ -66,7 +63,7 @@ public class TuThuoc {
         }
         return this.listDC;
     }
-    private ObservableList<Product> list = FXCollections.observableArrayList();
-    private ObservableList<Product> listThuoc = FXCollections.observableArrayList();
-    private ObservableList<Product> listDC = FXCollections.observableArrayList();
+    private final ObservableList<Product> list = FXCollections.observableArrayList();
+    private final ObservableList<Product> listThuoc = FXCollections.observableArrayList();
+    private final ObservableList<Product> listDC = FXCollections.observableArrayList();
 }

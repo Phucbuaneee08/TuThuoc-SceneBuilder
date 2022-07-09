@@ -1,7 +1,5 @@
 package MedicineManagement.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -24,10 +22,6 @@ public abstract class Product {
 
     public int getProductID() {
         return productID;
-    }
-
-    public void setProductID(int productID) {
-        this.productID = productID;
     }
 
     public String getName() {

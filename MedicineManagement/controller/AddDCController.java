@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class AddDCController extends AddAbstractClass implements EditAble {
     private final Stage stage ;
-    private final Controller controller;
+    private final TuThuocController controller;
 
     @FXML private Button btnSave;
 
@@ -22,14 +22,14 @@ public class AddDCController extends AddAbstractClass implements EditAble {
     @FXML private TextField tfQuantity;
 
     @FXML private TextField tfUnit;
-    public AddDCController(Controller controller){
+    public AddDCController(TuThuocController controller){
         this.controller = controller;
         stage = new Stage();
         loadStage();
         btnSave.setOnAction(event -> actionAdd());
     }
 
-    public AddDCController(Controller controller, Product x){
+    public AddDCController(TuThuocController controller, Product x){
         this.controller = controller;
         stage = new Stage();
         loadStage();
