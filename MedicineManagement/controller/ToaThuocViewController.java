@@ -5,50 +5,36 @@ import MedicineManagement.model.ToaThuoc;
 import MedicineManagement.save.SaveToExcel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
 
-public class ToaThuocViewController implements Initializable {
+public class ToaThuocViewController{
     public int lastIndexToa = 0 ;
     public ToaThuocViewController(Controller controller) throws IOException {
         this.listToa =  new SaveToExcel().getToaThuocFromExcel();
         FXMLLoader pane = new FXMLLoader(getClass().getResource("/MedicineManagement/View/ToaThuoc.fxml"));
         pane.setController(this);
         controller.setToaThuocView(pane.load());
+        btnToaThuoc.setOnAction(event -> showAddToaThuoc());
         this.controller = controller;
         this.showList();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        btnToaThuoc.setOnAction(event -> showAddToaThuoc(event));
     }
     @FXML
     private VBox vbToaThuoc ;
     @FXML private  Button btnToaThuoc;
-    private Controller controller;
-    public Date date = new Date();
-    private ArrayList<Product> listThuoc = new ArrayList<>();
-
-    public ArrayList<ToaThuoc> listToa = new ArrayList<>();
-
+    private final Controller controller;
+    public ArrayList<ToaThuoc> listToa;
     public void addToa(ToaThuoc x){
         lastIndexToa++;
         listToa.add(x);
         Button toaThuoc = new Button(x.getName());
         vbToaThuoc.getChildren().add(toaThuoc);
     }
-
     public void showList() {
         for(ToaThuoc x : listToa){
             Button toaThuoc = new Button(x.getName());
@@ -56,16 +42,13 @@ public class ToaThuocViewController implements Initializable {
             lastIndexToa++;
         }
     }
-
     public ObservableList<Product> getListThuocFromTuThuoc(){
-        ObservableList<Product> listThuocTrongTu = FXCollections.observableArrayList(controller.main.getListThuoc());
-        return listThuocTrongTu;
+        return FXCollections.observableArrayList(controller.main.getListThuoc());
     }
     // lay list tu tu thuoc
     @FXML
-    public void showAddToaThuoc(ActionEvent event){
+    public void showAddToaThuoc(){
         AddToaThuoc addToaThuoc = new AddToaThuoc(this);
         addToaThuoc.showStage();
     } //show stage add toa
-
 }

@@ -18,12 +18,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class TinTucBox extends ListCell<TinTuc> {
-    private ImageView imageView;
-    private HBox hbox;
-
-    private Text des;
-    private Text name;
-    private Hyperlink link;
+    private final ImageView imageView;
+    private final HBox hbox;
+    private final Text des;
+    private final Text name;
+    private final Hyperlink link;
     public TinTucBox() {
         super();
         this.des = new Text();

@@ -3,36 +3,21 @@ package MedicineManagement.controller;
 import MedicineManagement.model.Product;
 import MedicineManagement.model.ThuocTrongToa;
 import MedicineManagement.model.ToaThuoc;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-
-import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.ResourceBundle;
 
-public class AddToaThuoc implements Initializable {
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-    private int soThuoc = 0;
+public class AddToaThuoc extends AddAbstractClass {
     private final Stage stage;
     private final ToaThuocViewController toaThuocViewController;
     private final ToaThuoc toaThuoc = new ToaThuoc();
@@ -45,27 +30,20 @@ public class AddToaThuoc implements Initializable {
     public AddToaThuoc(ToaThuocViewController toaThuocViewController) {
         this.toaThuocViewController = toaThuocViewController;
         stage = new Stage();
-        try {
-            FXMLLoader parent =new FXMLLoader((getClass().getResource("/MedicineManagement/View/AddToaThuoc.fxml")));
-            parent.setController(this);
-            stage.setScene(new Scene(parent.load()));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        btnThemThuoc.setOnAction(event -> actionThemThuoc(event));
-        btnThemToa.setOnAction(event -> actionSave(event));
+        this.loadStage();
+        btnThemThuoc.setOnAction(event -> actionThemThuoc());
+        btnThemToa.setOnAction(event -> actionAdd());
     }
-
     public void showStage(){
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
+        super.showStage(this.stage);
     }
-
+    @Override
+    public void loadStage() {
+        super.loadStage("/MedicineManagement/View/AddToaThuoc.fxml",this.stage);
+    }
     @FXML
-    void actionThemThuoc(ActionEvent event) {
+    void actionThemThuoc() {
         vbThemThuoc.setSpacing(10);
-        this.soThuoc++;
         Text text = new Text("Liều Thuốc");
         TextField textField = new TextField();
         ComboBox<Product> comboBox = new ComboBox<>();
@@ -89,18 +67,14 @@ public class AddToaThuoc implements Initializable {
         comboBox.setButtonCell(comboBox.getCellFactory().call(null));
         comboBox.setItems(this.toaThuocViewController.getListThuocFromTuThuoc());
         Button removeBtn = new Button("-");
-        removeBtn.setOnAction((actionEvent) -> {
-            vbThemThuoc.getChildren().remove(removeBtn.getParent());
-            this.soThuoc--;
-        });
+        removeBtn.setOnAction((actionEvent) -> vbThemThuoc.getChildren().remove(removeBtn.getParent()));
         HBox hbox = new HBox(comboBox,text,textField,removeBtn);
         hbox.setSpacing(10);
         hbox.setPadding(new Insets(5,5,5,5));
         vbThemThuoc.getChildren().add(hbox);
     }
-
-    @FXML
-    public void actionSave(ActionEvent event){
+    @Override
+    public void actionAdd(){
         String name = tfName.getText();
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDateEnd = tfDateEnd.getValue();

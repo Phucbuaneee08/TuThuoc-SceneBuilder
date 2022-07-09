@@ -86,7 +86,6 @@ public class Controller implements Initializable {
             lblStatus.setText("TỦ THUỐC CỦA BẠN");
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpTuThuoc.toFront();
-            showThongBao();
         }
         if(event.getSource() == btnToaThuoc){
             lblStatusMini.setText("/home/ToaThuoc");
@@ -239,11 +238,11 @@ public class Controller implements Initializable {
                             Product product = getTableRow().getItem();
                             if (product instanceof Thuoc) {
                                 AddMedController addMedController = new AddMedController(Controller.this, product);
-                                addMedController.setTextField( product.getName(), ((Thuoc) product).getQuantity(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
+                                addMedController.setTextField(product);
                                 addMedController.showStage();
                             } else if (product instanceof DungCu) {
                                 AddDCController addDCController = new AddDCController(Controller.this, product);
-                                addDCController.setTextField(product.getName(), ((DungCu) product).getQuantity(), product.getUnit(), ((DungCu) product).getUse());
+                                addDCController.setTextField(product);
                                 addDCController.showStage();
                             }
                         });
@@ -256,9 +255,9 @@ public class Controller implements Initializable {
                         });
                         m3.setOnAction(event -> {
                             Product product = getTableRow().getItem();
-                            ShowDetailController showDetailController = new ShowDetailController(Controller.this, product);
+                            ShowDetailController showDetailController = new ShowDetailController(product);
                             try {
-                                showDetailController.setTextField(product.getInfo());
+                                showDetailController.setVBox(product.getInfo());
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
