@@ -33,17 +33,17 @@ public class AddToaThuoc implements Initializable {
 
     }
     private int soThuoc = 0;
-    private Stage stage;
-    private PresController presController;
-    private ToaThuoc toaThuoc = new ToaThuoc();
+    private final Stage stage;
+    private final ToaThuocViewController toaThuocViewController;
+    private final ToaThuoc toaThuoc = new ToaThuoc();
     @FXML VBox vbThemThuoc;
     @FXML TextField tfName;
     @FXML DatePicker tfDateEnd;
     @FXML DatePicker tfDateStart;
     @FXML Button btnThemToa;
     @FXML Button btnThemThuoc;
-    public AddToaThuoc(PresController presController) {
-        this.presController = presController;
+    public AddToaThuoc(ToaThuocViewController toaThuocViewController) {
+        this.toaThuocViewController = toaThuocViewController;
         stage = new Stage();
         try {
             FXMLLoader parent =new FXMLLoader((getClass().getResource("/MedicineManagement/View/AddToaThuoc.fxml")));
@@ -66,29 +66,28 @@ public class AddToaThuoc implements Initializable {
     void actionThemThuoc(ActionEvent event) {
         vbThemThuoc.setSpacing(10);
         this.soThuoc++;
-        int index = soThuoc;
         Text text = new Text("Liều Thuốc");
         TextField textField = new TextField();
         ComboBox<Product> comboBox = new ComboBox<>();
-        Callback<ListView<Product>, ListCell<Product>> cellFactory = new Callback<ListView<Product>, ListCell<Product>>() {
+        Callback<ListView<Product>, ListCell<Product>> cellFactory = new Callback<>() {
             @Override
             public ListCell<Product> call(ListView<Product> l) {
-                return new ListCell<Product>() {
+                return new ListCell<>() {
                     @Override
                     protected void updateItem(Product item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item == null || empty) {
                             setGraphic(null);
                         } else {
-                            setText(item.getProductID()+". "+item.getName());
+                            setText(item.getProductID() + ". " + item.getName());
                         }
                     }
-                } ;
+                };
             }
         };
         comboBox.setCellFactory(cellFactory);
         comboBox.setButtonCell(comboBox.getCellFactory().call(null));
-        comboBox.setItems(this.presController.getListThuocFromTuThuoc());
+        comboBox.setItems(this.toaThuocViewController.getListThuocFromTuThuoc());
         Button removeBtn = new Button("-");
         removeBtn.setOnAction((actionEvent) -> {
             vbThemThuoc.getChildren().remove(removeBtn.getParent());
@@ -113,11 +112,11 @@ public class AddToaThuoc implements Initializable {
             ThuocTrongToa t = new ThuocTrongToa(toaThuoc.getListProduct().size()+1,product.getName(), product.getUnit(), ((TextField) ((HBox) x).getChildren().get(2)).getText());
             toaThuoc.getListProduct().add(t);
         }
-        toaThuoc.setPresID(presController.lastIndexToa+1);
+        toaThuoc.setPresID(toaThuocViewController.lastIndexToa+1);
         toaThuoc.setEndDate(dateEnd);
         toaThuoc.setStartedDate(dateStart);
         toaThuoc.setName(name);
-        presController.addToa(toaThuoc);
+        toaThuocViewController.addToa(toaThuoc);
         stage.close();
     }
 }

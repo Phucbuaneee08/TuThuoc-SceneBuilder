@@ -1,9 +1,5 @@
 package MedicineManagement.controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import MedicineManagement.model.DungCu;
 import MedicineManagement.model.Product;
 import javafx.fxml.FXML;
@@ -12,16 +8,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 
 public class AddDCController implements Initializable{
 
-    private  Stage stage ;
-    private Controller controller;
+    private final Stage stage ;
+    private final Controller controller;
     public AddDCController(Controller controller){
         this.controller = controller;
         stage = new Stage();
@@ -52,17 +51,12 @@ public class AddDCController implements Initializable{
         }
         btnSave.setOnAction(event ->actionSave(x));
     }
-    @FXML
-    private Button btnReset;
 
     @FXML
     private Button btnSave;
 
     @FXML
     private TextField tfEffect;
-
-    @FXML
-    private TextField tfHSD;
 
     @FXML
     private TextField tfName;
@@ -72,8 +66,6 @@ public class AddDCController implements Initializable{
 
     @FXML
     private TextField tfUnit;
-    @FXML
-    private ImageView btnClose;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -86,24 +78,21 @@ public class AddDCController implements Initializable{
     }
     public void actionSave() {
         int rs = controller.main.getRsDC();
-        DungCu DungCu = new DungCu(rs,tfName.getText(),tfUnit.getText(),Integer.parseInt(tfQuantity.getText()),"ABC");
+        DungCu DungCu = new DungCu(rs,tfName.getText(),tfUnit.getText(),Integer.parseInt(tfQuantity.getText()),tfEffect.getText());
         controller.main.getList().add(DungCu);
         controller.main.setRsDC(rs+1);
         stage.close();
     }
     public void actionSave(Product x){
-    
         x.setName(tfName.getText());
-        ((DungCu)x).setQuantity(Integer.valueOf(tfQuantity.getText()));
+        ((DungCu)x).setQuantity(Integer.parseInt(tfQuantity.getText()));
         x.setUnit(tfUnit.getText());
         ((DungCu)x).setUse(tfEffect.getText());
-//        int index = controller.main.getList().indexOf(x);
-//        controller.main.getList().set(index, x);
         controller.table.refresh();
         stage.close();
     }
 
-    void setTextField(int ProductID, String name,int quantity,String unit,String use){
+    void setTextField(String name,int quantity,String unit,String use){
         tfName.setText(name);
         tfQuantity.setText(quantity+"");
         tfUnit.setText(unit);

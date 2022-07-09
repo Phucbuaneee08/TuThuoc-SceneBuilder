@@ -61,4 +61,15 @@ public class ToaThuoc {
     public void showInfo(){
 
     }
+
+    public int status(){
+        Date today = new Date();
+        if(startedDate.compareTo(today) > 0){
+            return -1; // chua den thoi gian uong
+        } else if(startedDate.compareTo(today) <= 0 && endDate.compareTo(today) >= 0 ){
+            return 0; // da uong thuoc
+        } else {
+            return 1; // da uong xong
+        }
+    }
 }

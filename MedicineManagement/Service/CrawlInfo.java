@@ -1,11 +1,5 @@
 package MedicineManagement.Service;
 
-import java.io.*;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 import MedicineManagement.model.TinTuc;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,11 +11,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import org.apache.poi.ss.formula.functions.T;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class CrawlInfo  {
     public ArrayList<Text> listText = new ArrayList<>() ;
@@ -57,7 +56,7 @@ public class CrawlInfo  {
         Document doc =Jsoup.connect(url)
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36 OPR/88.0.4412.65")
                 .get();
-        Elements element = doc.select("div.ProductTab_content__2H-Vw").first().select("p");
+        Elements element = doc.select("div.ProductTab_content__2H-Vw p");
         for(Element e : element)
         {
             Text strongText = new Text(e.select("strong").text());
@@ -70,9 +69,9 @@ public class CrawlInfo  {
         return listText;
     }
 
-    public ObservableList<TinTuc> crawlTinTuc(int page) throws IOException {
+    public ObservableList<TinTuc> crawlTinTuc(int page) {
         ObservableList<TinTuc> listTinTuc = FXCollections.observableArrayList();
-        String url = "https://vinmec.com/vi/tin-tuc/?page="+Integer.toString(page);
+        String url = "https://vinmec.com/vi/tin-tuc/?page="+ page;
         try{
             Document doc = Jsoup.connect(url)
                     .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36 OPR/88.0.4412.65")
@@ -83,7 +82,7 @@ public class CrawlInfo  {
                 String name = x.select("h2 a").text();
                 x.select("h2 a").remove();
                 String des = x.select("div.post-content").text();
-                String link ="https://vinmec.com"+ x.select("li a").first().attr("href").replace("'","");
+                String link ="https://vinmec.com"+ Objects.requireNonNull(x.select("li a").first()).attr("href").replace("'","");
                 TinTuc tinTuc = new TinTuc(url1,name,des,link);
                 listTinTuc.add(tinTuc);
             }
@@ -95,17 +94,12 @@ public class CrawlInfo  {
     }
 
     public boolean timThuoc(String name) throws IOException{
-        ArrayList<String> listName = new ArrayList<>();
         String url = "https://hellobacsi.com/thuoc/";
         Document doc = Jsoup.connect(url)
                 .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.115 Safari/537.36 OPR/88.0.4412.65")
                 .get();
         Elements e = doc.select("a:contains("+name+")");
-        if(e.text() != ""){
-            return true;
-        } else {
-            return false;
-        }
+        return !e.text().equals("");
     }
 
     public ObservableList<TinTuc> getTinThuoc (String s) throws IOException {
@@ -125,21 +119,12 @@ public class CrawlInfo  {
             String name = x.getAsJsonObject().get("post_title").getAsString();
             String des = x.getAsJsonObject().get("excerpt").getAsString();
             String link = "https://hellobacsi.com" + x.getAsJsonObject().get("permalink").getAsString().replaceAll("\"","");
-            if(url1 == "false") {
+            if(url1.equals("false")) {
                 url1 = "https://hellobacsi.com/images/default-image.jpg";
             }
             listTinTuc.add(new TinTuc(url1,name,des,link));
         }
         return listTinTuc;
-    }
-
-    public static void main(String args[]){
-        CrawlInfo c = new CrawlInfo();
-        try {
-            ObservableList<TinTuc> list = c.getTinThuoc("Paracetamol");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
 

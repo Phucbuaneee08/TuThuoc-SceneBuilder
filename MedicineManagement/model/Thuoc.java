@@ -6,7 +6,9 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Thuoc extends Product {
@@ -66,5 +68,24 @@ public class Thuoc extends Product {
         } else {
             return null;
         }
+    }
+
+    public int status(){
+        int x ;
+        LocalDate dt = LocalDate.now();
+        Calendar c = Calendar.getInstance();
+        c.setTime(Date.from(dt.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant()));
+        c.add(Calendar.DATE, 10);
+        LocalDate nextMonth = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if(this.expiredDate.compareTo(dt) < 0){
+            x = -1;
+        } else if (this.expiredDate.compareTo(nextMonth) < 0){
+            x = 0;
+        } else {
+            x = 1;
+        }
+        return x;
     }
 }

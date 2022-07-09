@@ -1,13 +1,5 @@
 package MedicineManagement.controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.ResourceBundle;
-
 import MedicineManagement.model.Product;
 import MedicineManagement.model.Thuoc;
 import javafx.fxml.FXML;
@@ -22,11 +14,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
 
 public class AddMedController implements Initializable{
 
-    private  Stage stage ;
-    private Controller controller;
+    private final Stage stage ;
+    private final Controller controller;
     public AddMedController(Controller controller){
         this.controller = controller;
         stage = new Stage();
@@ -86,8 +83,7 @@ public class AddMedController implements Initializable{
     }
 
         
-    public void actionSave() {    
-        ZoneId defaultZoneId = ZoneId.systemDefault();
+    public void actionSave() {
         LocalDate localDate = tfHSD.getValue();
         int rs = controller.main.getRsThuoc();
         Thuoc Thuoc = new Thuoc(rs+1,tfName.getText(),tfUnit.getText(),Integer.parseInt(tfQuantity.getText()),localDate,tfEffect.getText());
@@ -97,16 +93,13 @@ public class AddMedController implements Initializable{
     }
 
     public void actionSave(Product x){
-        ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDate = tfHSD.getValue();
         x.setName(tfName.getText());
-        ((Thuoc)x).setQuantity(Integer.valueOf(tfQuantity.getText()));
+        ((Thuoc)x).setQuantity(Integer.parseInt(tfQuantity.getText()));
         x.setUnit(tfUnit.getText());
         ((Thuoc)x).setExpiredDate(localDate);
         ((Thuoc)x).setEffect(tfEffect.getText());
         controller.table.refresh();
-//        int index = controller.main.getList().indexOf(x);
-//        controller.main.getList().set(index, x);
         stage.close();
     }
 
@@ -117,14 +110,12 @@ public class AddMedController implements Initializable{
         }
     }
 
-    void setTextField(int ProductID, String name,int quantity,String unit,LocalDate expireDate,String effect){
-        
+    void setTextField(String name,int quantity,String unit,LocalDate expireDate,String effect){
         tfName.setText(name);
         tfQuantity.setText(quantity+"");
         tfUnit.setText(unit);
         tfHSD.setValue(expireDate);
         tfEffect.setText(effect);
-
     }
    
 }

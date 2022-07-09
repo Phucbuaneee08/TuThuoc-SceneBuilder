@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-public class ReadExcelFileDemo
+public class SaveToExcel
 {
     private final String excelPath = "MedicineManagement/save/QLTuThuoc.xlsx";
     public  ArrayList<Product> getExcelFileDemo() throws Exception

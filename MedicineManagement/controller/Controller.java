@@ -1,10 +1,7 @@
 package MedicineManagement.controller;
 
-import MedicineManagement.model.DungCu;
-import MedicineManagement.model.Product;
-import MedicineManagement.model.Thuoc;
-import MedicineManagement.model.TuThuoc;
-import MedicineManagement.save.ReadExcelFileDemo;
+import MedicineManagement.model.*;
+import MedicineManagement.save.SaveToExcel;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
@@ -52,7 +49,7 @@ public class Controller implements Initializable {
     @FXML private TableColumn<Product, String> unit;
     @FXML private TableColumn<Product, Integer> quantity;
     @FXML private ChoiceBox<String> choiceBox;
-    private PresController presController ;
+    private ToaThuocViewController toaThuocViewController;
     private TinTucController tinTucController;
     public TuThuoc main = new TuThuoc();
 
@@ -73,11 +70,13 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
         try {
-            presController= new PresController(this);
+            toaThuocViewController = new ToaThuocViewController(this);
             tinTucController = new TinTucController(this);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        showThongBao();
+        thongBaoUongThuoc();
     }
     //Click on button
     @FXML
@@ -87,6 +86,7 @@ public class Controller implements Initializable {
             lblStatus.setText("TỦ THUỐC CỦA BẠN");
             pnlStatus.setBackground(new Background(new BackgroundFill(Color.rgb(37,37,39),CornerRadii.EMPTY,Insets.EMPTY)));
             gpTuThuoc.toFront();
+            showThongBao();
         }
         if(event.getSource() == btnToaThuoc){
             lblStatusMini.setText("/home/ToaThuoc");
@@ -109,9 +109,9 @@ public class Controller implements Initializable {
     private void handleClose(javafx.scene.input.MouseEvent event){
         if(event.getSource()==btnClose){
             try {
-                ReadExcelFileDemo excel = new ReadExcelFileDemo();
+                SaveToExcel excel = new SaveToExcel();
                 excel.setExcelList(new ArrayList<>(this.main.getList()));
-                excel.setToaThuoc(new ArrayList<>(presController.listToa));
+                excel.setToaThuoc(new ArrayList<>(toaThuocViewController.listToa));
 //                System.out.println(excel.getDiffNumRow());
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -134,6 +134,28 @@ public class Controller implements Initializable {
         }
     }
     public void showTuThuoc(){
+        table.setRowFactory(new Callback<>() {
+            @Override
+            public TableRow<Product> call(TableView<Product> tableView) {
+                return new TableRow<>() {
+                    @Override
+                    public void updateItem(Product item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(item == null){
+                            setStyle("");
+                        } else if (item instanceof DungCu) {
+                            setStyle("");
+                        } else if (((Thuoc) item).status() == -1) {
+                            setStyle("-fx-background-color: #FF0000;");
+                        } else if (((Thuoc) item).status() == 0) {
+                            setStyle("-fx-background-color: #FFFF00;");
+                        } else {
+                            setStyle("");
+                        }
+                    }
+                };
+            }
+        });
         productID.setCellValueFactory(new PropertyValueFactory<>("productID"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         expiredDate.setCellValueFactory(cellData ->{
@@ -154,6 +176,7 @@ public class Controller implements Initializable {
         );
         unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
         FilteredList<Product> filteredData;
         filteredData = new FilteredList<>(main.getList(),b->true);
         this.filterBox.valueProperty().addListener(((observableValue, oldVal, newVal) ->{
@@ -216,11 +239,11 @@ public class Controller implements Initializable {
                             Product product = getTableRow().getItem();
                             if (product instanceof Thuoc) {
                                 AddMedController addMedController = new AddMedController(Controller.this, product);
-                                addMedController.setTextField(product.getProductID(), product.getName(), ((Thuoc) product).getQuantity(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
+                                addMedController.setTextField( product.getName(), ((Thuoc) product).getQuantity(), product.getUnit(), ((Thuoc) product).getExpiredDate(), ((Thuoc) product).getEffect());
                                 addMedController.showStage();
                             } else if (product instanceof DungCu) {
                                 AddDCController addDCController = new AddDCController(Controller.this, product);
-                                addDCController.setTextField(product.getProductID(), product.getName(), ((DungCu) product).getQuantity(), product.getUnit(), ((DungCu) product).getUse());
+                                addDCController.setTextField(product.getName(), ((DungCu) product).getQuantity(), product.getUnit(), ((DungCu) product).getUse());
                                 addDCController.showStage();
                             }
                         });
@@ -260,6 +283,51 @@ public class Controller implements Initializable {
         colBtn.setCellFactory(cellFactory);
         table.getColumns().add(colBtn);
     }
+
+    public void showThongBao() {
+        int soThuocHetHan = 0;
+        int soThuocSapHetHan = 0;
+        String thuocHetHan  = "" ;
+        String thuocSapHetHan = "" ;
+        for(Product x : main.getListThuoc()){
+            if(((Thuoc) x).status() == -1){
+                soThuocHetHan++;
+                thuocHetHan += x.getName() + "\n";
+            } else if(((Thuoc) x).status() == 0){
+                soThuocSapHetHan++;
+                thuocSapHetHan += x.getName() + "\n";
+            }
+        }
+
+        if(soThuocHetHan != 0 ||  soThuocSapHetHan != 0){
+            String context = "Có " + soThuocSapHetHan + " thuốc sắp hết hạn \n"
+                    +thuocSapHetHan+"\n"
+                    +"Và "+ soThuocHetHan+ " thuốc đã hết hạn cần được thay thế hoặc loại bỏ \n"
+                    + thuocHetHan;
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Cảnh báo thuốc");
+            alert.setContentText(context);
+            alert.showAndWait();
+        }
+    }
+
+    public void thongBaoUongThuoc(){
+        int soToaDangTrongThoiGianUong = 0;
+        for(ToaThuoc x : toaThuocViewController.listToa){
+            if(x.status() == 0){
+                soToaDangTrongThoiGianUong ++;
+            }
+        }
+
+        if(soToaDangTrongThoiGianUong != 0) {
+            String context = "Bạn đang có " +soToaDangTrongThoiGianUong +" toa (đơn) thuốc đang trong thời gian thực hiện vui lòng kiểm tra trong phần TOA THUỐC (toa màu xanh)";
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Cảnh báo thuốc");
+            alert.setContentText(context);
+            alert.showAndWait();
+        }
+    }
+
     public void setToaThuocView(AnchorPane x) {
         this.toaThuocView.getChildren().setAll(x);
     }

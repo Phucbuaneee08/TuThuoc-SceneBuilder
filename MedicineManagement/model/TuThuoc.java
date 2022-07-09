@@ -1,6 +1,6 @@
 package MedicineManagement.model;
 
-import MedicineManagement.save.ReadExcelFileDemo;
+import MedicineManagement.save.SaveToExcel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -29,7 +29,7 @@ public class TuThuoc {
 
     public TuThuoc() {
         try {
-            ArrayList<Product> excelList = new ReadExcelFileDemo().getExcelFileDemo();
+            ArrayList<Product> excelList = new SaveToExcel().getExcelFileDemo();
             for(Product t: excelList) {
                 list.add(t);
                 if(t instanceof Thuoc){
