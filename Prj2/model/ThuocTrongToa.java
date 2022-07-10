@@ -1,20 +1,14 @@
 package Prj2.model;
 
-import java.util.Date;
-
 public class ThuocTrongToa extends Product {
 
     public String getLieu() {
         return lieu;
     }
 
-    public ThuocTrongToa(Product x, String lieu) {
+    public ThuocTrongToa(int productID,String name,String unit, String lieu) {
+        super(productID,name,unit);
         this.lieu = lieu;
     }
-
-    public void setLieu(String lieu) {
-        this.lieu = lieu;
-    }
-
-    private String lieu;
+    private final String lieu;
 }

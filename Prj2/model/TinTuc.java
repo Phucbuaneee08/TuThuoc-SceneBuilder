@@ -1,16 +1,13 @@
 package Prj2.model;
 
 public class TinTuc {
-    private String url;
+    private final String url;
     private String name;
-    private String des;
+    private final String des;
+    private final String link;
 
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getName() {
@@ -25,13 +22,15 @@ public class TinTuc {
         return des;
     }
 
-    public void setDes(String des) {
-        this.des = des;
+    public String getLink() {
+        return link;
     }
 
-    public TinTuc(String url, String name, String des) {
+
+    public TinTuc(String url, String name, String des,String link) {
         this.url = url;
         this.name = name;
         this.des = des;
+        this.link = link;
     }
 }

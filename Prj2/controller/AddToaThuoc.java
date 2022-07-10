@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -33,8 +34,9 @@ public class AddToaThuoc implements Initializable {
 
     }
     private int soThuoc = 0;
+    private Controller controller;
     private Stage stage;
-    private PresController presController;
+    private ToaThuocViewController toaThuocViewController;
     private ToaThuoc toaThuoc = new ToaThuoc();
     @FXML VBox vbThemThuoc;
     @FXML TextField tfName;
@@ -42,8 +44,8 @@ public class AddToaThuoc implements Initializable {
     @FXML DatePicker tfDateStart;
     @FXML Button btnThemToa;
     @FXML Button btnThemThuoc;
-    public AddToaThuoc(PresController presController) {
-        this.presController = presController;
+    public AddToaThuoc(ToaThuocViewController toaThuocViewController) {
+        this.toaThuocViewController = toaThuocViewController;
         stage = new Stage();
         try {
             FXMLLoader parent =new FXMLLoader((getClass().getResource("/Prj2/View/AddToaThuoc.fxml")));
@@ -88,7 +90,7 @@ public class AddToaThuoc implements Initializable {
         };
         comboBox.setCellFactory(cellFactory);
         comboBox.setButtonCell(comboBox.getCellFactory().call(null));
-        comboBox.setItems(this.presController.getListThuocFromTuThuoc());
+        comboBox.setItems(this.toaThuocViewController.getListThuocFromTuThuoc());
         Button removeBtn = new Button("-");
         removeBtn.setPrefSize(22,26);
         removeBtn.setOnAction((actionEvent) -> {
@@ -107,20 +109,25 @@ public class AddToaThuoc implements Initializable {
 
     @FXML
     public void actionSave(ActionEvent event){
+        ArrayList<ThuocTrongToa> listToa1 = new ArrayList<>();
         String name = tfName.getText();
         ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate localDateEnd = tfDateEnd.getValue();
         LocalDate localDateStart = tfDateStart.getValue();
         Date dateStart = Date.from(localDateStart.atStartOfDay(defaultZoneId).toInstant());
         Date dateEnd = Date.from(localDateEnd.atStartOfDay(defaultZoneId).toInstant());
+        toaThuoc = new ToaThuoc(1,name,dateStart,dateEnd,listToa1);
         for(Node x : vbThemThuoc.getChildren()) {
-            ThuocTrongToa t = new ThuocTrongToa(((ComboBox<Product>) ((HBox) x).getChildren().get(0)).getValue(),((TextField) ((HBox) x).getChildren().get(1)).getText());
+            Product product = ((ComboBox<Product>) ((HBox) x).getChildren().get(0)).getValue();
+            ThuocTrongToa t = new ThuocTrongToa(toaThuoc.getListProduct().size()+1,product.getName(), product.getUnit(), ((TextField) ((HBox) x).getChildren().get(1)).getText());
+            System.out.println(product.getName());
             toaThuoc.getListProduct().add(t);
         }
+        
         toaThuoc.setEndDate(dateEnd);
         toaThuoc.setStartedDate(dateStart);
         toaThuoc.setName(name);
-        presController.addToa(toaThuoc);
+        toaThuocViewController.getListToa().add(toaThuoc);
         stage.close();
     }
 }

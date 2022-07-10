@@ -1,6 +1,7 @@
 package Prj2.model;
 
-import Prj2.save.ReadExcelFileDemo;
+import Prj2.save.SaveToExcel;
+import Prj2.save.SaveToExcel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -31,7 +32,7 @@ public class TuThuoc {
 
     public TuThuoc() {
         try {
-            ArrayList<Product> excelList = new ReadExcelFileDemo().getExcelFileDemo();
+            ArrayList<Product> excelList = new SaveToExcel().getExcelFileDemo();
             for(Product t: excelList) {
                 list.add(t);
                 if(t instanceof Thuoc){
@@ -40,8 +41,6 @@ public class TuThuoc {
                     this.rsDC++;
                 }
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
